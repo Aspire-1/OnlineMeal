@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aspire.test.mapper.ITestUserMapper">
+
+	<resultMap id="TestUserResultMap" type="TestUser" >
+		<id property="id" column="ID" />
+		<result property="name" column="NAME"/>
+		<result property="age" column="AGE"/>
+	</resultMap>
+	
+	
+	<insert id="insert" parameterType="TestUser">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select EMP_ID_SEQ.nextval from dual
+		</selectKey>
+		INSERT INTO TestUser(ID,NAME,AGE) 
+		VALUES(#{id},#{name},#{age})
+	</insert>
+	
+	
+
+</mapper>
+
