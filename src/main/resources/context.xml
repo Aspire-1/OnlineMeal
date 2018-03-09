@@ -44,14 +44,14 @@
 		destroy-method="close">
 		<property name="driverClass" value="oracle.jdbc.driver.OracleDriver" />
 		<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:XE" />
-		<property name="user" value="T03" />
-		<property name="password" value="t03" />
+		<property name="user" value="aspire" />
+		<property name="password" value="aspire" />
 	</bean>
 	<!-- 配置Spring管理SqlSessionFactory对象 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 		<property name="typeAliasesPackage"
-			value="com.aspire.test.model"></property>
+			value="com.aspire.OnlineMeal.model"></property>
 		<property name="mapperLocations"
 			value="classpath:com/aspire/OnlineMeal/mapper/xml/*.xml"></property>
 		<property name="configLocation" value="classpath:mybatis.xml"></property>
