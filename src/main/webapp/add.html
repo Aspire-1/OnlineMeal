@@ -7,14 +7,25 @@
 <body>
 
 	<form action="UserInfo/add/selective.mvc" method="post">
-		
+		<h4>添加用户信息测试</h4>
 		注册手机号： <input name ="registPhone" >
 		<br/>
 		密码： <input name = "password">
 		<br/>
 		<input type="submit">
-		
 	</form>
+	
+	<hr>
+	
+	<form action="UserAddress/add.mvc" method="post">
+		<h4>添加用户地址信息测试</h4>
+		用户id： <input name ="userid" >
+		<br/>
+		地址： <input name = "address" value="广东省广州市天河区前进街xx村xx巷xx号">
+		<br/>
+		<input type="submit">
+	</form>
+	
 
 </body>
 </html>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aspire.OnlineMeal.mapper.AddressInfoMapper">
+	<resultMap id="BaseResultMap" type="com.aspire.OnlineMeal.model.AddressInfo">
+		<id column="USER_ADDRESS_ID" property="id" jdbcType="DECIMAL" />
+		<result column="USER_ADDRESS_USERID" property="userid"
+			jdbcType="DECIMAL" />
+		<result column="USER_ADDRESS_ADDRESS" property="address"
+			jdbcType="VARCHAR" />
+		<result column="USER_ADDRESS_IS_DEFAULT" property="isDefault"
+			jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		USER_ADDRESS_ID, USER_ADDRESS_USERID, USER_ADDRESS_ADDRESS, USER_ADDRESS_IS_DEFAULT
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.math.BigDecimal">
+		select
+		<include refid="Base_Column_List" />
+		from USER_ADDRESS_INFO
+		where USER_ADDRESS_ID = #{id,jdbcType=DECIMAL}
+	</select>
+
+	<select id="selectByUserId" resultMap="BaseResultMap"
+		parameterType="java.math.BigDecimal">
+		select
+		<include refid="Base_Column_List" />
+		from USER_ADDRESS_INFO
+		where USER_ADDRESS_USERID = #{userId,jdbcType=DECIMAL}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+		delete from USER_ADDRESS_INFO
+		where USER_ADDRESS_ID = #{id,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.aspire.OnlineMeal.model.AddressInfo">
+		<selectKey resultType="java.math.BigDecimal" keyProperty="id"
+			order="BEFORE">
+			select seq_user_address.nextval from dual
+		</selectKey>
+		insert into USER_ADDRESS_INFO (USER_ADDRESS_ID, USER_ADDRESS_USERID,
+		USER_ADDRESS_ADDRESS,
+		USER_ADDRESS_IS_DEFAULT)
+		values (#{id,jdbcType=DECIMAL}, #{userid,jdbcType=DECIMAL},
+		#{address,jdbcType=VARCHAR},
+		#{isDefault,jdbcType=VARCHAR})
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.aspire.OnlineMeal.model.AddressInfo">
+		update USER_ADDRESS_INFO
+		<set>
+			<if test="userid != null">
+				USER_ADDRESS_USERID = #{userid,jdbcType=DECIMAL},
+			</if>
+			<if test="address != null">
+				USER_ADDRESS_ADDRESS = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="isDefault != null">
+				USER_ADDRESS_IS_DEFAULT = #{isDefault,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where USER_ADDRESS_ID = #{id,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.aspire.OnlineMeal.model.AddressInfo">
+		update USER_ADDRESS_INFO
+		set USER_ADDRESS_USERID = #{userid,jdbcType=DECIMAL},
+		USER_ADDRESS_ADDRESS = #{address,jdbcType=VARCHAR},
+		USER_ADDRESS_IS_DEFAULT = #{isDefault,jdbcType=VARCHAR}
+		where USER_ADDRESS_ID = #{id,jdbcType=DECIMAL}
+	</update>
+</mapper>
