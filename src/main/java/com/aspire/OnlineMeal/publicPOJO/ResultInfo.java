@@ -1,4 +1,4 @@
-package com.aspire.OnlineMeal.result;
+package com.aspire.OnlineMeal.publicPOJO;
 
 import java.util.List;
 

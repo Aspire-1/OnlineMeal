@@ -1,4 +1,4 @@
-package com.aspire.OnlineMeal.result;
+package com.aspire.OnlineMeal.publicPOJO;
 
 //用于处理结果生成JSON
 public class ResultMessage {

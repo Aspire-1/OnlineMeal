@@ -139,7 +139,7 @@
 				#{registCodeTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="registTime != null">
-				#{registTime,jdbcType=TIMESTAMP},
+				to_date(#{registTime,jdbcType=TIMESTAMP}, 'yyyy-MM-dd HH24:mi:ss'),
 			</if>
 			<if test="lastLoginTime != null">
 				#{lastLoginTime,jdbcType=TIMESTAMP},

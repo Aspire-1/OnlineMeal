@@ -1,3 +1,4 @@
+-- 用户信息表
 create table USER_INFO(
   USER_ID NUMBER(10) primary key,
   USER_REGIST_PHONE VARCHAR(11),
@@ -25,4 +26,9 @@ increment by 1
 start with 1
 maxvalue 999999
 nocycle nocache;
+
+--用户地址表
+create table USER_ADDRESS_INFO(
+  USER_ADDRESS_ID NUMBER(10) primary key
+) 
 
