@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aspire.OnlineMeal.mapper.OrderInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.aspire.OnlineMeal.model.OrderInfo" >
+    <id column="ORDER_ID" property="id" jdbcType="DECIMAL" />
+    <result column="ORDER_DISHED_ID" property="dishedId" jdbcType="VARCHAR" />
+    <result column="ORDER_DISHED_NAME" property="dishedName" jdbcType="VARCHAR" />
+    <result column="ORDER_DISHED_COUNT" property="dishedCount" jdbcType="DECIMAL" />
+    <result column="ORDER_DISHED_PRICE" property="dishedPrice" jdbcType="DECIMAL" />
+    <result column="ORDER_DISHED_DISCOUNT" property="dishedDiscount" jdbcType="DECIMAL" />
+    <result column="ORDER_DISHED_DISCOUNT_PRICE" property="dishedDiscountPrice" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ORDER_ID, ORDER_DISHED_ID, ORDER_DISHED_NAME, ORDER_DISHED_COUNT, ORDER_DISHED_PRICE, 
+    ORDER_DISHED_DISCOUNT, ORDER_DISHED_DISCOUNT_PRICE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from ORDER_INFO
+    where ORDER_ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from ORDER_INFO
+    where ORDER_ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.aspire.OnlineMeal.model.OrderInfo" >
+    <selectKey resultType="java.math.BigDecimal" keyProperty="id" order="BEFORE" >
+      Oracle
+    </selectKey>
+    insert into ORDER_INFO (ORDER_ID, ORDER_DISHED_ID, ORDER_DISHED_NAME, 
+      ORDER_DISHED_COUNT, ORDER_DISHED_PRICE, ORDER_DISHED_DISCOUNT, 
+      ORDER_DISHED_DISCOUNT_PRICE)
+    values (#{id,jdbcType=DECIMAL}, #{dishedId,jdbcType=VARCHAR}, #{dishedName,jdbcType=VARCHAR}, 
+      #{dishedCount,jdbcType=DECIMAL}, #{dishedPrice,jdbcType=DECIMAL}, #{dishedDiscount,jdbcType=DECIMAL}, 
+      #{dishedDiscountPrice,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.aspire.OnlineMeal.model.OrderInfo" >
+    <selectKey resultType="java.math.BigDecimal" keyProperty="id" order="BEFORE" >
+      Oracle
+    </selectKey>
+    insert into ORDER_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ORDER_ID,
+      <if test="dishedId != null" >
+        ORDER_DISHED_ID,
+      </if>
+      <if test="dishedName != null" >
+        ORDER_DISHED_NAME,
+      </if>
+      <if test="dishedCount != null" >
+        ORDER_DISHED_COUNT,
+      </if>
+      <if test="dishedPrice != null" >
+        ORDER_DISHED_PRICE,
+      </if>
+      <if test="dishedDiscount != null" >
+        ORDER_DISHED_DISCOUNT,
+      </if>
+      <if test="dishedDiscountPrice != null" >
+        ORDER_DISHED_DISCOUNT_PRICE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="dishedId != null" >
+        #{dishedId,jdbcType=VARCHAR},
+      </if>
+      <if test="dishedName != null" >
+        #{dishedName,jdbcType=VARCHAR},
+      </if>
+      <if test="dishedCount != null" >
+        #{dishedCount,jdbcType=DECIMAL},
+      </if>
+      <if test="dishedPrice != null" >
+        #{dishedPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="dishedDiscount != null" >
+        #{dishedDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="dishedDiscountPrice != null" >
+        #{dishedDiscountPrice,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.aspire.OnlineMeal.model.OrderInfo" >
+    update ORDER_INFO
+    <set >
+      <if test="dishedId != null" >
+        ORDER_DISHED_ID = #{dishedId,jdbcType=VARCHAR},
+      </if>
+      <if test="dishedName != null" >
+        ORDER_DISHED_NAME = #{dishedName,jdbcType=VARCHAR},
+      </if>
+      <if test="dishedCount != null" >
+        ORDER_DISHED_COUNT = #{dishedCount,jdbcType=DECIMAL},
+      </if>
+      <if test="dishedPrice != null" >
+        ORDER_DISHED_PRICE = #{dishedPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="dishedDiscount != null" >
+        ORDER_DISHED_DISCOUNT = #{dishedDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="dishedDiscountPrice != null" >
+        ORDER_DISHED_DISCOUNT_PRICE = #{dishedDiscountPrice,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ORDER_ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.aspire.OnlineMeal.model.OrderInfo" >
+    update ORDER_INFO
+    set ORDER_DISHED_ID = #{dishedId,jdbcType=VARCHAR},
+      ORDER_DISHED_NAME = #{dishedName,jdbcType=VARCHAR},
+      ORDER_DISHED_COUNT = #{dishedCount,jdbcType=DECIMAL},
+      ORDER_DISHED_PRICE = #{dishedPrice,jdbcType=DECIMAL},
+      ORDER_DISHED_DISCOUNT = #{dishedDiscount,jdbcType=DECIMAL},
+      ORDER_DISHED_DISCOUNT_PRICE = #{dishedDiscountPrice,jdbcType=DECIMAL}
+    where ORDER_ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>
