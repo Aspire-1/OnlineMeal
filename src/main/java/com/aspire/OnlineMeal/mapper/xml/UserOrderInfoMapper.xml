@@ -221,13 +221,13 @@
 				#{member,jdbcType=DECIMAL},
 			</if>
 			<if test="reserveTime != null">
-				#{reserveTime,jdbcType=TIMESTAMP},
+				to_date(#{reserveTime,jdbcType=TIMESTAMP}, 'yyyy-MM-dd HH24:mi:ss'),
 			</if>
 			<if test="sendAddress != null">
 				#{sendAddress,jdbcType=VARCHAR},
 			</if>
 			<if test="createTime != null">
-				#{createTime,jdbcType=TIMESTAMP},
+				to_date(#{createTime,jdbcType=TIMESTAMP}, 'yyyy-MM-dd HH24:mi:ss'),
 			</if>
 			<if test="state != null">
 				#{state,jdbcType=VARCHAR},
@@ -263,7 +263,6 @@
 		update
 		USER_ORDER_INFO
 		set USER_ORDER_STATE = #{state,jdbcType=VARCHAR}
-		where
 		where USER_ORDER_ID = #{id,jdbcType=DECIMAL}
 	</update>
 

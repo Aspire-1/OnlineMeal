@@ -1,5 +1,6 @@
 package com.aspire.OnlineMeal.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.aspire.OnlineMeal.model.UserInfo;
@@ -14,8 +15,8 @@ public interface IUserOrderInfoService {
 	public int deleteUserOrderInfo(UserOrderInfo uoi) throws Exception;
 	
 	//获取订单的详情
-	public UserOrderInfo getOrderDetailByOrderInfoId(UserOrderInfo id) throws Exception;
+	public UserOrderInfo getOrderDetailByOrderInfoId(BigDecimal id) throws Exception;
 	
 	//查询用户所有的订单
-	public List<UserOrderInfo> getAllOrderByUserID(UserInfo id) throws Exception;
+	public List<UserOrderInfo> getAllOrderByUserID(BigDecimal id) throws Exception;
 }

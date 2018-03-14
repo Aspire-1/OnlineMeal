@@ -26,6 +26,46 @@
 		<input type="submit">
 	</form>
 	
+	<hr>
+	
+	<form action="UserOrderInfo/add/Selective.mvc" method="post">
+		<h4>添加用户订单信息测试</h4>
+		
+		<!-- 发送异步请求进行查询反显 -->
+		商家主键： <input name ="marchantId" value="1">
+		<br/>
+		商家名称： <input name ="marchantName" value="xxx坊">
+		<br/>
+		商家状态： <input name ="marchantType" value="01">
+		<br/>
+		
+		<!-- 发送异步请求进行查询反显 -->
+		用户id：<input name ="userid" value="2">
+		<br/>
+		用户名：<input name ="userName" value="嘻嘻嘻">
+		<br/>
+		用户联系方式：<input name ="userphone" value="18814383324">
+		<br/>
+		
+		用户是否到店就餐：<input type="radio" name="isToRestaurant" value="Y">是
+		<input type="radio" name="isToRestaurant" value="N">否
+		<br/>
+		
+		用户到店就餐人数：<input name ="member">
+		<br/>
+		
+		用户预约时间：<input name ="reserveTime" type="date">
+		<br/>
+		
+		用户支付类型：
+		<select name="payType">
+			<option value="01">到店支付</option>
+			<option value="02">网上支付</option>
+		</select>
+				
+		<input type="submit">
+	</form>
+	
 
 </body>
 </html>

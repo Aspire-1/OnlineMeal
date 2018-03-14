@@ -4,15 +4,15 @@ import com.aspire.OnlineMeal.model.OrderInfo;
 import java.math.BigDecimal;
 
 public interface OrderInfoMapper {
-    int deleteByPrimaryKey(BigDecimal id);
+    int deleteByPrimaryKey(BigDecimal id) throws Exception;
 
-    int insert(OrderInfo record);
+    int insert(OrderInfo record) throws Exception;
 
-    int insertSelective(OrderInfo record);
+    int insertSelective(OrderInfo record) throws Exception;
 
-    OrderInfo selectByPrimaryKey(BigDecimal id);
+    OrderInfo selectByPrimaryKey(BigDecimal id) throws Exception;
 
-    int updateByPrimaryKeySelective(OrderInfo record);
+    int updateByPrimaryKeySelective(OrderInfo record) throws Exception;
 
-    int updateByPrimaryKey(OrderInfo record);
+    int updateByPrimaryKey(OrderInfo record) throws Exception;
 }

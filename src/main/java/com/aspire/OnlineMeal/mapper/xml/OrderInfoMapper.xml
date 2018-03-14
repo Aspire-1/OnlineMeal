@@ -20,13 +20,14 @@
     from ORDER_INFO
     where ORDER_ID = #{id,jdbcType=DECIMAL}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
     delete from ORDER_INFO
     where ORDER_ID = #{id,jdbcType=DECIMAL}
   </delete>
   <insert id="insert" parameterType="com.aspire.OnlineMeal.model.OrderInfo" >
     <selectKey resultType="java.math.BigDecimal" keyProperty="id" order="BEFORE" >
-      Oracle
+      select seq_order_info.nextval from dual
     </selectKey>
     insert into ORDER_INFO (ORDER_ID, ORDER_DISHED_ID, ORDER_DISHED_NAME, 
       ORDER_DISHED_COUNT, ORDER_DISHED_PRICE, ORDER_DISHED_DISCOUNT, 
@@ -37,7 +38,7 @@
   </insert>
   <insert id="insertSelective" parameterType="com.aspire.OnlineMeal.model.OrderInfo" >
     <selectKey resultType="java.math.BigDecimal" keyProperty="id" order="BEFORE" >
-      Oracle
+      select seq_order_info.nextval from dual
     </selectKey>
     insert into ORDER_INFO
     <trim prefix="(" suffix=")" suffixOverrides="," >
