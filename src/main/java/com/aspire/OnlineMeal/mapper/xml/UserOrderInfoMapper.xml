@@ -1,62 +1,62 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aspire.OnlineMeal.mapper.UserOrderInfoMapper">
 	<resultMap id="BaseResultMap" type="com.aspire.OnlineMeal.model.UserOrderInfo">
-		<id column="USER_ORDER_ID" property="id" jdbcType="DECIMAL" />
-		<result column="USER_ORDER_MARCHANT_ID" property="marchantId"
-			jdbcType="DECIMAL" />
-		<result column="USER_ORDER_MARCHANT_NAME" property="marchantName"
-			jdbcType="VARCHAR" />
-		<result column="USER_ORDER_MARCHANT_STATE" property="marchantState"
-			jdbcType="VARCHAR" />
-		<result column="USER_ORDER_CODE" property="code" jdbcType="VARCHAR" />
-		<result column="USER_ORDER_USERID" property="userid" jdbcType="DECIMAL" />
-		<result column="USER_ORDER_USERNAME" property="username"
-			jdbcType="VARCHAR" />
-		<result column="USER_ORDER_USERPHONE" property="userphone"
-			jdbcType="VARCHAR" />
-		<result column="USER_ORDER_IS_TO_RESTAURANT" property="isToRestaurant"
-			jdbcType="VARCHAR" />
-		<result column="USER_ORDER_MEMBER" property="member" jdbcType="DECIMAL" />
-		<result column="USER_ORDER_RESERVE_TIME" property="reserveTime"
-			jdbcType="TIMESTAMP" />
-		<result column="USER_ORDER_SEND_ADDRESS" property="sendAddress"
-			jdbcType="VARCHAR" />
-		<result column="USER_ORDER_CREATE_TIME" property="createTime"
-			jdbcType="TIMESTAMP" />
-		<result column="USER_ORDER_STATE" property="state" jdbcType="VARCHAR" />
-		<result column="USER_ORDER_PAY_TYPE" property="payType"
-			jdbcType="VARCHAR" />
-		<result column="USER_ORDER_PAY_STATE" property="payState"
-			jdbcType="VARCHAR" />
-		<result column="USER_ORDER_PRODUCT_COUNT" property="productCount"
-			jdbcType="VARCHAR" />
-		<result column="USER_ORDER_OFFEST_PRICE" property="offestPrice"
-			jdbcType="DECIMAL" />
-		<result column="USER_ORDER_TOTAL_PRICE" property="totalPrice"
-			jdbcType="DECIMAL" />
-		<result column="USER_ORDER_PAY_PRICE" property="payPrice"
-			jdbcType="DECIMAL" />
-		<result column="USER_ORDER_NOTE" property="note" jdbcType="VARCHAR" />
-		<result column="USER_ORDER_ORDERID" property="orderid"
-			jdbcType="DECIMAL" />
+		<id column="USER_ORDER_ID" jdbcType="DECIMAL" property="id" />
+		<result column="USER_ORDER_MARCHANT_ID" jdbcType="DECIMAL"
+			property="marchantId" />
+		<result column="USER_ORDER_MARCHANT_NAME" jdbcType="VARCHAR"
+			property="marchantName" />
+		<result column="USER_ORDER_MARCHANT_STATE" jdbcType="VARCHAR"
+			property="marchantState" />
+		<result column="USER_ORDER_CODE" jdbcType="VARCHAR" property="code" />
+		<result column="USER_ORDER_USERID" jdbcType="DECIMAL" property="userid" />
+		<result column="USER_ORDER_USERNAME" jdbcType="VARCHAR"
+			property="username" />
+		<result column="USER_ORDER_USERPHONE" jdbcType="VARCHAR"
+			property="userphone" />
+		<result column="USER_ORDER_IS_TO_RESTAURANT" jdbcType="VARCHAR"
+			property="isToRestaurant" />
+		<result column="USER_ORDER_MEMBER" jdbcType="DECIMAL" property="member" />
+		<result column="USER_ORDER_RESERVE_TIME" jdbcType="TIMESTAMP"
+			property="reserveTime" />
+		<result column="USER_ORDER_SEND_ADDRESS" jdbcType="VARCHAR"
+			property="sendAddress" />
+		<result column="USER_ORDER_CREATE_TIME" jdbcType="TIMESTAMP"
+			property="createTime" />
+		<result column="USER_ORDER_STATE" jdbcType="VARCHAR" property="state" />
+		<result column="USER_ORDER_PAY_TYPE" jdbcType="VARCHAR"
+			property="payType" />
+		<result column="USER_ORDER_PAY_STATE" jdbcType="VARCHAR"
+			property="payState" />
+		<result column="USER_ORDER_PRODUCT_COUNT" jdbcType="VARCHAR"
+			property="productCount" />
+		<result column="USER_ORDER_OFFEST_PRICE" jdbcType="DECIMAL"
+			property="offestPrice" />
+		<result column="USER_ORDER_TOTAL_PRICE" jdbcType="DECIMAL"
+			property="totalPrice" />
+		<result column="USER_ORDER_PAY_PRICE" jdbcType="DECIMAL"
+			property="payPrice" />
+		<result column="USER_ORDER_NOTE" jdbcType="VARCHAR" property="note" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		USER_ORDER_ID, USER_ORDER_MARCHANT_ID,
-		USER_ORDER_MARCHANT_NAME,
+		USER_ORDER_ID, USER_ORDER_MARCHANT_ID, USER_ORDER_MARCHANT_NAME,
 		USER_ORDER_MARCHANT_STATE,
-		USER_ORDER_CODE,
-		USER_ORDER_USERID, USER_ORDER_USERNAME, USER_ORDER_USERPHONE,
+		USER_ORDER_CODE, USER_ORDER_USERID, USER_ORDER_USERNAME, USER_ORDER_USERPHONE,
 		USER_ORDER_IS_TO_RESTAURANT,
-		USER_ORDER_MEMBER,
-		USER_ORDER_RESERVE_TIME, USER_ORDER_SEND_ADDRESS,
+		USER_ORDER_MEMBER, USER_ORDER_RESERVE_TIME, USER_ORDER_SEND_ADDRESS,
 		USER_ORDER_CREATE_TIME,
-		USER_ORDER_STATE, USER_ORDER_PAY_TYPE,
-		USER_ORDER_PAY_STATE, USER_ORDER_PRODUCT_COUNT,
+		USER_ORDER_STATE, USER_ORDER_PAY_TYPE, USER_ORDER_PAY_STATE, USER_ORDER_PRODUCT_COUNT,
 		USER_ORDER_OFFEST_PRICE, USER_ORDER_TOTAL_PRICE, USER_ORDER_PAY_PRICE,
-		USER_ORDER_NOTE,
-		USER_ORDER_ORDERID
+		USER_ORDER_NOTE
 	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.math.BigDecimal"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from USER_ORDER_INFO
+		where USER_ORDER_ID = #{id,jdbcType=DECIMAL}
+	</select>
 
 	<select id="selectByUserId" resultMap="BaseResultMap"
 		parameterType="java.math.BigDecimal">
@@ -65,63 +65,39 @@
 		from USER_ORDER_INFO where USER_ORDER_USERID = #{userId}
 	</select>
 
-	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
-		parameterType="java.math.BigDecimal">
-		select
-		<include refid="Base_Column_List" />
-		from USER_ORDER_INFO
-		where USER_ORDER_ID = #{id,jdbcType=DECIMAL}
-	</select>
-
 	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
-		delete from
-		USER_ORDER_INFO
+		delete from USER_ORDER_INFO
 		where USER_ORDER_ID = #{id,jdbcType=DECIMAL}
 	</delete>
-
 	<insert id="insert" parameterType="com.aspire.OnlineMeal.model.UserOrderInfo">
-		<selectKey resultType="java.math.BigDecimal" keyProperty="id"
-			order="BEFORE">
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.math.BigDecimal">
 			select seq_user_order_info.nextval from dual
 		</selectKey>
 		insert into USER_ORDER_INFO (USER_ORDER_ID, USER_ORDER_MARCHANT_ID,
 		USER_ORDER_MARCHANT_NAME,
-		USER_ORDER_MARCHANT_STATE, USER_ORDER_CODE,
-		USER_ORDER_USERID,
-		USER_ORDER_USERNAME, USER_ORDER_USERPHONE,
-		USER_ORDER_IS_TO_RESTAURANT,
-		USER_ORDER_MEMBER,
-		USER_ORDER_RESERVE_TIME, USER_ORDER_SEND_ADDRESS,
+		USER_ORDER_MARCHANT_STATE, USER_ORDER_CODE, USER_ORDER_USERID,
+		USER_ORDER_USERNAME, USER_ORDER_USERPHONE, USER_ORDER_IS_TO_RESTAURANT,
+		USER_ORDER_MEMBER, USER_ORDER_RESERVE_TIME, USER_ORDER_SEND_ADDRESS,
 		USER_ORDER_CREATE_TIME, USER_ORDER_STATE, USER_ORDER_PAY_TYPE,
 		USER_ORDER_PAY_STATE, USER_ORDER_PRODUCT_COUNT,
 		USER_ORDER_OFFEST_PRICE,
-		USER_ORDER_TOTAL_PRICE, USER_ORDER_PAY_PRICE,
-		USER_ORDER_NOTE,
-		USER_ORDER_ORDERID)
-		values (#{id,jdbcType=DECIMAL},
-		#{marchantId,jdbcType=DECIMAL},
+		USER_ORDER_TOTAL_PRICE, USER_ORDER_PAY_PRICE, USER_ORDER_NOTE
+		)
+		values (#{id,jdbcType=DECIMAL}, #{marchantId,jdbcType=DECIMAL},
 		#{marchantName,jdbcType=VARCHAR},
-		#{marchantState,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
-		#{userid,jdbcType=DECIMAL},
-		#{username,jdbcType=VARCHAR},
-		#{userphone,jdbcType=VARCHAR},
+		#{marchantState,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{userid,jdbcType=DECIMAL},
+		#{username,jdbcType=VARCHAR}, #{userphone,jdbcType=VARCHAR},
 		#{isToRestaurant,jdbcType=VARCHAR},
-		#{member,jdbcType=DECIMAL}, #{reserveTime,jdbcType=TIMESTAMP},
-		#{sendAddress,jdbcType=VARCHAR},
-		#{createTime,jdbcType=TIMESTAMP},
-		#{state,jdbcType=VARCHAR},
+		#{member,jdbcType=DECIMAL}, #{reserveTime,jdbcType=TIMESTAMP}, #{sendAddress,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP}, #{state,jdbcType=VARCHAR},
 		#{payType,jdbcType=VARCHAR},
-		#{payState,jdbcType=VARCHAR}, #{productCount,jdbcType=VARCHAR},
-		#{offestPrice,jdbcType=DECIMAL},
-		#{totalPrice,jdbcType=DECIMAL},
-		#{payPrice,jdbcType=DECIMAL},
-		#{note,jdbcType=VARCHAR},
-		#{orderid,jdbcType=DECIMAL})
+		#{payState,jdbcType=VARCHAR}, #{productCount,jdbcType=VARCHAR}, #{offestPrice,jdbcType=DECIMAL},
+		#{totalPrice,jdbcType=DECIMAL}, #{payPrice,jdbcType=DECIMAL},
+		#{note,jdbcType=VARCHAR}
+		)
 	</insert>
-
 	<insert id="insertSelective" parameterType="com.aspire.OnlineMeal.model.UserOrderInfo">
-		<selectKey resultType="java.math.BigDecimal" keyProperty="id"
-			order="BEFORE">
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.math.BigDecimal">
 			select seq_user_order_info.nextval from dual
 		</selectKey>
 		insert into USER_ORDER_INFO
@@ -187,9 +163,6 @@
 			<if test="note != null">
 				USER_ORDER_NOTE,
 			</if>
-			<if test="orderid != null">
-				USER_ORDER_ORDERID,
-			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			#{id,jdbcType=DECIMAL},
@@ -253,19 +226,16 @@
 			<if test="note != null">
 				#{note,jdbcType=VARCHAR},
 			</if>
-			<if test="orderid != null">
-				#{orderid,jdbcType=DECIMAL},
-			</if>
 		</trim>
 	</insert>
-
+	
 	<update id="updateTheUserOrderState" parameterType="com.aspire.OnlineMeal.model.UserOrderInfo">
 		update
 		USER_ORDER_INFO
 		set USER_ORDER_STATE = #{state,jdbcType=VARCHAR}
 		where USER_ORDER_ID = #{id,jdbcType=DECIMAL}
 	</update>
-
+	
 	<update id="updateByPrimaryKeySelective" parameterType="com.aspire.OnlineMeal.model.UserOrderInfo">
 		update USER_ORDER_INFO
 		<set>
@@ -273,12 +243,10 @@
 				USER_ORDER_MARCHANT_ID = #{marchantId,jdbcType=DECIMAL},
 			</if>
 			<if test="marchantName != null">
-				USER_ORDER_MARCHANT_NAME =
-				#{marchantName,jdbcType=VARCHAR},
+				USER_ORDER_MARCHANT_NAME = #{marchantName,jdbcType=VARCHAR},
 			</if>
 			<if test="marchantState != null">
-				USER_ORDER_MARCHANT_STATE =
-				#{marchantState,jdbcType=VARCHAR},
+				USER_ORDER_MARCHANT_STATE = #{marchantState,jdbcType=VARCHAR},
 			</if>
 			<if test="code != null">
 				USER_ORDER_CODE = #{code,jdbcType=VARCHAR},
@@ -293,23 +261,19 @@
 				USER_ORDER_USERPHONE = #{userphone,jdbcType=VARCHAR},
 			</if>
 			<if test="isToRestaurant != null">
-				USER_ORDER_IS_TO_RESTAURANT =
-				#{isToRestaurant,jdbcType=VARCHAR},
+				USER_ORDER_IS_TO_RESTAURANT = #{isToRestaurant,jdbcType=VARCHAR},
 			</if>
 			<if test="member != null">
 				USER_ORDER_MEMBER = #{member,jdbcType=DECIMAL},
 			</if>
 			<if test="reserveTime != null">
-				USER_ORDER_RESERVE_TIME =
-				#{reserveTime,jdbcType=TIMESTAMP},
+				USER_ORDER_RESERVE_TIME = #{reserveTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="sendAddress != null">
-				USER_ORDER_SEND_ADDRESS =
-				#{sendAddress,jdbcType=VARCHAR},
+				USER_ORDER_SEND_ADDRESS = #{sendAddress,jdbcType=VARCHAR},
 			</if>
 			<if test="createTime != null">
-				USER_ORDER_CREATE_TIME =
-				#{createTime,jdbcType=TIMESTAMP},
+				USER_ORDER_CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="state != null">
 				USER_ORDER_STATE = #{state,jdbcType=VARCHAR},
@@ -321,12 +285,10 @@
 				USER_ORDER_PAY_STATE = #{payState,jdbcType=VARCHAR},
 			</if>
 			<if test="productCount != null">
-				USER_ORDER_PRODUCT_COUNT =
-				#{productCount,jdbcType=VARCHAR},
+				USER_ORDER_PRODUCT_COUNT = #{productCount,jdbcType=VARCHAR},
 			</if>
 			<if test="offestPrice != null">
-				USER_ORDER_OFFEST_PRICE =
-				#{offestPrice,jdbcType=DECIMAL},
+				USER_ORDER_OFFEST_PRICE = #{offestPrice,jdbcType=DECIMAL},
 			</if>
 			<if test="totalPrice != null">
 				USER_ORDER_TOTAL_PRICE = #{totalPrice,jdbcType=DECIMAL},
@@ -337,60 +299,32 @@
 			<if test="note != null">
 				USER_ORDER_NOTE = #{note,jdbcType=VARCHAR},
 			</if>
-			<if test="orderid != null">
-				USER_ORDER_ORDERID = #{orderid,jdbcType=DECIMAL},
-			</if>
 		</set>
 		where USER_ORDER_ID = #{id,jdbcType=DECIMAL}
 	</update>
-
 	<update id="updateByPrimaryKey" parameterType="com.aspire.OnlineMeal.model.UserOrderInfo">
-		update
-		USER_ORDER_INFO
-		set USER_ORDER_MARCHANT_ID =
-		#{marchantId,jdbcType=DECIMAL},
-		USER_ORDER_MARCHANT_NAME =
-		#{marchantName,jdbcType=VARCHAR},
-		USER_ORDER_MARCHANT_STATE =
-		#{marchantState,jdbcType=VARCHAR},
-		USER_ORDER_CODE =
-		#{code,jdbcType=VARCHAR},
-		USER_ORDER_USERID =
-		#{userid,jdbcType=DECIMAL},
-		USER_ORDER_USERNAME =
-		#{username,jdbcType=VARCHAR},
-		USER_ORDER_USERPHONE =
-		#{userphone,jdbcType=VARCHAR},
-		USER_ORDER_IS_TO_RESTAURANT =
-		#{isToRestaurant,jdbcType=VARCHAR},
-		USER_ORDER_MEMBER =
-		#{member,jdbcType=DECIMAL},
-		USER_ORDER_RESERVE_TIME =
-		#{reserveTime,jdbcType=TIMESTAMP},
-		USER_ORDER_SEND_ADDRESS =
-		#{sendAddress,jdbcType=VARCHAR},
-		USER_ORDER_CREATE_TIME =
-		#{createTime,jdbcType=TIMESTAMP},
-		USER_ORDER_STATE =
-		#{state,jdbcType=VARCHAR},
-		USER_ORDER_PAY_TYPE =
-		#{payType,jdbcType=VARCHAR},
-		USER_ORDER_PAY_STATE =
-		#{payState,jdbcType=VARCHAR},
-		USER_ORDER_PRODUCT_COUNT =
-		#{productCount,jdbcType=VARCHAR},
-		USER_ORDER_OFFEST_PRICE =
-		#{offestPrice,jdbcType=DECIMAL},
-		USER_ORDER_TOTAL_PRICE =
-		#{totalPrice,jdbcType=DECIMAL},
-		USER_ORDER_PAY_PRICE =
-		#{payPrice,jdbcType=DECIMAL},
-		USER_ORDER_NOTE =
-		#{note,jdbcType=VARCHAR},
-		USER_ORDER_ORDERID =
-		#{orderid,jdbcType=DECIMAL}
-		where USER_ORDER_ID =
-		#{id,jdbcType=DECIMAL}
+		update USER_ORDER_INFO
+		set USER_ORDER_MARCHANT_ID = #{marchantId,jdbcType=DECIMAL},
+		USER_ORDER_MARCHANT_NAME = #{marchantName,jdbcType=VARCHAR},
+		USER_ORDER_MARCHANT_STATE = #{marchantState,jdbcType=VARCHAR},
+		USER_ORDER_CODE = #{code,jdbcType=VARCHAR},
+		USER_ORDER_USERID = #{userid,jdbcType=DECIMAL},
+		USER_ORDER_USERNAME = #{username,jdbcType=VARCHAR},
+		USER_ORDER_USERPHONE = #{userphone,jdbcType=VARCHAR},
+		USER_ORDER_IS_TO_RESTAURANT = #{isToRestaurant,jdbcType=VARCHAR},
+		USER_ORDER_MEMBER = #{member,jdbcType=DECIMAL},
+		USER_ORDER_RESERVE_TIME = #{reserveTime,jdbcType=TIMESTAMP},
+		USER_ORDER_SEND_ADDRESS = #{sendAddress,jdbcType=VARCHAR},
+		USER_ORDER_CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		USER_ORDER_STATE = #{state,jdbcType=VARCHAR},
+		USER_ORDER_PAY_TYPE = #{payType,jdbcType=VARCHAR},
+		USER_ORDER_PAY_STATE = #{payState,jdbcType=VARCHAR},
+		USER_ORDER_PRODUCT_COUNT = #{productCount,jdbcType=VARCHAR},
+		USER_ORDER_OFFEST_PRICE = #{offestPrice,jdbcType=DECIMAL},
+		USER_ORDER_TOTAL_PRICE = #{totalPrice,jdbcType=DECIMAL},
+		USER_ORDER_PAY_PRICE = #{payPrice,jdbcType=DECIMAL},
+		USER_ORDER_NOTE = #{note,jdbcType=VARCHAR}
+		where USER_ORDER_ID = #{id,jdbcType=DECIMAL}
 	</update>
 
 </mapper>

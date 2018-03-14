@@ -45,8 +45,6 @@ public class UserOrderInfo {
 
     private String note;
 
-    private BigDecimal orderid;
-
     public BigDecimal getId() {
         return id;
     }
@@ -213,13 +211,5 @@ public class UserOrderInfo {
 
     public void setNote(String note) {
         this.note = note == null ? null : note.trim();
-    }
-
-    public BigDecimal getOrderid() {
-        return orderid;
-    }
-
-    public void setOrderid(BigDecimal orderid) {
-        this.orderid = orderid;
     }
 }
