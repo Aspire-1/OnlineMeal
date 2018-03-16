@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+		<script type="text/javascript" src="js/jquery.js"></script>
+	</head>
+<body>
+	<script type="text/javascript">
+		function submitList() {
+			var list = new Array();
+			list.push({
+				userOrderId : "18",
+				dishedId : "1",
+				dishedName : "红烧鱼",
+				dishedCount : "1",
+				dishedPrice : "100",
+				dishedDiscount : "0.5",
+				dishedDiscountPrice : "50"
+			});
+			list.push({
+				userOrderId : "18",
+				dishedId : "2",
+				dishedName : "清蒸鱼",
+				dishedCount : "1",
+				dishedPrice : "100",
+				dishedDiscount : "0.5",
+				dishedDiscountPrice : "50"
+			});
+			list.push({
+				userOrderId : "18",
+				dishedId : "3",
+				dishedName : "煎炸鱼",
+				dishedCount : "1",
+				dishedPrice : "100",
+				dishedDiscount : "0.5",
+				dishedDiscountPrice : "50"
+			});
+			list.push({
+				userOrderId : "18",
+				dishedId : "4",
+				dishedName : "水煮鱼",
+				dishedCount : "1",
+				dishedPrice : "100",
+				dishedDiscount : "0.5",
+				dishedDiscountPrice : "50"
+			});
+			$.ajax({
+                url: "OrderInfo/add/batch.mvc",
+                type: "POST",
+                contentType : 'application/json', //设置请求头信息
+                dataType:"json",
+                data: JSON.stringify(list),    //将Json对象序列化成Json字符串，JSON.stringify()原生态方法
+                //data: $.toJSON(customerArray),            //将Json对象序列化成Json字符串，toJSON()需要引用jquery.json.min.js
+                success: function(data){
+                    alert(data);
+                },
+                error: function(res){
+                    alert(res.responseText);
+                }
+            });
+		}
+	</script>
+	<input id="submit" type="button" value="Submit" onclick="submitList();">
+</body>
+</html>

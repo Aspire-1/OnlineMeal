@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 public class OrderInfo {
     private BigDecimal id;
 
+    private BigDecimal userOrderId;
+
     private String dishedId;
 
     private String dishedName;
@@ -23,6 +25,14 @@ public class OrderInfo {
 
     public void setId(BigDecimal id) {
         this.id = id;
+    }
+
+    public BigDecimal getUserOrderId() {
+        return userOrderId;
+    }
+
+    public void setUserOrderId(BigDecimal userOrderId) {
+        this.userOrderId = userOrderId;
     }
 
     public String getDishedId() {

@@ -10,8 +10,11 @@ public interface IOrderInfoService {
 	//添加订单内容
 	public int addOrderInfo(OrderInfo orderInfo) throws Exception;
 	
+	//批量添加订单内容
+	public int addOrderInfoWithBatch(List<OrderInfo> list) throws Exception;
+	
 	//删除订单内容
-	public int deleteOrderInfo(OrderInfo orderInfo) throws Exception;
+	public int deleteOrderInfo(BigDecimal orderId) throws Exception;
 	
 	//查找菜肴，通过用户订单主键查找订单信息
 	public List<OrderInfo> getAllOrderInfoByUserOrderId(BigDecimal userOrderId) throws Exception;
