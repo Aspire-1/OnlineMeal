@@ -50,6 +50,11 @@
 		USER_ORDER_OFFEST_PRICE, USER_ORDER_TOTAL_PRICE, USER_ORDER_PAY_PRICE,
 		USER_ORDER_NOTE
 	</sql>
+	
+	<select id="selectCurrentSeq" resultType="int">
+		select seq_user_order_info.currval from dual
+	</select>
+	
 	<select id="selectByPrimaryKey" parameterType="java.math.BigDecimal"
 		resultMap="BaseResultMap">
 		select

@@ -99,13 +99,15 @@ create table ORDER_INFO(
   
   ORDER_USER_ORDER_ID NUMBER(10),  --关联用户订单的主键
   
-  ORDER_DISHED_ID VARCHAR(10),  -- 关联菜肴信息表中的菜肴的主键
+  ORDER_DISHED_ID VARCHAR(10),  -- 关联菜肴信息表中的菜肴的主键  --未更改 该值类型应该为NUMBER 2018-3-15
   ORDER_DISHED_NAME VARCHAR(20),  --菜肴名称
   ORDER_DISHED_COUNT NUMBER(5),  --菜肴数量
   ORDER_DISHED_PRICE NUMBER(18,2),  --菜肴原价格
   ORDER_DISHED_DISCOUNT NUMBER(18,2),  --菜肴折扣
   ORDER_DISHED_DISCOUNT_PRICE NUMBER(18,2)  --菜肴折后价
 );
+
+drop table ORDER_INFO
 
 create sequence seq_order_info 
 increment by 1 

@@ -38,9 +38,10 @@ public class UserOrderInfoController {
 		uoi.setCreateTime(sdf.format(date));
 		
 		iuois.addUserOrderInfoWithSelective(uoi);
-
-		result.setResult("Y");
+		
 		result.setMessage("添加订单成功");
+		
+		System.out.println(iuois.getPrimaryKey());
 
 		return result;
 	}

@@ -17,6 +17,8 @@ public interface UserOrderInfoMapper {
 
     List<UserOrderInfo> selectByUserId(BigDecimal userId) throws Exception;
     
+    int selectCurrentSeq() throws Exception;
+    
     int updateByPrimaryKeySelective(UserOrderInfo record) throws Exception;
 
     int updateByPrimaryKey(UserOrderInfo record) throws Exception;

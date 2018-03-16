@@ -37,4 +37,9 @@ public class UserOrderInfoServiceImpl implements IUserOrderInfoService {
 		return uoim.selectByUserId(id);
 	}
 
+	@Override
+	public int getPrimaryKey() throws Exception {
+		return uoim.selectCurrentSeq();
+	}
+
 }
