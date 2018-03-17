@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aspire.OnlineMeal.mapper.DishedTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.aspire.OnlineMeal.model.DishedType" >
+    <id column="DISHED_TYPE_ID" property="id" jdbcType="DECIMAL" />
+    <result column="DISHED_TYPE_CODE" property="code" jdbcType="VARCHAR" />
+    <result column="DISHED_TYPE_SUBCODE" property="subcode" jdbcType="VARCHAR" />
+    <result column="DISHED_TYPE_NAME" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DISHED_TYPE_ID, DISHED_TYPE_CODE, DISHED_TYPE_SUBCODE, DISHED_TYPE_NAME
+  </sql>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+  		select 
+    	<include refid="Base_Column_List" />
+    	from DISHED_TYPE
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from DISHED_TYPE
+    where DISHED_TYPE_ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from DISHED_TYPE
+    where DISHED_TYPE_ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.aspire.OnlineMeal.model.DishedType" >
+    <selectKey resultType="java.math.BigDecimal" keyProperty="id" order="BEFORE" >
+      select seq_dished_type.nextval from dual
+    </selectKey>
+    insert into DISHED_TYPE (DISHED_TYPE_ID, DISHED_TYPE_CODE, DISHED_TYPE_SUBCODE, 
+      DISHED_TYPE_NAME)
+    values (#{id,jdbcType=DECIMAL}, #{code,jdbcType=VARCHAR}, #{subcode,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.aspire.OnlineMeal.model.DishedType" >
+    <selectKey resultType="java.math.BigDecimal" keyProperty="id" order="BEFORE" >
+      select seq_dished_type.nextval from dual
+    </selectKey>
+    insert into DISHED_TYPE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      DISHED_TYPE_ID,
+      <if test="code != null" >
+        DISHED_TYPE_CODE,
+      </if>
+      <if test="subcode != null" >
+        DISHED_TYPE_SUBCODE,
+      </if>
+      <if test="name != null" >
+        DISHED_TYPE_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="subcode != null" >
+        #{subcode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.aspire.OnlineMeal.model.DishedType" >
+    update DISHED_TYPE
+    <set >
+      <if test="code != null" >
+        DISHED_TYPE_CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="subcode != null" >
+        DISHED_TYPE_SUBCODE = #{subcode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        DISHED_TYPE_NAME = #{name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DISHED_TYPE_ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.aspire.OnlineMeal.model.DishedType" >
+    update DISHED_TYPE
+    set DISHED_TYPE_CODE = #{code,jdbcType=VARCHAR},
+      DISHED_TYPE_SUBCODE = #{subcode,jdbcType=VARCHAR},
+      DISHED_TYPE_NAME = #{name,jdbcType=VARCHAR}
+    where DISHED_TYPE_ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

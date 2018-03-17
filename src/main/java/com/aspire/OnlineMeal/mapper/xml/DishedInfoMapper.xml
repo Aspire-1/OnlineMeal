@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aspire.OnlineMeal.mapper.DishedInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.aspire.OnlineMeal.model.DishedInfo" >
+    <id column="DISHED_INFO_ID" property="infoId" jdbcType="DECIMAL" />
+    <result column="DISHED_MARCHANT_MENUID" property="marchantMenuid" jdbcType="DECIMAL" />
+    <result column="DISHED_NAME" property="name" jdbcType="VARCHAR" />
+    <result column="DISHED_TYPE_CODE" property="typeCode" jdbcType="VARCHAR" />
+    <result column="DISHED_TYPE_NAME" property="typeName" jdbcType="VARCHAR" />
+    <result column="DISHED_SPECIFICATION" property="specification" jdbcType="VARCHAR" />
+    <result column="DISHED_STORE" property="store" jdbcType="DECIMAL" />
+    <result column="DISHED_INTRODUCE" property="introduce" jdbcType="VARCHAR" />
+    <result column="DISHED_PHOTO_SRC" property="photoSrc" jdbcType="VARCHAR" />
+    <result column="DISHED_SCORE" property="score" jdbcType="DECIMAL" />
+    <result column="DISHED_PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="DISHED_DISCOUNT" property="discount" jdbcType="DECIMAL" />
+    <result column="DISHED_DISCOUNT_PRICE" property="discountPrice" jdbcType="DECIMAL" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.aspire.OnlineMeal.model.DishedInfo" extends="BaseResultMap" >
+    <result column="DISHED_PHOTO" property="photo" jdbcType="BLOB" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DISHED_INFO_ID, DISHED_MARCHANT_MENUID, DISHED_NAME, DISHED_TYPE_CODE, DISHED_TYPE_NAME, 
+    DISHED_SPECIFICATION, DISHED_STORE, DISHED_INTRODUCE, DISHED_PHOTO_SRC, DISHED_SCORE, 
+    DISHED_PRICE, DISHED_DISCOUNT, DISHED_DISCOUNT_PRICE
+  </sql>
+  <sql id="Blob_Column_List" >
+    DISHED_PHOTO
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from DISHED_INFO
+    where DISHED_INFO_ID = #{infoId,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="selectWithDishedType" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+  	select <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from  DISHED_INFO
+    where DISHED_TYPE_CODE = #{dishedType,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectWithVagueName" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+  	select <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from DISHED_INFO where DISHED_NAME like '%${_parameter}%'
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from DISHED_INFO
+    where DISHED_INFO_ID = #{infoId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.aspire.OnlineMeal.model.DishedInfo" >
+    <selectKey resultType="java.math.BigDecimal" keyProperty="infoId" order="BEFORE" >
+      select seq_dished_info.nextval from dual
+    </selectKey>
+    insert into DISHED_INFO (DISHED_INFO_ID, DISHED_MARCHANT_MENUID, DISHED_NAME, 
+      DISHED_TYPE_CODE, DISHED_TYPE_NAME, DISHED_SPECIFICATION, 
+      DISHED_STORE, DISHED_INTRODUCE, DISHED_PHOTO_SRC, 
+      DISHED_SCORE, DISHED_PRICE, DISHED_DISCOUNT, 
+      DISHED_DISCOUNT_PRICE, DISHED_PHOTO)
+    values (#{infoId,jdbcType=DECIMAL}, #{marchantMenuid,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, 
+      #{typeCode,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, #{specification,jdbcType=VARCHAR}, 
+      #{store,jdbcType=DECIMAL}, #{introduce,jdbcType=VARCHAR}, #{photoSrc,jdbcType=VARCHAR}, 
+      #{score,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, #{discount,jdbcType=DECIMAL}, 
+      #{discountPrice,jdbcType=DECIMAL}, #{photo,jdbcType=BLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="com.aspire.OnlineMeal.model.DishedInfo" >
+    <selectKey resultType="java.math.BigDecimal" keyProperty="infoId" order="BEFORE" >
+      select seq_dished_info.nextval from dual
+    </selectKey>
+    insert into DISHED_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      DISHED_INFO_ID,
+      <if test="marchantMenuid != null" >
+        DISHED_MARCHANT_MENUID,
+      </if>
+      <if test="name != null" >
+        DISHED_NAME,
+      </if>
+      <if test="typeCode != null" >
+        DISHED_TYPE_CODE,
+      </if>
+      <if test="typeName != null" >
+        DISHED_TYPE_NAME,
+      </if>
+      <if test="specification != null" >
+        DISHED_SPECIFICATION,
+      </if>
+      <if test="store != null" >
+        DISHED_STORE,
+      </if>
+      <if test="introduce != null" >
+        DISHED_INTRODUCE,
+      </if>
+      <if test="photoSrc != null" >
+        DISHED_PHOTO_SRC,
+      </if>
+      <if test="score != null" >
+        DISHED_SCORE,
+      </if>
+      <if test="price != null" >
+        DISHED_PRICE,
+      </if>
+      <if test="discount != null" >
+        DISHED_DISCOUNT,
+      </if>
+      <if test="discountPrice != null" >
+        DISHED_DISCOUNT_PRICE,
+      </if>
+      <if test="photo != null" >
+        DISHED_PHOTO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{infoId,jdbcType=DECIMAL},
+      <if test="marchantMenuid != null" >
+        #{marchantMenuid,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="typeCode != null" >
+        #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null" >
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="specification != null" >
+        #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="store != null" >
+        #{store,jdbcType=DECIMAL},
+      </if>
+      <if test="introduce != null" >
+        #{introduce,jdbcType=VARCHAR},
+      </if>
+      <if test="photoSrc != null" >
+        #{photoSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="discountPrice != null" >
+        #{discountPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=BLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.aspire.OnlineMeal.model.DishedInfo" >
+    update DISHED_INFO
+    <set >
+      <if test="marchantMenuid != null" >
+        DISHED_MARCHANT_MENUID = #{marchantMenuid,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null" >
+        DISHED_NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="typeCode != null" >
+        DISHED_TYPE_CODE = #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null" >
+        DISHED_TYPE_NAME = #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="specification != null" >
+        DISHED_SPECIFICATION = #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="store != null" >
+        DISHED_STORE = #{store,jdbcType=DECIMAL},
+      </if>
+      <if test="introduce != null" >
+        DISHED_INTRODUCE = #{introduce,jdbcType=VARCHAR},
+      </if>
+      <if test="photoSrc != null" >
+        DISHED_PHOTO_SRC = #{photoSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        DISHED_SCORE = #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        DISHED_PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null" >
+        DISHED_DISCOUNT = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="discountPrice != null" >
+        DISHED_DISCOUNT_PRICE = #{discountPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="photo != null" >
+        DISHED_PHOTO = #{photo,jdbcType=BLOB},
+      </if>
+    </set>
+    where DISHED_INFO_ID = #{infoId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.aspire.OnlineMeal.model.DishedInfo" >
+    update DISHED_INFO
+    set DISHED_MARCHANT_MENUID = #{marchantMenuid,jdbcType=DECIMAL},
+      DISHED_NAME = #{name,jdbcType=VARCHAR},
+      DISHED_TYPE_CODE = #{typeCode,jdbcType=VARCHAR},
+      DISHED_TYPE_NAME = #{typeName,jdbcType=VARCHAR},
+      DISHED_SPECIFICATION = #{specification,jdbcType=VARCHAR},
+      DISHED_STORE = #{store,jdbcType=DECIMAL},
+      DISHED_INTRODUCE = #{introduce,jdbcType=VARCHAR},
+      DISHED_PHOTO_SRC = #{photoSrc,jdbcType=VARCHAR},
+      DISHED_SCORE = #{score,jdbcType=DECIMAL},
+      DISHED_PRICE = #{price,jdbcType=DECIMAL},
+      DISHED_DISCOUNT = #{discount,jdbcType=DECIMAL},
+      DISHED_DISCOUNT_PRICE = #{discountPrice,jdbcType=DECIMAL},
+      DISHED_PHOTO = #{photo,jdbcType=BLOB}
+    where DISHED_INFO_ID = #{infoId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.aspire.OnlineMeal.model.DishedInfo" >
+    update DISHED_INFO
+    set DISHED_MARCHANT_MENUID = #{marchantMenuid,jdbcType=DECIMAL},
+      DISHED_NAME = #{name,jdbcType=VARCHAR},
+      DISHED_TYPE_CODE = #{typeCode,jdbcType=VARCHAR},
+      DISHED_TYPE_NAME = #{typeName,jdbcType=VARCHAR},
+      DISHED_SPECIFICATION = #{specification,jdbcType=VARCHAR},
+      DISHED_STORE = #{store,jdbcType=DECIMAL},
+      DISHED_INTRODUCE = #{introduce,jdbcType=VARCHAR},
+      DISHED_PHOTO_SRC = #{photoSrc,jdbcType=VARCHAR},
+      DISHED_SCORE = #{score,jdbcType=DECIMAL},
+      DISHED_PRICE = #{price,jdbcType=DECIMAL},
+      DISHED_DISCOUNT = #{discount,jdbcType=DECIMAL},
+      DISHED_DISCOUNT_PRICE = #{discountPrice,jdbcType=DECIMAL}
+    where DISHED_INFO_ID = #{infoId,jdbcType=DECIMAL}
+  </update>
+</mapper>
