@@ -55,6 +55,12 @@
 		select seq_user_order_info.currval from dual
 	</select>
 	
+	<select id="selectByMarchantId" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List" />
+		from USER_ORDER_INFO
+		where USER_ORDER_MARCHANT_ID = #{marchantId,jdbcType=DECIMAL}
+	</select>
+	
 	<select id="selectByPrimaryKey" parameterType="java.math.BigDecimal"
 		resultMap="BaseResultMap">
 		select
