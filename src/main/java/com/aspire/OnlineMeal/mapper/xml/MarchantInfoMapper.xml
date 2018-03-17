@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aspire.OnlineMeal.mapper.MarchantInfoMapper">
+  <resultMap id="BaseResultMap" type="com.aspire.OnlineMeal.model.MarchantInfo">
+    <id column="MARCHANT_INFO_ID" jdbcType="DECIMAL" property="infoId" />
+    <result column="MARCHANT_NAME" jdbcType="VARCHAR" property="name" />
+    <result column="MARCHANT_ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="MARCHANT_CONTACT" jdbcType="VARCHAR" property="contact" />
+    <result column="MARCHANT_LONGITUDE" jdbcType="VARCHAR" property="longitude" />
+    <result column="MARCHANT_LATITUDE" jdbcType="VARCHAR" property="latitude" />
+    <result column="MARCHANT_MANAGER_NAME" jdbcType="VARCHAR" property="managerName" />
+    <result column="MARCHANT_MANAGER_PHONE" jdbcType="VARCHAR" property="managerPhone" />
+    <result column="MARCHANT_QUALIFIED_AUDUT_ID" jdbcType="DECIMAL" property="qualifiedAudutId" />
+    <result column="MARCHANT_IS_AUDIT" jdbcType="VARCHAR" property="isAudit" />
+    <result column="MARCHANT_STATE" jdbcType="VARCHAR" property="state" />
+    <result column="MARCHANT_REGIST_TIME" jdbcType="TIMESTAMP" property="registTime" />
+    <result column="MARCHANT_TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="MARCHANT_START_TIME" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="MARCHANT_END_TIME" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="MARCHANT_TOTAL_SCORE" jdbcType="DECIMAL" property="totalScore" />
+    <result column="MARCHANT_FOOD_SCORE" jdbcType="DECIMAL" property="foodScore" />
+    <result column="MARCHANT_SERVICE_SOCRE" jdbcType="DECIMAL" property="serviceSocre" />
+    <result column="MARCHANT_ENVIRONMENT_SCORE" jdbcType="DECIMAL" property="environmentScore" />
+    <result column="MARCHANT_NOTE" jdbcType="VARCHAR" property="note" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    MARCHANT_INFO_ID, MARCHANT_NAME, MARCHANT_ADDRESS, MARCHANT_CONTACT, MARCHANT_LONGITUDE, 
+    MARCHANT_LATITUDE, MARCHANT_MANAGER_NAME, MARCHANT_MANAGER_PHONE, MARCHANT_QUALIFIED_AUDUT_ID, 
+    MARCHANT_IS_AUDIT, MARCHANT_STATE, MARCHANT_REGIST_TIME, MARCHANT_TYPE, MARCHANT_START_TIME, 
+    MARCHANT_END_TIME, MARCHANT_TOTAL_SCORE, MARCHANT_FOOD_SCORE, MARCHANT_SERVICE_SOCRE, 
+    MARCHANT_ENVIRONMENT_SCORE, MARCHANT_NOTE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MARCHANT_INFO
+    where MARCHANT_INFO_ID = #{infoId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from MARCHANT_INFO
+    where MARCHANT_INFO_ID = #{infoId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.aspire.OnlineMeal.model.MarchantInfo">
+    <selectKey keyProperty="infoId" order="BEFORE" resultType="java.math.BigDecimal">
+      select seq_marchant_info.nextval from dual
+    </selectKey>
+    insert into MARCHANT_INFO (MARCHANT_INFO_ID, MARCHANT_NAME, MARCHANT_ADDRESS, 
+      MARCHANT_CONTACT, MARCHANT_LONGITUDE, MARCHANT_LATITUDE, 
+      MARCHANT_MANAGER_NAME, MARCHANT_MANAGER_PHONE, MARCHANT_QUALIFIED_AUDUT_ID, 
+      MARCHANT_IS_AUDIT, MARCHANT_STATE, MARCHANT_REGIST_TIME, 
+      MARCHANT_TYPE, MARCHANT_START_TIME, MARCHANT_END_TIME, 
+      MARCHANT_TOTAL_SCORE, MARCHANT_FOOD_SCORE, MARCHANT_SERVICE_SOCRE, 
+      MARCHANT_ENVIRONMENT_SCORE, MARCHANT_NOTE)
+    values (#{infoId,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{contact,jdbcType=VARCHAR}, #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, 
+      #{managerName,jdbcType=VARCHAR}, #{managerPhone,jdbcType=VARCHAR}, #{qualifiedAudutId,jdbcType=DECIMAL}, 
+      #{isAudit,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{registTime,jdbcType=TIMESTAMP}, 
+      #{type,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{totalScore,jdbcType=DECIMAL}, #{foodScore,jdbcType=DECIMAL}, #{serviceSocre,jdbcType=DECIMAL}, 
+      #{environmentScore,jdbcType=DECIMAL}, #{note,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.aspire.OnlineMeal.model.MarchantInfo">
+    <selectKey keyProperty="infoId" order="BEFORE" resultType="java.math.BigDecimal">
+      select seq_marchant_info.nextval from dual
+    </selectKey>
+    insert into MARCHANT_INFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      MARCHANT_INFO_ID,
+      <if test="name != null">
+        MARCHANT_NAME,
+      </if>
+      <if test="address != null">
+        MARCHANT_ADDRESS,
+      </if>
+      <if test="contact != null">
+        MARCHANT_CONTACT,
+      </if>
+      <if test="longitude != null">
+        MARCHANT_LONGITUDE,
+      </if>
+      <if test="latitude != null">
+        MARCHANT_LATITUDE,
+      </if>
+      <if test="managerName != null">
+        MARCHANT_MANAGER_NAME,
+      </if>
+      <if test="managerPhone != null">
+        MARCHANT_MANAGER_PHONE,
+      </if>
+      <if test="qualifiedAudutId != null">
+        MARCHANT_QUALIFIED_AUDUT_ID,
+      </if>
+      <if test="isAudit != null">
+        MARCHANT_IS_AUDIT,
+      </if>
+      <if test="state != null">
+        MARCHANT_STATE,
+      </if>
+      <if test="registTime != null">
+        MARCHANT_REGIST_TIME,
+      </if>
+      <if test="type != null">
+        MARCHANT_TYPE,
+      </if>
+      <if test="startTime != null">
+        MARCHANT_START_TIME,
+      </if>
+      <if test="endTime != null">
+        MARCHANT_END_TIME,
+      </if>
+      <if test="totalScore != null">
+        MARCHANT_TOTAL_SCORE,
+      </if>
+      <if test="foodScore != null">
+        MARCHANT_FOOD_SCORE,
+      </if>
+      <if test="serviceSocre != null">
+        MARCHANT_SERVICE_SOCRE,
+      </if>
+      <if test="environmentScore != null">
+        MARCHANT_ENVIRONMENT_SCORE,
+      </if>
+      <if test="note != null">
+        MARCHANT_NOTE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{infoId,jdbcType=DECIMAL},
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null">
+        #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="managerName != null">
+        #{managerName,jdbcType=VARCHAR},
+      </if>
+      <if test="managerPhone != null">
+        #{managerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="qualifiedAudutId != null">
+        #{qualifiedAudutId,jdbcType=DECIMAL},
+      </if>
+      <if test="isAudit != null">
+        #{isAudit,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="registTime != null">
+        #{registTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalScore != null">
+        #{totalScore,jdbcType=DECIMAL},
+      </if>
+      <if test="foodScore != null">
+        #{foodScore,jdbcType=DECIMAL},
+      </if>
+      <if test="serviceSocre != null">
+        #{serviceSocre,jdbcType=DECIMAL},
+      </if>
+      <if test="environmentScore != null">
+        #{environmentScore,jdbcType=DECIMAL},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.aspire.OnlineMeal.model.MarchantInfo">
+    update MARCHANT_INFO
+    <set>
+      <if test="name != null">
+        MARCHANT_NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        MARCHANT_ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null">
+        MARCHANT_CONTACT = #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        MARCHANT_LONGITUDE = #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        MARCHANT_LATITUDE = #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="managerName != null">
+        MARCHANT_MANAGER_NAME = #{managerName,jdbcType=VARCHAR},
+      </if>
+      <if test="managerPhone != null">
+        MARCHANT_MANAGER_PHONE = #{managerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="qualifiedAudutId != null">
+        MARCHANT_QUALIFIED_AUDUT_ID = #{qualifiedAudutId,jdbcType=DECIMAL},
+      </if>
+      <if test="isAudit != null">
+        MARCHANT_IS_AUDIT = #{isAudit,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        MARCHANT_STATE = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="registTime != null">
+        MARCHANT_REGIST_TIME = #{registTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        MARCHANT_TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        MARCHANT_START_TIME = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        MARCHANT_END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalScore != null">
+        MARCHANT_TOTAL_SCORE = #{totalScore,jdbcType=DECIMAL},
+      </if>
+      <if test="foodScore != null">
+        MARCHANT_FOOD_SCORE = #{foodScore,jdbcType=DECIMAL},
+      </if>
+      <if test="serviceSocre != null">
+        MARCHANT_SERVICE_SOCRE = #{serviceSocre,jdbcType=DECIMAL},
+      </if>
+      <if test="environmentScore != null">
+        MARCHANT_ENVIRONMENT_SCORE = #{environmentScore,jdbcType=DECIMAL},
+      </if>
+      <if test="note != null">
+        MARCHANT_NOTE = #{note,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where MARCHANT_INFO_ID = #{infoId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.aspire.OnlineMeal.model.MarchantInfo">
+    update MARCHANT_INFO
+    set MARCHANT_NAME = #{name,jdbcType=VARCHAR},
+      MARCHANT_ADDRESS = #{address,jdbcType=VARCHAR},
+      MARCHANT_CONTACT = #{contact,jdbcType=VARCHAR},
+      MARCHANT_LONGITUDE = #{longitude,jdbcType=VARCHAR},
+      MARCHANT_LATITUDE = #{latitude,jdbcType=VARCHAR},
+      MARCHANT_MANAGER_NAME = #{managerName,jdbcType=VARCHAR},
+      MARCHANT_MANAGER_PHONE = #{managerPhone,jdbcType=VARCHAR},
+      MARCHANT_QUALIFIED_AUDUT_ID = #{qualifiedAudutId,jdbcType=DECIMAL},
+      MARCHANT_IS_AUDIT = #{isAudit,jdbcType=VARCHAR},
+      MARCHANT_STATE = #{state,jdbcType=VARCHAR},
+      MARCHANT_REGIST_TIME = #{registTime,jdbcType=TIMESTAMP},
+      MARCHANT_TYPE = #{type,jdbcType=VARCHAR},
+      MARCHANT_START_TIME = #{startTime,jdbcType=TIMESTAMP},
+      MARCHANT_END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      MARCHANT_TOTAL_SCORE = #{totalScore,jdbcType=DECIMAL},
+      MARCHANT_FOOD_SCORE = #{foodScore,jdbcType=DECIMAL},
+      MARCHANT_SERVICE_SOCRE = #{serviceSocre,jdbcType=DECIMAL},
+      MARCHANT_ENVIRONMENT_SCORE = #{environmentScore,jdbcType=DECIMAL},
+      MARCHANT_NOTE = #{note,jdbcType=VARCHAR}
+    where MARCHANT_INFO_ID = #{infoId,jdbcType=DECIMAL}
+  </update>
+</mapper>
