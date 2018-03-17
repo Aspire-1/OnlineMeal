@@ -114,3 +114,103 @@ increment by 1
 start with 1
 maxvalue 999999
 nocycle nocache;
+
+
+--商家信息表
+create table MARCHANT_INFO(
+  MARCHANT_INFO_ID NUMBER(10) primary key,
+  MARCHANT_NAME VARCHAR(30),
+  MARCHANT_ADDRESS VARCHAR(100),
+  MARCHANT_CONTACT VARCHAR(20),  --商家联系方式
+  
+  MARCHANT_LONGITUDE VARCHAR(10),  --经度
+  MARCHANT_LATITUDE VARCHAR(10),  --纬度
+  
+  MARCHANT_MANAGER_NAME VARCHAR(20),
+  MARCHANT_MANAGER_PHONE VARCHAR(15),  --商户老板电话
+  
+  MARCHANT_QUALIFIED_AUDUT_ID NUMBER(10),  --关联商家资格审核表主键
+  
+  MARCHANT_IS_AUDIT VARCHAR(5) default '02', --审核状态 01 审核通过 02 审核中 99 审核未通过
+  
+  MARCHANT_STATE VARCHAR(5) default '79', --商家状态 01 正常 02 休息中 03 接单中 79 待审批 89 已注销 99 异常 
+  
+  MARCHANT_REGIST_TIME TIMESTAMP,  --商家注册时间
+  MARCHANT_TYPE VARCHAR(10),  -- 商家类型 法 意 中 快...
+  MARCHANT_START_TIME TIMESTAMP,  --商家开始营业时间
+  MARCHANT_END_TIME TIMESTAMP,  --商家结束营业时间
+  
+  MARCHANT_TOTAL_SCORE NUMBER(5,2),
+  MARCHANT_FOOD_SCORE NUMBER(5,2),
+  MARCHANT_SERVICE_SOCRE NUMBER(5,2),
+  MARCHANT_ENVIRONMENT_SCORE NUMBER(5,2),
+  
+  MARCHANT_NOTE VARCHAR(500)
+);
+
+
+create sequence seq_marchant_info 
+increment by 1 
+start with 1
+maxvalue 999999
+nocycle nocache;
+
+--附加 菜肴类型表
+create table DISHED_TYPE(
+  DISHED_TYPE_ID NUMBER(10) primary key,
+  
+  DISHED_TYPE_CODE VARCHAR(5),
+  DISHED_TYPE_SUBCODE VARCHAR(5),
+  
+  DISHED_TYPE_NAME VARCHAR(30)
+);
+
+create sequence seq_dished_type
+increment by 1 
+start with 1
+maxvalue 999999
+nocycle nocache;
+
+create table DISHED_INFO(
+ DISHED_INFO_ID NUMBER(10) primary key,
+ 
+ DISHED_MARCHANT_MENUID NUMBER(10),  --菜肴关联菜单的键
+ 
+ DISHED_NAME VARCHAR(30),  --菜肴名称
+ 
+ DISHED_TYPE_CODE VARCHAR(5),  --菜肴类型编号
+ DISHED_TYPE_NAME VARCHAR(30),  --菜肴类型名称
+ 
+ DISHED_SPECIFICATION VARCHAR(20),  --菜肴规格 
+ DISHED_STORE NUMBER(5),  --剩余菜肴量
+ 
+ DISHED_INTRODUCE VARCHAR(100),  --菜肴介绍
+ DISHED_PHOTO blob,  --菜肴图片
+ DISHED_PHOTO_SRC VARCHAR(200), --图片地址
+ 
+ DISHED_SCORE NUMBER(5,2),  --菜肴获取分数
+ 
+ DISHED_PRICE NUMBER(18,2),  --菜肴原价
+ DISHED_DISCOUNT NUMBER(18,2),  --菜肴折扣
+ DISHED_DISCOUNT_PRICE NUMBER(18,2)  --菜肴折后价
+ 
+);
+
+create sequence seq_dished_info
+increment by 1 
+start with 1
+maxvalue 999999
+nocycle nocache;
+
+--商家管理员信息表
+create table MARCHANT_MANAGER(
+  MARCHANT_MANAGER_ID NUMBER(10) primary key,
+  
+  MARCHANT_MANAGER_MARCHANTID NUMBER(10),  --管理员关联的商家ID
+  
+  MARCHANT_MANAGER_USERNAME VARCHAR(30),
+  MARCHANT_MANAGER_USERPASSWORD VARHCANT(500),
+  
+  MARCHANT_MANAGER_LASTLOGIN_TIME TIMESTAMP,  --管理员最后登陆时间
+  
+)
