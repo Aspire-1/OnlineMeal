@@ -15,6 +15,7 @@
 			jdbcType="TIMESTAMP" />
 		<result column="USER_LAST_LOGIN_TIME" property="lastLoginTime"
 			jdbcType="TIMESTAMP" />
+		<result column="USER_USER_NAME" property="userName" jdbcType="VARCHAR" />
 		<result column="USER_PASSWORD" property="password" jdbcType="VARCHAR" />
 		<result column="USER_LOGIN_STATE" property="loginState"
 			jdbcType="VARCHAR" />
@@ -27,12 +28,11 @@
 		<result column="USER_HEAD_PHOTO" property="headPhoto" jdbcType="BLOB" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		USER_ID, USER_REGIST_PHONE, USER_REGIST_EMAIL,
-		USER_REGIST_CODE,
+		USER_ID, USER_REGIST_PHONE, USER_REGIST_EMAIL, USER_REGIST_CODE,
 		USER_REGIST_CODE_TIME,
-		USER_REGIST_TIME,
-		USER_LAST_LOGIN_TIME, USER_PASSWORD, USER_LOGIN_STATE, USER_STATE,
-		USER_IS_DELETE, USER_ADDRESS
+		USER_REGIST_TIME, USER_LAST_LOGIN_TIME, USER_USER_NAME, USER_PASSWORD,
+		USER_LOGIN_STATE,
+		USER_STATE, USER_IS_DELETE, USER_ADDRESS
 	</sql>
 	<sql id="Blob_Column_List">
 		USER_HEAD_PHOTO
@@ -47,8 +47,7 @@
 		where USER_ID = #{id,jdbcType=DECIMAL}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
-		delete from
-		USER_INFO
+		delete from USER_INFO
 		where USER_ID = #{id,jdbcType=DECIMAL}
 	</delete>
 	<insert id="insert" parameterType="com.aspire.OnlineMeal.model.UserInfo">
@@ -60,7 +59,9 @@
 		USER_REGIST_PHONE, USER_REGIST_EMAIL,
 		USER_REGIST_CODE, USER_REGIST_CODE_TIME,
 		USER_REGIST_TIME,
-		USER_LAST_LOGIN_TIME, USER_PASSWORD,
+		USER_LAST_LOGIN_TIME, 
+		USER_USER_NAME, 
+		USER_PASSWORD,
 		USER_LOGIN_STATE,
 		USER_STATE,
 		USER_IS_DELETE, USER_ADDRESS, USER_HEAD_PHOTO) values
@@ -69,12 +70,12 @@
 		#{registEmail,jdbcType=VARCHAR}, #{registCode,jdbcType=VARCHAR},
 		#{registCodeTime,jdbcType=TIMESTAMP},
 		#{registTime,jdbcType=TIMESTAMP}, #{lastLoginTime,jdbcType=TIMESTAMP},
-		#{password,jdbcType=VARCHAR}, #{loginState,jdbcType=VARCHAR},
+		#{userName,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR}, #{loginState,jdbcType=VARCHAR},
 		#{state,jdbcType=VARCHAR},
 		#{isDelete,jdbcType=VARCHAR},
 		#{address,jdbcType=VARCHAR}, #{headPhoto,jdbcType=BLOB})
 	</insert>
-
+	
 	<insert id="insertSelective" parameterType="com.aspire.OnlineMeal.model.UserInfo">
 		<selectKey keyProperty="id" resultType="DECIMAL" order="BEFORE">
 			select
@@ -102,6 +103,9 @@
 			</if>
 			<if test="lastLoginTime != null">
 				USER_LAST_LOGIN_TIME,
+			</if>
+			<if test="userName != null">
+				USER_USER_NAME,
 			</if>
 			<if test="password != null">
 				USER_PASSWORD,
@@ -144,6 +148,9 @@
 			<if test="lastLoginTime != null">
 				#{lastLoginTime,jdbcType=TIMESTAMP},
 			</if>
+			<if test="userName != null">
+				#{userName,jdbcType=VARCHAR},
+			</if>
 			<if test="password != null">
 				#{password,jdbcType=VARCHAR},
 			</if>
@@ -164,7 +171,7 @@
 			</if>
 		</trim>
 	</insert>
-
+	
 	<update id="updateByPrimaryKeySelective" parameterType="com.aspire.OnlineMeal.model.UserInfo">
 		update USER_INFO
 		<set>
@@ -187,6 +194,9 @@
 			<if test="lastLoginTime != null">
 				USER_LAST_LOGIN_TIME =
 				#{lastLoginTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="userName != null">
+				USER_USER_NAME = #{userName,jdbcType=VARCHAR},
 			</if>
 			<if test="password != null">
 				USER_PASSWORD = #{password,jdbcType=VARCHAR},
@@ -214,46 +224,34 @@
 		USER_INFO
 		set USER_REGIST_PHONE = #{registPhone,jdbcType=VARCHAR},
 		USER_REGIST_EMAIL = #{registEmail,jdbcType=VARCHAR},
-		USER_REGIST_CODE =
-		#{registCode,jdbcType=VARCHAR},
-		USER_REGIST_CODE_TIME =
-		#{registCodeTime,jdbcType=TIMESTAMP},
-		USER_REGIST_TIME =
-		#{registTime,jdbcType=TIMESTAMP},
-		USER_LAST_LOGIN_TIME =
-		#{lastLoginTime,jdbcType=TIMESTAMP},
-		USER_PASSWORD =
-		#{password,jdbcType=VARCHAR},
-		USER_LOGIN_STATE =
-		#{loginState,jdbcType=VARCHAR},
+		USER_REGIST_CODE = #{registCode,jdbcType=VARCHAR},
+		USER_REGIST_CODE_TIME = #{registCodeTime,jdbcType=TIMESTAMP},
+		USER_REGIST_TIME = #{registTime,jdbcType=TIMESTAMP},
+		USER_LAST_LOGIN_TIME = #{lastLoginTime,jdbcType=TIMESTAMP},
+		USER_USER_NAME = #{userName,jdbcType=VARCHAR},
+		USER_PASSWORD = #{password,jdbcType=VARCHAR},
+		USER_LOGIN_STATE = #{loginState,jdbcType=VARCHAR},
 		USER_STATE = #{state,jdbcType=VARCHAR},
 		USER_IS_DELETE = #{isDelete,jdbcType=VARCHAR},
-		USER_ADDRESS =
-		#{address,jdbcType=VARCHAR},
-		USER_HEAD_PHOTO =
-		#{headPhoto,jdbcType=BLOB}
+		USER_ADDRESS = #{address,jdbcType=VARCHAR},
+		USER_HEAD_PHOTO = #{headPhoto,jdbcType=BLOB}
 		where USER_ID = #{id,jdbcType=DECIMAL}
 	</update>
+	
 	<update id="updateByPrimaryKey" parameterType="com.aspire.OnlineMeal.model.UserInfo">
 		update USER_INFO
 		set USER_REGIST_PHONE = #{registPhone,jdbcType=VARCHAR},
 		USER_REGIST_EMAIL = #{registEmail,jdbcType=VARCHAR},
-		USER_REGIST_CODE =
-		#{registCode,jdbcType=VARCHAR},
-		USER_REGIST_CODE_TIME =
-		#{registCodeTime,jdbcType=TIMESTAMP},
-		USER_REGIST_TIME =
-		#{registTime,jdbcType=TIMESTAMP},
-		USER_LAST_LOGIN_TIME =
-		#{lastLoginTime,jdbcType=TIMESTAMP},
-		USER_PASSWORD =
-		#{password,jdbcType=VARCHAR},
-		USER_LOGIN_STATE =
-		#{loginState,jdbcType=VARCHAR},
+		USER_REGIST_CODE = #{registCode,jdbcType=VARCHAR},
+		USER_REGIST_CODE_TIME = #{registCodeTime,jdbcType=TIMESTAMP},
+		USER_REGIST_TIME = #{registTime,jdbcType=TIMESTAMP},
+		USER_LAST_LOGIN_TIME = #{lastLoginTime,jdbcType=TIMESTAMP},
+		USER_USER_NAME = #{userName,jdbcType=VARCHAR},
+		USER_PASSWORD = #{password,jdbcType=VARCHAR},
+		USER_LOGIN_STATE = #{loginState,jdbcType=VARCHAR},
 		USER_STATE = #{state,jdbcType=VARCHAR},
 		USER_IS_DELETE = #{isDelete,jdbcType=VARCHAR},
-		USER_ADDRESS =
-		#{address,jdbcType=VARCHAR}
+		USER_ADDRESS = #{address,jdbcType=VARCHAR}
 		where USER_ID = #{id,jdbcType=DECIMAL}
 	</update>
 </mapper>
