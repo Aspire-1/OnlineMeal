@@ -17,6 +17,8 @@ public class UserInfo {
 
     private String lastLoginTime;
 
+    private String userName;
+
     private String password;
 
     private String loginState;
@@ -83,6 +85,14 @@ public class UserInfo {
 
     public void setLastLoginTime(String lastLoginTime) {
         this.lastLoginTime = lastLoginTime == null ? null : lastLoginTime.trim();
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName == null ? null : userName.trim();
     }
 
     public String getPassword() {
