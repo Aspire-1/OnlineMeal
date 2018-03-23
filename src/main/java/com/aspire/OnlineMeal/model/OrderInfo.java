@@ -7,7 +7,7 @@ public class OrderInfo {
 
     private BigDecimal userOrderId;
 
-    private String dishedId;
+    private BigDecimal dishedId;
 
     private String dishedName;
 
@@ -35,12 +35,12 @@ public class OrderInfo {
         this.userOrderId = userOrderId;
     }
 
-    public String getDishedId() {
+    public BigDecimal getDishedId() {
         return dishedId;
     }
 
-    public void setDishedId(String dishedId) {
-        this.dishedId = dishedId == null ? null : dishedId.trim();
+    public void setDishedId(BigDecimal dishedId) {
+        this.dishedId = dishedId;
     }
 
     public String getDishedName() {

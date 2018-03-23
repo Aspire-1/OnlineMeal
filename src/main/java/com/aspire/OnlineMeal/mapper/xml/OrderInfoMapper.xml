@@ -5,7 +5,7 @@
 		<id column="ORDER_ID" jdbcType="DECIMAL" property="id" />
 		<result column="ORDER_USER_ORDER_ID" jdbcType="DECIMAL"
 			property="userOrderId" />
-		<result column="ORDER_DISHED_ID" jdbcType="VARCHAR" property="dishedId" />
+		<result column="ORDER_DISHED_ID" jdbcType="DECIMAL" property="dishedId" />
 		<result column="ORDER_DISHED_NAME" jdbcType="VARCHAR" property="dishedName" />
 		<result column="ORDER_DISHED_COUNT" jdbcType="DECIMAL"
 			property="dishedCount" />
@@ -59,7 +59,7 @@
 			separator="UNION ALL">
 			SELECT
 			#{item.userOrderId,jdbcType=DECIMAL} ORDER_USER_ORDER_ID,
-			#{item.dishedId,jdbcType=VARCHAR} ORDER_DISHED_ID,
+			#{item.dishedId,jdbcType=DECIMAL} ORDER_DISHED_ID,
 			#{item.dishedName,jdbcType=VARCHAR} ORDER_DISHED_NAME,
 			#{item.dishedCount,jdbcType=DECIMAL} ORDER_DISHED_COUNT,
 			#{item.dishedPrice,jdbcType=DECIMAL} ORDER_DISHED_PRICE,
@@ -81,7 +81,7 @@
 		ORDER_DISHED_PRICE,
 		ORDER_DISHED_DISCOUNT, ORDER_DISHED_DISCOUNT_PRICE)
 		values (#{id,jdbcType=DECIMAL}, #{userOrderId,jdbcType=DECIMAL},
-		#{dishedId,jdbcType=VARCHAR},
+		#{item.dishedId,jdbcType=DECIMAL},
 		#{dishedName,jdbcType=VARCHAR},
 		#{dishedCount,jdbcType=DECIMAL}, #{dishedPrice,jdbcType=DECIMAL},
 		#{dishedDiscount,jdbcType=DECIMAL},
@@ -122,7 +122,7 @@
 				#{userOrderId,jdbcType=DECIMAL},
 			</if>
 			<if test="dishedId != null">
-				#{dishedId,jdbcType=VARCHAR},
+				#{item.dishedId,jdbcType=DECIMAL},
 			</if>
 			<if test="dishedName != null">
 				#{dishedName,jdbcType=VARCHAR},
@@ -148,7 +148,7 @@
 				ORDER_USER_ORDER_ID = #{userOrderId,jdbcType=DECIMAL},
 			</if>
 			<if test="dishedId != null">
-				ORDER_DISHED_ID = #{dishedId,jdbcType=VARCHAR},
+				ORDER_DISHED_ID = #{item.dishedId,jdbcType=DECIMAL},
 			</if>
 			<if test="dishedName != null">
 				ORDER_DISHED_NAME = #{dishedName,jdbcType=VARCHAR},
@@ -173,7 +173,7 @@
 	<update id="updateByPrimaryKey" parameterType="com.aspire.OnlineMeal.model.OrderInfo">
 		update ORDER_INFO
 		set ORDER_USER_ORDER_ID = #{userOrderId,jdbcType=DECIMAL},
-		ORDER_DISHED_ID = #{dishedId,jdbcType=VARCHAR},
+		ORDER_DISHED_ID = #{item.dishedId,jdbcType=DECIMAL},
 		ORDER_DISHED_NAME =
 		#{dishedName,jdbcType=VARCHAR},
 		ORDER_DISHED_COUNT =

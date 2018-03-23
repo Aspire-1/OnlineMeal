@@ -8,7 +8,7 @@ create table USER_INFO(
   USER_REGIST_CODE_TIME TIMESTAMP ,
   USER_REGIST_TIME TIMESTAMP,
   USER_LAST_LOGIN_TIME  TIMESTAMP,
-  USER_USER_NAME VARCHAR(100),    --新增字段，未更新 2018-3-11
+  USER_USER_NAME VARCHAR(100),    --新增字段，未更新 2018-3-11 已更新 2018-3-23
   USER_PASSWORD VARCHAR(500),
   USER_LOGIN_STATE VARCHAR(5) default '01',
   USER_STATE VARCHAR(5) default '01',
@@ -28,6 +28,8 @@ increment by 1
 start with 1
 maxvalue 999999
 nocycle nocache;
+
+drop table USER_INFO
 
 --用户地址表
 create table USER_ADDRESS_INFO(
@@ -99,7 +101,7 @@ create table ORDER_INFO(
   
   ORDER_USER_ORDER_ID NUMBER(10),  --关联用户订单的主键
   
-  ORDER_DISHED_ID VARCHAR(10),  -- 关联菜肴信息表中的菜肴的主键  --未更改 该值类型应该为NUMBER 2018-3-15
+  ORDER_DISHED_ID NUMBER(10),  -- 关联菜肴信息表中的菜肴的主键  --未更改 该值类型应该为NUMBER 2018-3-15   --已更改 2018-3-23
   ORDER_DISHED_NAME VARCHAR(20),  --菜肴名称
   ORDER_DISHED_COUNT NUMBER(5),  --菜肴数量
   ORDER_DISHED_PRICE NUMBER(18,2),  --菜肴原价格
