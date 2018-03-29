@@ -11,10 +11,15 @@ public interface UserInfoMapper{
     int insertSelective(UserInfo record) throws Exception ;
 
     UserInfo selectByPrimaryKey(BigDecimal id) throws Exception ;
+    
+    UserInfo selectByUserOpenId(String openId) throws Exception;
 
     int updateByPrimaryKeySelective(UserInfo record) throws Exception ;
+    
+    int updateByOpenIdSelective(UserInfo record) throws Exception ;
 
     int updateByPrimaryKeyWithBLOBs(UserInfo record) throws Exception ;
 
     int updateByPrimaryKey(UserInfo record) throws Exception ;
+    
 }

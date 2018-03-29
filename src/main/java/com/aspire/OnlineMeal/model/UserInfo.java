@@ -31,7 +31,17 @@ public class UserInfo {
 
     private byte[] headPhoto;
 
-    public BigDecimal getId() {
+    private String openId;
+    
+    public String getOpenId() {
+		return openId;
+	}
+
+	public void setOpenId(String openId) {
+		this.openId = openId;
+	}
+
+	public BigDecimal getId() {
         return id;
     }
 

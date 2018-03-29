@@ -22,6 +22,7 @@
 		<result column="USER_STATE" property="state" jdbcType="VARCHAR" />
 		<result column="USER_IS_DELETE" property="isDelete" jdbcType="VARCHAR" />
 		<result column="USER_ADDRESS" property="address" jdbcType="VARCHAR" />
+		<result column="USER_OPENID" property="openId" jdbcType="VARCHAR" />
 	</resultMap>
 	<resultMap id="ResultMapWithBLOBs" type="com.aspire.OnlineMeal.model.UserInfo"
 		extends="BaseResultMap">
@@ -32,11 +33,20 @@
 		USER_REGIST_CODE_TIME,
 		USER_REGIST_TIME, USER_LAST_LOGIN_TIME, USER_USER_NAME, USER_PASSWORD,
 		USER_LOGIN_STATE,
-		USER_STATE, USER_IS_DELETE, USER_ADDRESS
+		USER_STATE, USER_IS_DELETE, USER_ADDRESS, USER_OPENID
 	</sql>
 	<sql id="Blob_Column_List">
 		USER_HEAD_PHOTO
 	</sql>
+	
+	<select id="selectByUserOpenId" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from ORDER_INFO where USER_OPENID =
+		#{openId,jdbcType=VARCHAR}
+	</select>
+	
 	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
 		parameterType="java.math.BigDecimal">
 		select
@@ -64,7 +74,7 @@
 		USER_PASSWORD,
 		USER_LOGIN_STATE,
 		USER_STATE,
-		USER_IS_DELETE, USER_ADDRESS, USER_HEAD_PHOTO) values
+		USER_IS_DELETE, USER_ADDRESS, USER_HEAD_PHOTO,USER_OPENID) values
 		(#{id,jdbcType=DECIMAL},
 		#{registPhone,jdbcType=VARCHAR},
 		#{registEmail,jdbcType=VARCHAR}, #{registCode,jdbcType=VARCHAR},
@@ -73,7 +83,7 @@
 		#{userName,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR}, #{loginState,jdbcType=VARCHAR},
 		#{state,jdbcType=VARCHAR},
 		#{isDelete,jdbcType=VARCHAR},
-		#{address,jdbcType=VARCHAR}, #{headPhoto,jdbcType=BLOB})
+		#{address,jdbcType=VARCHAR}, #{headPhoto,jdbcType=BLOB},#{openId,jdbcType=VARCHAR})
 	</insert>
 	
 	<insert id="insertSelective" parameterType="com.aspire.OnlineMeal.model.UserInfo">
@@ -125,6 +135,9 @@
 			<if test="headPhoto != null">
 				USER_HEAD_PHOTO,
 			</if>
+			<if test="userId != null">
+				USER_OPENID,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -169,8 +182,59 @@
 			<if test="headPhoto != null">
 				#{headPhoto,jdbcType=BLOB},
 			</if>
+			<if test="userId != null">
+				#{openId,jdbcType=VARCHAR},
+			</if>
 		</trim>
 	</insert>
+	
+	<update id="updateByOpenIdSelective" parameterType="com.aspire.OnlineMeal.model.UserInfo">
+		update USER_INFO
+		<set>
+			<if test="registPhone != null">
+				USER_REGIST_PHONE = #{registPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="registEmail != null">
+				USER_REGIST_EMAIL = #{registEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="registCode != null">
+				USER_REGIST_CODE = #{registCode,jdbcType=VARCHAR},
+			</if>
+			<if test="registCodeTime != null">
+				USER_REGIST_CODE_TIME =
+				#{registCodeTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="registTime != null">
+				USER_REGIST_TIME = #{registTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="lastLoginTime != null">
+				USER_LAST_LOGIN_TIME =
+				#{lastLoginTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="userName != null">
+				USER_USER_NAME = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				USER_PASSWORD = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="loginState != null">
+				USER_LOGIN_STATE = #{loginState,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null">
+				USER_STATE = #{state,jdbcType=VARCHAR},
+			</if>
+			<if test="isDelete != null">
+				USER_IS_DELETE = #{isDelete,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				USER_ADDRESS = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="headPhoto != null">
+				USER_HEAD_PHOTO = #{headPhoto,jdbcType=BLOB},
+			</if>
+		</set>
+		where USER_OPENID = #{openId,jdbcType=VARCHAR}
+	</update>
 	
 	<update id="updateByPrimaryKeySelective" parameterType="com.aspire.OnlineMeal.model.UserInfo">
 		update USER_INFO
