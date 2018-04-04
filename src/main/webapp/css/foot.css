@@ -1,0 +1,12 @@
+/*Î²²¿*/
+.footer {
+  margin: 50px 0 0;
+  padding: 30px 0 ;
+  line-height: 30px;
+  text-align: center;
+  color: #737573;
+  border-top: 1px solid #e2e2e2;
+}
+.footer a{padding:0 6px; font-weight: 300; color: #333;}
+.footer a:hover{color: #777;}
+

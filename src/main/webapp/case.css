@@ -1,0 +1,33 @@
+/* °¸Àý */
+.fly-case-header{position: relative; height: 260px; text-align: center; background: #393D49;}
+.fly-case-year{position: absolute; top: 30px; width: 100%; line-height: 50px; font-size: 50px; text-align: center; color: #fff; font-weight: 300;}
+.fly-case-banner{position: absolute; left: 50%; top: 100px; width: 670px; margin-left: -335px;}
+.fly-case-btn{position: absolute; bottom: 30px; left: 0; width: 100%; text-align: center;}
+.fly-case-btn a{color: #fff;}
+.fly-case-btn .layui-btn-primary{background: none; color: #fff;}
+.fly-case-btn .layui-btn-primary:hover{border-color: #5FB878;}
+
+.fly-case-tab{margin-top: 20px; text-align: center;}
+.fly-case-tab span,
+.fly-case-tab span a{border-color: #009688;}
+.fly-case-tab .tab-this{background-color: #009688; color: #fff;}
+
+.fly-case-list{margin-top: 15px; font-size: 0;}
+.fly-case-list li, 
+.layer-ext-ul li{display: inline-block; vertical-align: middle; *display: inline; *zoom:1; font-size: 14px; background-color: #fff;}
+.fly-case-list{width: 110%;}
+.fly-case-list li{width: 239px; margin: 0 15px 15px 0; padding: 10px;}
+.fly-case-list li:hover{box-shadow: 1px 1px 5px rgba(0,0,0,.1);}
+.fly-case-img{position: relative; display: block;}
+.fly-case-img img{width: 239px; height: 150px;}
+.fly-case-img .layui-btn{display: none; position: absolute; bottom: 20px; left: 50%; margin-left: -29px;}
+.fly-case-img:hover .layui-btn{display: inline-block;}
+.fly-case-list li h2{padding: 10px 0 5px; line-height: 22px; font-size: 18px; white-space: nowrap; overflow: hidden; text-align: center;}
+.fly-case-desc{height: 60px; line-height: 20px; font-size: 12px; color: #666; overflow: hidden;}
+.fly-case-info{position: relative; margin: 10px 0 0; padding: 10px 65px 0 45px; border-top: 1px dotted #eee;}
+.fly-case-info p{height:24px; line-height: 24px;}
+.fly-case-user{position: absolute; left: 0; top: 15px; width: 35px; height: 35px;}
+.fly-case-user img{width: 35px; height: 35px; border-radius: 100%;}
+.fly-case-info .layui-btn{position: absolute; right: 0; top: 15px;  padding: 0 15px;}
+
+

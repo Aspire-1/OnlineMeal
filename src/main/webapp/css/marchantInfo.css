@@ -1,0 +1,90 @@
+/*商家信息的大模块*/
+.marchant-info-list{
+	margin-top: 15px;
+	font-size: 0;
+	width: 100%;
+}
+
+/*商家信息的元素模块*/
+.marchant-info-elem {
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 14px;
+	background-color: #fff;
+	margin: 0 15px 15px 0; 
+	padding: 10px;
+}
+
+.marchant-info-elem:hover{
+	box-shadow: 2px 2px 5px rgba(0,0,0,.3);
+}
+
+/*商家信息的图片模块*/
+.marchant-info-img {
+	position: relative;
+	display: block;
+}
+
+/*商家信息图片*/
+.marchant-info-img img{
+	width: 250px;
+	height: 200px;
+}
+
+/*商家信息的商家名*/
+.marchant-info-elem h2{
+	padding: 10px 0 5px;
+	line-height: 22px; 
+	font-size: 18px; 
+	white-space: nowrap; 
+	overflow: hidden; 
+	text-align: center; 
+}
+
+/*商家信息描述*/
+.marchant-info-desc{
+	height: 60px; 
+	line-height: 20px; 
+	font-size: 12px; 
+	color: #666; 
+	overflow: hidden;
+}
+
+/*商家信息上方模块*/
+.marchant-select-box{
+	width: "100%";
+	padding: 10px;
+}
+
+/*选择的项目 一行*/
+.marchant-select{
+	display: block;
+	vertical-align: middle;
+	margin-bottom: 15px;
+}
+
+
+/*选择项目标题*/
+.marchant-select h2{
+	display: block;
+	padding: 10px 0 10px;
+	margin: 10px 0 10px 0;
+	line-height: 22px; 
+	font-size: 18px; 
+	white-space: nowrap; 
+	overflow: hidden; 
+	text-align: left; 
+}
+
+/*选择项目分类*/
+.marchant-select button{
+	display: inline-block;
+	vertical-align: middle;
+}
+
+/*搜索框*/
+.marchant-select input{
+	display: inline-block;
+	width: 80%;
+	margin-right: 10px
+}
