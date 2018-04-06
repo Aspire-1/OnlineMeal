@@ -1,5 +1,7 @@
 package com.aspire.OnlineMeal.service.impl;
 
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,11 @@ public class MarchantInfoServiceImpl implements IMarchantInfoService {
 	public int modifyMarthantState(MarchantInfo marchantInfo) throws Exception {
 		// TODO Auto-generated method stub
 		return mim.updateByPrimaryKeySelective(marchantInfo);
+	}
+
+	@Override
+	public MarchantInfo getByPrimaryKey(BigDecimal id) throws Exception {
+		return mim.selectByPrimaryKey(id);
 	}
 
 }

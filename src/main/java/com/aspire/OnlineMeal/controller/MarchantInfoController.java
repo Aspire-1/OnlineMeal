@@ -1,5 +1,6 @@
 package com.aspire.OnlineMeal.controller;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -67,5 +68,11 @@ public class MarchantInfoController {
 		return result;
 		
 	}
+	
+	@RequestMapping(value="/get",method=RequestMethod.POST)
+	public MarchantInfo getById(BigDecimal id) throws Exception{
+		return imis.getByPrimaryKey(id);
+	}
+	
 	
 }
