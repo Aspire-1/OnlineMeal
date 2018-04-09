@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+		订单号： <input id="orderId" name="orderId"/>
+	
+		订单商家： <input id="marchantId" name="toId"> <br/>
+		<button type="button" id="btn" >下订单</button>
+	<script type="text/javascript">
+		
+			var webSocket;
+			
+			if('WebSocket' in window) {
+				webSocket = new WebSocket("ws://22.117.96.22:9999/OnlineMeal/websocket.mvc");
+		    } else if('MozWebSocket' in window) {
+		    	webSocket = new MozWebSocket("ws://22.117.96.22:9999/OnlineMeal/websocket.mvc");
+		    } else {
+		    	webSocket = new SockJS("http://22.117.96.22:9999/OnlineMeal/sockjs/websocket.mvc");
+		    }
+			
+			// 打开时
+		    webSocket.onopen = function(evnt) {
+		        console.log("  websocket.onopen  ");
+		    };
+
+		    // 处理消息时
+		    webSocket.onmessage = function(evnt) {
+		        console.log("  websocket.onmessage   ");
+		    };
+
+
+		    webSocket.onerror = function(evnt) {
+		        console.log("  websocket.onerror  ");
+		    };
+
+		    webSocket.onclose = function(evnt) {
+		        console.log("  websocket.onclose  ");
+		    };
+			
+		
+	    document.getElementById("btn").onclick = function(){
+	    	
+	    	var msg = {
+	    			"toId":document.getElementById("marchantId").value,
+	    			"orderId":document.getElementById("orderId").value
+	    	};
+	    	
+	    	webSocket.send(JSON.stringify(msg));
+	    	//document.getElementById("biaodan").submit();
+	    }
+	
+	</script>
+</body>
+</html>

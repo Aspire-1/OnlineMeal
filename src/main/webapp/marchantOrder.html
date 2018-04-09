@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<span id="message"></span>
+
+
+	<script type="text/javascript">
+		var websocket;
+		
+		if('WebSocket' in window) {
+	        websocket = new WebSocket("ws://22.117.96.22:9999/OnlineMeal/websocket.mvc");
+	    } else if('MozWebSocket' in window) {
+	        websocket = new MozWebSocket("ws://22.117.96.22:9999/OnlineMeal/websocket.mvc");
+	    } else {
+	        websocket = new SockJS("http://22.117.96.22:9999/OnlineMeal/sockjs/websocket.mvc");
+	    }
+		
+		// 打开时
+	    websocket.onopen = function(evnt) {
+	        console.log("  websocket.onopen  ");
+	    };
+
+	    // 处理消息时
+	    websocket.onmessage = function(evnt) {
+	        console.log("  websocket.onmessage   ");
+			document.getElementById("message").innerHTML = evnt.data;
+	    };
+
+
+	    websocket.onerror = function(evnt) {
+	        console.log("  websocket.onerror  ");
+	    };
+
+	    websocket.onclose = function(evnt) {
+	        console.log("  websocket.onclose  ");
+	    };
+	    
+	
+
+	</script>
+
+</body>
+</html>
