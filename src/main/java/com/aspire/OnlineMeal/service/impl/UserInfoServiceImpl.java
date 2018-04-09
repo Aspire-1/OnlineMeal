@@ -30,5 +30,21 @@ public class UserInfoServiceImpl implements IUserInfoService {
 	public UserInfo searchByUserID(BigDecimal id) throws Exception {
 		return uim.selectByPrimaryKey(id);
 	}
+
+	@Override
+	public UserInfo searchByOpenId(String openId) throws Exception {
+		return uim.selectByUserOpenId(openId);
+	}
+
+	@Override
+	public int modifyByUserIdSelective(UserInfo userInfo) throws Exception {
+		return uim.updateByPrimaryKeySelective(userInfo);
+	}
+
+	@Override
+	public int modifyByOpenIdSelective(UserInfo userInfo) throws Exception {
+		return uim.updateByOpenIdSelective(userInfo);
+	}
+	
 	
 }

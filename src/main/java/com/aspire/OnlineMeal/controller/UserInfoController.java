@@ -43,9 +43,33 @@ public class UserInfoController {
 		return result;
 	}
 	
-	@RequestMapping(value="/get",method=RequestMethod.POST)
+	@RequestMapping(value="/get/userId",method=RequestMethod.POST)
 	public UserInfo getById(BigDecimal id) throws Exception{
 		return iuis.searchByUserID(id);
+	}
+	
+	@RequestMapping(value="/get/openId",method=RequestMethod.POST)
+	public UserInfo getByOpenId(String openId) throws Exception{
+		return iuis.searchByOpenId(openId);
+	}
+	
+	@RequestMapping(value="/modify/userId",method=RequestMethod.POST)
+	public ResultMessage modifyByUserId(UserInfo userInfo) throws Exception{
+		ResultMessage result = new ResultMessage();
+		iuis.modifyByUserIdSelective(userInfo);
+		result.setResult("Y");
+		result.setMessage("修改信息成功");
+		return result;
+	}
+	
+	@RequestMapping(value="/modify/openId",method=RequestMethod.POST)
+	public ResultMessage modifyByOpenId(UserInfo userInfo) throws Exception{
+		ResultMessage result = new ResultMessage();
+		//记住传入的值是openid
+		iuis.modifyByOpenIdSelective(userInfo);
+		result.setResult("Y");
+		result.setMessage("修改信息成功");
+		return result;
 	}
 	
 }

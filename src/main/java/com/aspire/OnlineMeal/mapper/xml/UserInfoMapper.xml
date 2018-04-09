@@ -23,6 +23,7 @@
 		<result column="USER_IS_DELETE" property="isDelete" jdbcType="VARCHAR" />
 		<result column="USER_ADDRESS" property="address" jdbcType="VARCHAR" />
 		<result column="USER_OPENID" property="openId" jdbcType="VARCHAR" />
+		<result column="USER_HEAD_PHOTO_URL" property="headPhotoUrl" jdbcType="VARCHAR" />
 	</resultMap>
 	<resultMap id="ResultMapWithBLOBs" type="com.aspire.OnlineMeal.model.UserInfo"
 		extends="BaseResultMap">
@@ -33,7 +34,7 @@
 		USER_REGIST_CODE_TIME,
 		USER_REGIST_TIME, USER_LAST_LOGIN_TIME, USER_USER_NAME, USER_PASSWORD,
 		USER_LOGIN_STATE,
-		USER_STATE, USER_IS_DELETE, USER_ADDRESS, USER_OPENID
+		USER_STATE, USER_IS_DELETE, USER_ADDRESS, USER_OPENID,USER_HEAD_PHOTO_URL
 	</sql>
 	<sql id="Blob_Column_List">
 		USER_HEAD_PHOTO
@@ -74,7 +75,7 @@
 		USER_PASSWORD,
 		USER_LOGIN_STATE,
 		USER_STATE,
-		USER_IS_DELETE, USER_ADDRESS, USER_HEAD_PHOTO,USER_OPENID) values
+		USER_IS_DELETE, USER_ADDRESS, USER_HEAD_PHOTO,USER_OPENID,USER_HEAD_PHOTO_URL) values
 		(#{id,jdbcType=DECIMAL},
 		#{registPhone,jdbcType=VARCHAR},
 		#{registEmail,jdbcType=VARCHAR}, #{registCode,jdbcType=VARCHAR},
@@ -83,7 +84,7 @@
 		#{userName,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR}, #{loginState,jdbcType=VARCHAR},
 		#{state,jdbcType=VARCHAR},
 		#{isDelete,jdbcType=VARCHAR},
-		#{address,jdbcType=VARCHAR}, #{headPhoto,jdbcType=BLOB},#{openId,jdbcType=VARCHAR})
+		#{address,jdbcType=VARCHAR}, #{headPhoto,jdbcType=BLOB},#{openId,jdbcType=VARCHAR},#{headPhotoUrl,jdbcType=VARCHAR})
 	</insert>
 	
 	<insert id="insertSelective" parameterType="com.aspire.OnlineMeal.model.UserInfo">
@@ -135,8 +136,11 @@
 			<if test="headPhoto != null">
 				USER_HEAD_PHOTO,
 			</if>
-			<if test="userId != null">
+			<if test="openId != null">
 				USER_OPENID,
+			</if>
+			<if test="headPhotoUrl != null">
+				USER_HEAD_PHOTO_URL,
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -182,8 +186,11 @@
 			<if test="headPhoto != null">
 				#{headPhoto,jdbcType=BLOB},
 			</if>
-			<if test="userId != null">
+			<if test="openId != null">
 				#{openId,jdbcType=VARCHAR},
+			</if>
+			<if test="headPhotoUrl != null">
+				#{headPhotoUrl,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -231,6 +238,9 @@
 			</if>
 			<if test="headPhoto != null">
 				USER_HEAD_PHOTO = #{headPhoto,jdbcType=BLOB},
+			</if>
+			<if test="headPhotoUrl != null">
+				USER_HEAD_PHOTO_URL = #{headPhotoUrl,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where USER_OPENID = #{openId,jdbcType=VARCHAR}
@@ -280,6 +290,9 @@
 			<if test="headPhoto != null">
 				USER_HEAD_PHOTO = #{headPhoto,jdbcType=BLOB},
 			</if>
+			<if test="headPhotoUrl != null">
+				USER_HEAD_PHOTO_URL = #{headPhotoUrl,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where USER_ID = #{id,jdbcType=DECIMAL}
 	</update>
@@ -299,6 +312,7 @@
 		USER_IS_DELETE = #{isDelete,jdbcType=VARCHAR},
 		USER_ADDRESS = #{address,jdbcType=VARCHAR},
 		USER_HEAD_PHOTO = #{headPhoto,jdbcType=BLOB}
+		USER_HEAD_PHOTO_URL = #{headPhotoUrl,jdbcType=VARCHAR},
 		where USER_ID = #{id,jdbcType=DECIMAL}
 	</update>
 	

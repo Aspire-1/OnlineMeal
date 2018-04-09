@@ -33,7 +33,17 @@ public class UserInfo {
 
     private String openId;
     
-    public String getOpenId() {
+    private String headPhotoUrl;
+    
+    public String getHeadPhotoUrl() {
+		return headPhotoUrl;
+	}
+
+	public void setHeadPhotoUrl(String headPhotoUrl) {
+		this.headPhotoUrl = headPhotoUrl;
+	}
+
+	public String getOpenId() {
 		return openId;
 	}
 
