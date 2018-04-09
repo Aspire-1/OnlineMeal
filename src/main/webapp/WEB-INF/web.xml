@@ -49,7 +49,7 @@
 		</init-param>
 
 		<load-on-startup>1</load-on-startup>
-
+		<async-supported>true</async-supported>
 		<multipart-config>
 			<max-file-size>20848820</max-file-size>
 			<max-request-size>418018841</max-request-size>
