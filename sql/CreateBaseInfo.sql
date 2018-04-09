@@ -206,6 +206,9 @@ start with 1
 maxvalue 999999
 nocycle nocache;
 
+
+--未执行 2018-04-08--
+
 --商家管理员信息表
 create table MARCHANT_MANAGER(
   MARCHANT_MANAGER_ID NUMBER(10) primary key,
@@ -213,8 +216,46 @@ create table MARCHANT_MANAGER(
   MARCHANT_MANAGER_MARCHANTID NUMBER(10),  --管理员关联的商家ID
   
   MARCHANT_MANAGER_USERNAME VARCHAR(30),
-  MARCHANT_MANAGER_USERPASSWORD VARHCANT(500),
+  MARCHANT_MANAGER_PHONE VARCHAR(11),   --商家管理员手机号
+  MARCHANT_MANAGER_PASSWORD VARHCANT(500),
   
   MARCHANT_MANAGER_LASTLOGIN_TIME TIMESTAMP,  --管理员最后登陆时间
   
-)
+  MARCHANT_MANAGER_ROLE VARCHAR(5) default 'S',  -- P表示超级商家管理员一个商户只有一个P管理员 由系统管理员分配  S 表示商家管理员  有P权限管理员分配 一个商户可以有多个S管理员
+  
+  MARCHANT_MANAGER_STATES VARCHAR(5),  --商家管理员状态，90 正常 99 已注销
+  MARCHANT_MANAGER_LOGIN_STATES VARCHAR(5)  --商家管理员登陆状态  01 在线  02 下线
+);
+
+create sequence seq_marchant_manager
+increment by 1 
+start with 1
+maxvalue 999999
+nocycle nocache;
+
+
+--商家审核信息表
+
+--商家关系神审核表（审核状态） 商家注册完毕之后 录入审核信息  点击提交审核  --> 审核关系表中
+
+    --审核商家id
+    --审核信息id
+    --审核状态  --点击通过 自动插入一条商家管理员信息 role为P
+
+
+-- 后台管理员
+create table SYS_MANAGER(
+  SYS_MANAGER_ID NUMBER(10),  --系统管理员主键
+  
+  SYS_MANAGER_USERNAME VARCHAR(30),  --系统管理员用户名
+  SYS_MANAGER_PASSWORD VARCHAR(500),  --系统管理员密码
+  
+  SYS_MANAGER_LASTLOGIN_TIME TIMESTAMP,  --系统管理员最后登陆时间
+  SYS_MANAGER_LOGIN_STATUS VARCHAR(5),  --系统管理员登陆状态  01 在线 02 下线
+);
+
+create sequence seq_sys_manager
+increment by 1 
+start with 1
+maxvalue 999999
+nocycle nocache;
