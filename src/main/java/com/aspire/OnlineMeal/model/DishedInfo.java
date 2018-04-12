@@ -2,6 +2,8 @@ package com.aspire.OnlineMeal.model;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class DishedInfo {
     private BigDecimal infoId;
 
@@ -28,14 +30,43 @@ public class DishedInfo {
     private BigDecimal discount;
 
     private BigDecimal discountPrice;
-
+    private BigDecimal marchantId;
+    @JsonIgnore
     private byte[] photo;
+  	//附件文件名
+  	private String photoFileName=null;
+  	//附件文件类型
+  	private String photoContentType=null;	
 
-    public BigDecimal getInfoId() {
+    public BigDecimal getMarchantId() {
+		return marchantId;
+	}
+
+	public void setMarchantId(BigDecimal marchantId) {
+		this.marchantId = marchantId;
+	}
+
+	public BigDecimal getInfoId() {
         return infoId;
     }
 
-    public void setInfoId(BigDecimal infoId) {
+    public String getPhotoFileName() {
+		return photoFileName;
+	}
+
+	public void setPhotoFileName(String photoFileName) {
+		this.photoFileName = photoFileName;
+	}
+
+	public String getPhotoContentType() {
+		return photoContentType;
+	}
+
+	public void setPhotoContentType(String photoContentType) {
+		this.photoContentType = photoContentType;
+	}
+
+	public void setInfoId(BigDecimal infoId) {
         this.infoId = infoId;
     }
 

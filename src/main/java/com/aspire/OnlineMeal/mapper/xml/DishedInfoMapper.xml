@@ -15,6 +15,7 @@
     <result column="DISHED_PRICE" property="price" jdbcType="DECIMAL" />
     <result column="DISHED_DISCOUNT" property="discount" jdbcType="DECIMAL" />
     <result column="DISHED_DISCOUNT_PRICE" property="discountPrice" jdbcType="DECIMAL" />
+    <result column="DISHED_MARCHANT_ID" property="marchantId" jdbcType="DECIMAL" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.aspire.OnlineMeal.model.DishedInfo" extends="BaseResultMap" >
     <result column="DISHED_PHOTO" property="photo" jdbcType="BLOB" />
@@ -22,7 +23,7 @@
   <sql id="Base_Column_List" >
     DISHED_INFO_ID, DISHED_MARCHANT_MENUID, DISHED_NAME, DISHED_TYPE_CODE, DISHED_TYPE_NAME, 
     DISHED_SPECIFICATION, DISHED_STORE, DISHED_INTRODUCE, DISHED_PHOTO_SRC, DISHED_SCORE, 
-    DISHED_PRICE, DISHED_DISCOUNT, DISHED_DISCOUNT_PRICE
+    DISHED_PRICE, DISHED_DISCOUNT, DISHED_DISCOUNT_PRICE,DISHED_MARCHANT_ID
   </sql>
   <sql id="Blob_Column_List" >
     DISHED_PHOTO
@@ -37,22 +38,39 @@
     where DISHED_INFO_ID = #{infoId,jdbcType=DECIMAL}
   </select>
   
-  <select id="selectWithDishedType" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+  <select id="selectWithDishedType" resultMap="ResultMapWithBLOBs" parameterType="com.aspire.OnlineMeal.model.DishedInfo">
   	select <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from  DISHED_INFO
-    where DISHED_TYPE_CODE = #{dishedType,jdbcType=VARCHAR}
+    where DISHED_TYPE_CODE = #{typeCode,jdbcType=VARCHAR} and DISHED_MARCHANT_ID = #{marchantId,jdbcType=DECIMAL}
   </select>
   
-  <select id="selectWithVagueName" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+  <select id="selectWithVagueName" resultMap="ResultMapWithBLOBs" parameterType="com.aspire.OnlineMeal.model.DishedInfo">
   	select <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from DISHED_INFO where DISHED_NAME like '%${_parameter}%'
+    from DISHED_INFO where DISHED_NAME like '%${_parameter}%' and DISHED_MARCHANT_ID = #{marchantId,jdbcType=DECIMAL}
   </select>
   
-  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+  <select id="selectAll" resultMap="ResultMapWithBLOBs">
+ 	 select <include refid="Base_Column_List" />
+    	,
+    	<include refid="Blob_Column_List" />
+    from DISHED_INFO where DISHED_MARCHANT_ID = #{marchantId,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="selectAllWithPage" resultMap="ResultMapWithBLOBs">
+  	select <include refid="Base_Column_List" />,
+    	<include refid="Blob_Column_List" />
+    from DISHED_INFO where DISHED_MARCHANT_ID = #{marchantId,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="selectCountByAll" resultType="int">
+  	select count(DISHED_INFO_ID) from DISHED_INFO where DISHED_MARCHANT_ID = #{marchantId,jdbcType=DECIMAL}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" >
     delete from DISHED_INFO
     where DISHED_INFO_ID = #{infoId,jdbcType=DECIMAL}
   </delete>
@@ -64,12 +82,12 @@
       DISHED_TYPE_CODE, DISHED_TYPE_NAME, DISHED_SPECIFICATION, 
       DISHED_STORE, DISHED_INTRODUCE, DISHED_PHOTO_SRC, 
       DISHED_SCORE, DISHED_PRICE, DISHED_DISCOUNT, 
-      DISHED_DISCOUNT_PRICE, DISHED_PHOTO)
+      DISHED_DISCOUNT_PRICE, DISHED_PHOTO,DISHED_MARCHANT_ID)
     values (#{infoId,jdbcType=DECIMAL}, #{marchantMenuid,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, 
       #{typeCode,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, #{specification,jdbcType=VARCHAR}, 
       #{store,jdbcType=DECIMAL}, #{introduce,jdbcType=VARCHAR}, #{photoSrc,jdbcType=VARCHAR}, 
       #{score,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, #{discount,jdbcType=DECIMAL}, 
-      #{discountPrice,jdbcType=DECIMAL}, #{photo,jdbcType=BLOB})
+      #{discountPrice,jdbcType=DECIMAL}, #{photo,jdbcType=BLOB},#{marchantId,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="com.aspire.OnlineMeal.model.DishedInfo" >
     <selectKey resultType="java.math.BigDecimal" keyProperty="infoId" order="BEFORE" >
@@ -117,6 +135,9 @@
       <if test="photo != null" >
         DISHED_PHOTO,
       </if>
+      <if test="marchantId != null" >
+        DISHED_MARCHANT_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{infoId,jdbcType=DECIMAL},
@@ -158,6 +179,9 @@
       </if>
       <if test="photo != null" >
         #{photo,jdbcType=BLOB},
+      </if>
+      <if test="marchantId != null" >
+        #{marchantId,jdbcType=DECIMAL}
       </if>
     </trim>
   </insert>
