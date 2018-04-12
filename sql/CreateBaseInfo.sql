@@ -147,8 +147,6 @@ create table MARCHANT_INFO(
   MARCHANT_SERVICE_SOCRE NUMBER(5,2),
   MARCHANT_ENVIRONMENT_SCORE NUMBER(5,2),
   
-  MARCHANT_PHOTO BLOB,		--商家照片 未更新 20180403
-  
   MARCHANT_NOTE VARCHAR(500)
 );
 
@@ -207,7 +205,8 @@ maxvalue 999999
 nocycle nocache;
 
 
---未执行 2018-04-08--
+--未执行 2018-04-08  
+--已执行 2018-04-12
 
 --商家管理员信息表
 create table MARCHANT_MANAGER(
@@ -217,15 +216,15 @@ create table MARCHANT_MANAGER(
   
   MARCHANT_MANAGER_USERNAME VARCHAR(30),
   MARCHANT_MANAGER_PHONE VARCHAR(11),   --商家管理员手机号
-  MARCHANT_MANAGER_PASSWORD VARHCANT(500),
+  MARCHANT_MANAGER_PASSWORD VARCHAR(500),
   
-  MARCHANT_MANAGER_LASTLOGIN_TIME TIMESTAMP,  --管理员最后登陆时间
+  MANAGER_LASTLOGIN_TIME TIMESTAMP,  --管理员最后登陆时间
   
   MARCHANT_MANAGER_ROLE VARCHAR(5) default 'S',  -- P表示超级商家管理员一个商户只有一个P管理员 由系统管理员分配  S 表示商家管理员  有P权限管理员分配 一个商户可以有多个S管理员
   
   MARCHANT_MANAGER_STATES VARCHAR(5),  --商家管理员状态，90 正常 99 已注销
-  MARCHANT_MANAGER_LOGIN_STATES VARCHAR(5)  --商家管理员登陆状态  01 在线  02 下线
-);
+  MANAGER_LOGIN_STATES VARCHAR(5))--商家管理员登陆状态  01 在线  02 下线
+
 
 create sequence seq_marchant_manager
 increment by 1 
@@ -234,9 +233,66 @@ maxvalue 999999
 nocycle nocache;
 
 
---商家审核信息表
+--商家资格信息表
+create table MARCHANT_QUALIFIED(
+QUALIFIED_ID NUMBER(10),
 
---商家关系神审核表（审核状态） 商家注册完毕之后 录入审核信息  点击提交审核  --> 审核关系表中
+ QUALIFIED_MARCHANT_ID NUMBER(10),
+
+ QUALIFIED_FACADE_PHOTO BLOB,
+ QUALIFIED_INNER_PHOTO1 BLOB,
+ QUALIFIED_INNER_PHOTO2 BLOB, 
+ QUALIFIED_IDCARD_FRONT BLOB, 
+ QUALIFIED_IDCARD_BACK BLOB, 
+ BUS_LICENSE BLOB, 
+ CATERING_SERVICE_LICENSE BLOB,
+
+ MANAGER_NAME VARCHAR(30),
+ MANAGER_IDENTIFY_TYPE VARCHAR(5),
+ MANAGER_IDENTIFY_CODE VARCHAR(20),
+
+ BUS_LICENSE_CODE VARCHAR(30),
+ BUS_LICENSE_NAME VARCHAR(30),
+ BUS_LICENSE_ADDRESS VARCHAR(100),
+ BUS_LICENSE_VALID_TIME TIMESTAMP
+);
+
+ 
+comment on column MARCHANT_QUALIFIED.QUALIFIED_ID is '商家资格审核表主键 ';
+comment on column MARCHANT_QUALIFIED.QUALIFIED_MARCHANT_ID is '商家资格审核关联商家表主键 ';
+comment on column MARCHANT_QUALIFIED.QUALIFIED_FACADE_PHOTO is '商家门面照 ';
+comment on column MARCHANT_QUALIFIED.QUALIFIED_INNER_PHOTO1 is '商家店内照1 ';
+comment on column MARCHANT_QUALIFIED.QUALIFIED_INNER_PHOTO2 is '商家店内照2 ';
+comment on column MARCHANT_QUALIFIED.QUALIFIED_IDCARD_FRONT is '法人身份证正面 ';
+comment on column MARCHANT_QUALIFIED.QUALIFIED_IDCARD_BACK is '法人身份证反面 ';
+comment on column MARCHANT_QUALIFIED.BUS_LICENSE is '营业执照 ';
+comment on column MARCHANT_QUALIFIED.CATERING_SERVICE_LICENSE is '餐饮服务许可证件 ';
+comment on column MARCHANT_QUALIFIED.MANAGER_NAME is '法人姓名 ';
+comment on column MARCHANT_QUALIFIED.MANAGER_IDENTIFY_TYPE is '法人证件类型 ';
+comment on column MARCHANT_QUALIFIED.MANAGER_IDENTIFY_CODE is '法人证件号 ';
+comment on column MARCHANT_QUALIFIED.BUS_LICENSE_CODE is '营业执照注册营业号 ';
+comment on column MARCHANT_QUALIFIED.BUS_LICENSE_NAME is '营业执照名称 ';
+comment on column MARCHANT_QUALIFIED.BUS_LICENSE_ADDRESS is '营业执照地址 ';
+comment on column MARCHANT_QUALIFIED.BUS_LICENSE_VALID_TIME is '营业执照有效期 ';
+
+create sequence seq_MARCHANT_QUALIFIED
+increment by 1 
+start with 1
+maxvalue 999999
+nocycle nocache;
+
+--商家审核关系表
+create table MARCHANT_AUDIT_REL(
+  AUDIT_REL_ID NUMBER(10),  --审核主键
+  AUDIT_MARCHANT_ID NUMBER(10),  --审核商家ID
+  AUDIT_QUALIFIED_ID NUMBER(10), --资格信息表ID
+  AUDIT_STATE VARCHAR(5)  --审核状态 01 审核通过  02 审核不通过  99 审核异常 
+);
+
+comment on column MARCHANT_AUDIT_REL.AUDIT_STATE is '审核状态 01 审核通过  02 审核不通过  99 审核异常';
+
+
+--商家关系审核表（审核状态） 商家注册完毕之后 录入审核信息  点击提交审核  --> 审核关系表中
 
     --审核商家id
     --审核信息id
@@ -251,7 +307,7 @@ create table SYS_MANAGER(
   SYS_MANAGER_PASSWORD VARCHAR(500),  --系统管理员密码
   
   SYS_MANAGER_LASTLOGIN_TIME TIMESTAMP,  --系统管理员最后登陆时间
-  SYS_MANAGER_LOGIN_STATUS VARCHAR(5),  --系统管理员登陆状态  01 在线 02 下线
+  SYS_MANAGER_LOGIN_STATUS VARCHAR(5)  --系统管理员登陆状态  01 在线 02 下线
 );
 
 create sequence seq_sys_manager
@@ -259,3 +315,21 @@ increment by 1
 start with 1
 maxvalue 999999
 nocycle nocache;
+
+-- 菜单表
+create table MARCHANT_MENU(
+  MENU_ID NUMBER(10),
+  
+  MENU_NAME VARCHAR(30),    --菜单名称
+  MENU_MARCHANT_ID NUMBER(10),  --商家ID
+  MENU_CREATE_TIME TIMESTAMP,  --菜单创建时间
+  MENU_STATE VARCHAR(5)   --菜单状态
+);
+
+create sequence seq_marchant_menu
+increment by 1
+start with 1
+maxvalue 999999
+nocycle nocache;
+
+
