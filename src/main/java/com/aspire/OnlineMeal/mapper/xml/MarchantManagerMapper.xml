@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aspire.OnlineMeal.mapper.MarchantManagerMapper" >
+  <resultMap id="BaseResultMap" type="com.aspire.OnlineMeal.model.MarchantManager" >
+    <id column="MARCHANT_MANAGER_ID" property="id" jdbcType="DECIMAL" />
+    <result column="MARCHANT_MANAGER_MARCHANTID" property="marchantid" jdbcType="DECIMAL" />
+    <result column="MARCHANT_MANAGER_USERNAME" property="username" jdbcType="VARCHAR" />
+    <result column="MARCHANT_MANAGER_PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="MARCHANT_MANAGER_PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="MANAGER_LASTLOGIN_TIME" property="managerLastloginTime" jdbcType="TIMESTAMP" />
+    <result column="MARCHANT_MANAGER_ROLE" property="role" jdbcType="VARCHAR" />
+    <result column="MARCHANT_MANAGER_STATES" property="states" jdbcType="VARCHAR" />
+    <result column="MANAGER_LOGIN_STATES" property="managerLoginStates" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    MARCHANT_MANAGER_ID, MARCHANT_MANAGER_MARCHANTID, MARCHANT_MANAGER_USERNAME, MARCHANT_MANAGER_PHONE, 
+    MARCHANT_MANAGER_PASSWORD, MANAGER_LASTLOGIN_TIME, MARCHANT_MANAGER_ROLE, MARCHANT_MANAGER_STATES, 
+    MANAGER_LOGIN_STATES
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from MARCHANT_MANAGER
+    where MARCHANT_MANAGER_ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from MARCHANT_MANAGER
+    where MARCHANT_MANAGER_ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.aspire.OnlineMeal.model.MarchantManager" >
+    <selectKey resultType="java.math.BigDecimal" keyProperty="id" order="BEFORE" >
+      select seq_marchant_manager.nextval from dual
+    </selectKey>
+    insert into MARCHANT_MANAGER (MARCHANT_MANAGER_ID, MARCHANT_MANAGER_MARCHANTID, MARCHANT_MANAGER_USERNAME, 
+      MARCHANT_MANAGER_PHONE, MARCHANT_MANAGER_PASSWORD, MANAGER_LASTLOGIN_TIME, 
+      MARCHANT_MANAGER_ROLE, MARCHANT_MANAGER_STATES, MANAGER_LOGIN_STATES
+      )
+    values (#{id,jdbcType=DECIMAL}, #{marchantid,jdbcType=DECIMAL}, #{username,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{managerLastloginTime,jdbcType=TIMESTAMP}, 
+      #{role,jdbcType=VARCHAR}, #{states,jdbcType=VARCHAR}, #{managerLoginStates,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.aspire.OnlineMeal.model.MarchantManager" >
+    <selectKey resultType="java.math.BigDecimal" keyProperty="id" order="BEFORE" >
+      select seq_marchant_manager.nextval from dual
+    </selectKey>
+    insert into MARCHANT_MANAGER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      MARCHANT_MANAGER_ID,
+      <if test="marchantid != null" >
+        MARCHANT_MANAGER_MARCHANTID,
+      </if>
+      <if test="username != null" >
+        MARCHANT_MANAGER_USERNAME,
+      </if>
+      <if test="phone != null" >
+        MARCHANT_MANAGER_PHONE,
+      </if>
+      <if test="password != null" >
+        MARCHANT_MANAGER_PASSWORD,
+      </if>
+      <if test="managerLastloginTime != null" >
+        MANAGER_LASTLOGIN_TIME,
+      </if>
+      <if test="role != null" >
+        MARCHANT_MANAGER_ROLE,
+      </if>
+      <if test="states != null" >
+        MARCHANT_MANAGER_STATES,
+      </if>
+      <if test="managerLoginStates != null" >
+        MANAGER_LOGIN_STATES,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="marchantid != null" >
+        #{marchantid,jdbcType=DECIMAL},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="managerLastloginTime != null" >
+        #{managerLastloginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="role != null" >
+        #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="states != null" >
+        #{states,jdbcType=VARCHAR},
+      </if>
+      <if test="managerLoginStates != null" >
+        #{managerLoginStates,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.aspire.OnlineMeal.model.MarchantManager" >
+    update MARCHANT_MANAGER
+    <set >
+      <if test="marchantid != null" >
+        MARCHANT_MANAGER_MARCHANTID = #{marchantid,jdbcType=DECIMAL},
+      </if>
+      <if test="username != null" >
+        MARCHANT_MANAGER_USERNAME = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        MARCHANT_MANAGER_PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        MARCHANT_MANAGER_PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="managerLastloginTime != null" >
+        MANAGER_LASTLOGIN_TIME = #{managerLastloginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="role != null" >
+        MARCHANT_MANAGER_ROLE = #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="states != null" >
+        MARCHANT_MANAGER_STATES = #{states,jdbcType=VARCHAR},
+      </if>
+      <if test="managerLoginStates != null" >
+        MANAGER_LOGIN_STATES = #{managerLoginStates,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where MARCHANT_MANAGER_ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.aspire.OnlineMeal.model.MarchantManager" >
+    update MARCHANT_MANAGER
+    set MARCHANT_MANAGER_MARCHANTID = #{marchantid,jdbcType=DECIMAL},
+      MARCHANT_MANAGER_USERNAME = #{username,jdbcType=VARCHAR},
+      MARCHANT_MANAGER_PHONE = #{phone,jdbcType=VARCHAR},
+      MARCHANT_MANAGER_PASSWORD = #{password,jdbcType=VARCHAR},
+      MANAGER_LASTLOGIN_TIME = #{managerLastloginTime,jdbcType=TIMESTAMP},
+      MARCHANT_MANAGER_ROLE = #{role,jdbcType=VARCHAR},
+      MARCHANT_MANAGER_STATES = #{states,jdbcType=VARCHAR},
+      MANAGER_LOGIN_STATES = #{managerLoginStates,jdbcType=VARCHAR}
+    where MARCHANT_MANAGER_ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>
