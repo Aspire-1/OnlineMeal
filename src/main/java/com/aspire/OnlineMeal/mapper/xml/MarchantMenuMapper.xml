@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aspire.OnlineMeal.mapper.MarchantMenuMapper" >
+  <resultMap id="BaseResultMap" type="com.aspire.OnlineMeal.model.MarchantMenu" >
+    <result column="MENU_ID" property="id" jdbcType="DECIMAL" />
+    <result column="MENU_NAME" property="name" jdbcType="VARCHAR" />
+    <result column="MENU_MARCHANT_ID" property="marchantId" jdbcType="DECIMAL" />
+    <result column="MENU_CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="MENU_STATE" property="state" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.aspire.OnlineMeal.model.MarchantMenu" >
+    <selectKey resultType="java.math.BigDecimal" keyProperty="id" order="BEFORE" >
+      select seq_marchant_menu.nextval from dual
+    </selectKey>
+    insert into MARCHANT_MENU (MENU_ID, MENU_NAME, MENU_MARCHANT_ID, 
+      MENU_CREATE_TIME, MENU_STATE)
+    values (#{id,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, #{marchantId,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{state,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.aspire.OnlineMeal.model.MarchantMenu" >
+    <selectKey resultType="java.math.BigDecimal" keyProperty="id" order="BEFORE" >
+      select seq_marchant_menu.nextval from dual
+    </selectKey>
+    insert into MARCHANT_MENU
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      MENU_ID,
+      <if test="name != null" >
+        MENU_NAME,
+      </if>
+      <if test="marchantId != null" >
+        MENU_MARCHANT_ID,
+      </if>
+      <if test="createTime != null" >
+        MENU_CREATE_TIME,
+      </if>
+      <if test="state != null" >
+        MENU_STATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="marchantId != null" >
+        #{marchantId,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>
