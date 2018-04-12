@@ -22,13 +22,16 @@
     <result column="MARCHANT_SERVICE_SOCRE" jdbcType="DECIMAL" property="serviceSocre" />
     <result column="MARCHANT_ENVIRONMENT_SCORE" jdbcType="DECIMAL" property="environmentScore" />
     <result column="MARCHANT_NOTE" jdbcType="VARCHAR" property="note" />
+    <result column="MARCHANT_LOGIN_STATE" jdbcType="VARCHAR" property="loginState" />
+    <result column="MARCHANT_PHOTO" property="photo" jdbcType="BLOB" />
+    
   </resultMap>
   <sql id="Base_Column_List">
     MARCHANT_INFO_ID, MARCHANT_NAME, MARCHANT_ADDRESS, MARCHANT_CONTACT, MARCHANT_LONGITUDE, 
     MARCHANT_LATITUDE, MARCHANT_MANAGER_NAME, MARCHANT_MANAGER_PHONE, MARCHANT_QUALIFIED_AUDUT_ID, 
     MARCHANT_IS_AUDIT, MARCHANT_STATE, MARCHANT_REGIST_TIME, MARCHANT_TYPE, MARCHANT_START_TIME, 
     MARCHANT_END_TIME, MARCHANT_TOTAL_SCORE, MARCHANT_FOOD_SCORE, MARCHANT_SERVICE_SOCRE, 
-    MARCHANT_ENVIRONMENT_SCORE, MARCHANT_NOTE
+    MARCHANT_ENVIRONMENT_SCORE, MARCHANT_NOTE,MARCHANT_LOGIN_STATE,MARCHANT_PHOTO
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
     select 
@@ -36,6 +39,17 @@
     from MARCHANT_INFO
     where MARCHANT_INFO_ID = #{infoId,jdbcType=DECIMAL}
   </select>
+  
+  <select id="selectByType" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List" />
+  	from MARCHANT_INFO where MARCHANT_TYPE = #{type,jdbcType=VARCHAR}
+  </select>
+  
+  <select id = "selectWithVagueName" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List" />
+  	from MARCHANT_INFO where MARCHANT_NAME like '%${_parameter}%' 
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
     delete from MARCHANT_INFO
     where MARCHANT_INFO_ID = #{infoId,jdbcType=DECIMAL}
@@ -50,14 +64,14 @@
       MARCHANT_IS_AUDIT, MARCHANT_STATE, MARCHANT_REGIST_TIME, 
       MARCHANT_TYPE, MARCHANT_START_TIME, MARCHANT_END_TIME, 
       MARCHANT_TOTAL_SCORE, MARCHANT_FOOD_SCORE, MARCHANT_SERVICE_SOCRE, 
-      MARCHANT_ENVIRONMENT_SCORE, MARCHANT_NOTE)
+      MARCHANT_ENVIRONMENT_SCORE, MARCHANT_NOTE,MARCHANT_LOGIN_STATE,MARCHANT_PHOTO)
     values (#{infoId,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{contact,jdbcType=VARCHAR}, #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, 
       #{managerName,jdbcType=VARCHAR}, #{managerPhone,jdbcType=VARCHAR}, #{qualifiedAudutId,jdbcType=DECIMAL}, 
       #{isAudit,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{registTime,jdbcType=TIMESTAMP}, 
       #{type,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
       #{totalScore,jdbcType=DECIMAL}, #{foodScore,jdbcType=DECIMAL}, #{serviceSocre,jdbcType=DECIMAL}, 
-      #{environmentScore,jdbcType=DECIMAL}, #{note,jdbcType=VARCHAR})
+      #{environmentScore,jdbcType=DECIMAL}, #{note,jdbcType=VARCHAR},#{loginState,jdbcType=VARCHAR},#{photo,jdbcType=BLOB})
   </insert>
   <insert id="insertSelective" parameterType="com.aspire.OnlineMeal.model.MarchantInfo">
     <selectKey keyProperty="infoId" order="BEFORE" resultType="java.math.BigDecimal">
@@ -123,6 +137,12 @@
       <if test="note != null">
         MARCHANT_NOTE,
       </if>
+      <if test="photo != null">
+        MARCHANT_PHOTO,
+      </if>
+      <if test="loginState != null">
+        MARCHANT_LOGIN_STATE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       #{infoId,jdbcType=DECIMAL},
@@ -182,6 +202,12 @@
       </if>
       <if test="note != null">
         #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null">
+        #{photo,jdbcType=BLOB},
+      </if>
+      <if test="loginState != null">
+        #{loginState,jdbcType=VARCHAR}
       </if>
     </trim>
   </insert>
@@ -245,6 +271,12 @@
       <if test="note != null">
         MARCHANT_NOTE = #{note,jdbcType=VARCHAR},
       </if>
+      <if test="photo != null">
+       MARCHANT_PHOTO = #{photo,jdbcType=BLOB},
+      </if>
+      <if test="loginState != null">
+       MARCHANT_LOGIN_STATE = #{loginState,jdbcType=VARCHAR}
+      </if>
     </set>
     where MARCHANT_INFO_ID = #{infoId,jdbcType=DECIMAL}
   </update>
@@ -268,7 +300,9 @@
       MARCHANT_FOOD_SCORE = #{foodScore,jdbcType=DECIMAL},
       MARCHANT_SERVICE_SOCRE = #{serviceSocre,jdbcType=DECIMAL},
       MARCHANT_ENVIRONMENT_SCORE = #{environmentScore,jdbcType=DECIMAL},
-      MARCHANT_NOTE = #{note,jdbcType=VARCHAR}
+      MARCHANT_NOTE = #{note,jdbcType=VARCHAR},
+      MARCHANT_PHOTO = #{photo,jdbcType=BLOB},
+      MARCHANT_LOGIN_STATE = #{loginState,jdbcType=VARCHAR}
     where MARCHANT_INFO_ID = #{infoId,jdbcType=DECIMAL}
   </update>
 </mapper>

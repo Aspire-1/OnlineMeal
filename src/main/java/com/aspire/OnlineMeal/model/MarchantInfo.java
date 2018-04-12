@@ -42,8 +42,28 @@ public class MarchantInfo {
     private BigDecimal environmentScore;
 
     private String note;
+    //登陆状态
+    private String loginState;
+    //商家头像 
+    private byte[] photo;
+    
+    public byte[] getPhoto() {
+		return photo;
+	}
 
-    public BigDecimal getInfoId() {
+	public void setPhoto(byte[] photo) {
+		this.photo = photo;
+	}
+
+	public String getLoginState() {
+		return loginState;
+	}
+
+	public void setLoginState(String loginState) {
+		this.loginState = loginState;
+	}
+
+	public BigDecimal getInfoId() {
         return infoId;
     }
 
