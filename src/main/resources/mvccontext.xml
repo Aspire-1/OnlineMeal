@@ -40,6 +40,10 @@
 	<aop:aspectj-autoproxy/>
 	<!-- 启用MVC注释机制 -->
 	<mvc:annotation-driven />
+	<!-- 允许跨域访问 -->
+	<mvc:cors>
+    	<mvc:mapping path="/**" />
+	</mvc:cors>
 	
 	<!-- 配置自定义的全局异常处理器 -->
 	<bean class = "com.aspire.OnlineMeal.publicPOJO.CustomExceptionResolver"></bean>
@@ -60,6 +64,6 @@
 	-->
 	
 	<bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"></bean>
-
+	
 
 </beans>
