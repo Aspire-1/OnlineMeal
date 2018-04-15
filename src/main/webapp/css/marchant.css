@@ -38,9 +38,118 @@
 .marchant-bar-title h2{
 	padding: 10px 0 5px;
 	line-height: 40px; 
-	font-size: 38px;
+	font-size: 35px;
+	font-weight: 10px;
  	color: white;
 	white-space: nowrap; 
 	overflow: hidden; 
 	text-align: center; 
+}
+
+
+/*菜单信息的大模块*/
+.dished-info-list{
+	margin-top: 15px;
+	font-size: 0;
+	width: 100%;
+}
+
+/*菜单信息的元素模块*/
+.dished-info-elem {
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 14px;
+	background-color: #fff;
+	margin: 0 15px 15px 0; 
+	padding: 10px;
+}
+
+.dished-info-elem:hover{
+	box-shadow: 2px 2px 5px rgba(0,0,0,.3);
+}
+
+/*菜单信息的图片模块*/
+.dished-info-img {
+	display: inline-block;
+}
+
+/*菜单信息图片*/
+.dished-info-img img{
+	width: 150px;
+	height: 150px;
+	border-radius: 10px;
+}
+
+/*菜单信息文字项目*/
+.dished-info-word{
+	display: inline-block;
+	margin-left: 10px;
+	vertical-align: middle;
+	width: 350px;
+}
+
+/*菜单信息的商家名*/
+.dished-info-elem h2{
+	display:block;
+	padding: 10px 0 10px;
+	line-height: 22px; 
+	font-size: 24px; 
+	white-space: nowrap; 
+	overflow: hidden; 
+	text-align: left; 
+}
+
+/*菜单信息描述*/
+.dished-info-desc{
+	display:block;
+	height: 60px; 
+	line-height: 20px; 
+	font-size: 15px; 
+	color: #666; 
+	overflow: hidden;
+	width: 100%;
+	padding: 10px 0 10px;
+}
+
+/*菜单信息选择*/
+.dished-info-choice{
+	display: inline-block;
+	
+}
+
+.dished-info-choice input{
+	display: inline-block;
+	height: 30px;
+	width: 45px;
+	border-radius: 0;
+	padding:0;
+}
+
+.dished-info-choice img{
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+}
+
+.dished-info-price{
+	display: inline-block;
+	height: 30px;
+	width: auto;
+	padding:0;
+}
+
+.dished-info-price span{
+	vertical-align: middle;
+	width:150px;
+	font-size: 20px;
+	text-align: right;
+}
+
+.dished-info-price input{
+	vertical-align: middle;
+	background: white;
+	border: 0;
+	width:150px;
+	font-size: 25px;
+	text-align: left;
 }
