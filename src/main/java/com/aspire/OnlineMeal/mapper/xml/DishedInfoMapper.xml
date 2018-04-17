@@ -50,7 +50,7 @@
   	select <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from DISHED_INFO where DISHED_NAME like '%${_parameter}%' and DISHED_MARCHANT_ID = #{marchantId,jdbcType=DECIMAL}
+    from DISHED_INFO where DISHED_NAME like '%${_parameter.name}%' and DISHED_MARCHANT_ID = #{marchantId,jdbcType=DECIMAL}
   </select>
   
   <select id="selectAll" resultMap="ResultMapWithBLOBs">
