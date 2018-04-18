@@ -9,9 +9,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aspire.OnlineMeal.model.UserOrderInfo;
+import com.aspire.OnlineMeal.publicPOJO.ResultInfo;
 import com.aspire.OnlineMeal.publicPOJO.ResultMessage;
 import com.aspire.OnlineMeal.service.IUserOrderInfoService;
 
@@ -59,7 +61,7 @@ public class UserOrderInfoController {
 		return result;
 	}
 
-	@RequestMapping(value = "/get/all", method = RequestMethod.POST)
+	@RequestMapping(value = "/getAll/user", method = RequestMethod.POST)
 	public List<UserOrderInfo> getAllOrderByUserId(BigDecimal userId) throws Exception {
 		return iuois.getAllOrderByUserID(userId);
 	}
@@ -69,5 +71,42 @@ public class UserOrderInfoController {
 		return iuois.getOrderDetailByOrderInfoId(id);
 
 	}
-
+	
+	@RequestMapping(value="/getAll/marchant",method=RequestMethod.POST)
+	public List<UserOrderInfo> getAllOrderByMarchantId(BigDecimal marchantId) throws Exception{
+		return iuois.getAllOrderByMarchantId(marchantId);
+	}
+	
+	@RequestMapping(value="/getAll/user/page",method=RequestMethod.POST)
+	public ResultInfo getAllOrderWithPageByUserId(
+			@RequestParam(required=false,defaultValue="3") int rows,
+			@RequestParam(required=false,defaultValue="1") int page,
+			BigDecimal userId) throws Exception{
+		ResultInfo result = new ResultInfo();
+		result.setCount(iuois.getOrderCountByUserId(userId));
+		result.setPageCount(iuois.getAllPageByUserId(rows, userId));
+		result.setList(iuois.getUserOrderWithPageByUserId(rows, page, userId));
+		result.setRows(rows);
+		result.setPage(page);
+		return result;
+	}
+	
+	@RequestMapping(value="/getAll/marchant/page",method=RequestMethod.POST)
+	public ResultInfo getAllOrderWithPageByMarchantId(
+			@RequestParam(required=false,defaultValue="3") int rows,
+			@RequestParam(required=false,defaultValue="1") int page,
+			BigDecimal marchantId) throws Exception{
+		ResultInfo result = new ResultInfo();
+		result.setCount(iuois.getOrderCountByMarchantId(marchantId));
+		result.setPageCount(iuois.getAllPageByMarchantId(rows, marchantId));
+		result.setList(iuois.getUserOrderWithPageByMarchantId(rows, page, marchantId));
+		result.setRows(rows);
+		result.setPage(page);
+		return result;
+	}
+	
+	@RequestMapping(value="/get/primaryKey",method=RequestMethod.POST)
+	public UserOrderInfo getByPrimaryKey(BigDecimal id) throws Exception{
+		return iuois.getByPriamryKey(id);
+	}
 }

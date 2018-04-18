@@ -1,6 +1,7 @@
 package com.aspire.OnlineMeal.model;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class UserOrderInfo {
     private BigDecimal id;
@@ -45,7 +46,19 @@ public class UserOrderInfo {
 
     private String note;
 
-    public BigDecimal getId() {
+    //订单内容信息
+    private List<OrderInfo> orderContents;
+    
+    
+    public List<OrderInfo> getOrderContents() {
+		return orderContents;
+	}
+
+	public void setOrderContentList(List<OrderInfo> orderContents) {
+		this.orderContents = orderContents;
+	}
+
+	public BigDecimal getId() {
         return id;
     }
 
