@@ -70,6 +70,15 @@ public class MyWebSocketHandler implements WebSocketHandler {
 				marchantSocketSessionMap.put(marchantId, session);
 			}
 		}
+		System.out.println("商家列表");
+		for(Map.Entry<String, WebSocketSession> entry : marchantSocketSessionMap.entrySet()){
+            System.out.println("键 key ："+entry.getKey()+" 值value ："+entry.getValue());
+        }
+		
+		System.out.println("用户列表");
+		for(Map.Entry<String, WebSocketSession> entry : userSocketSessionMap.entrySet()){
+            System.out.println("键 key ："+entry.getKey()+" 值value ："+entry.getValue());
+        }
 	}
 
 	/**
