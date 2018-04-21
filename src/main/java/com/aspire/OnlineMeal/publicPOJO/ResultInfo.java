@@ -13,7 +13,14 @@ public class ResultInfo<T> {
 	private int rows=0;
 	//返回的列表数据
 	private List<T> list=null;
+	private int code = 0;
 	
+	public int getCode() {
+		return code;
+	}
+	public void setCode(int code) {
+		this.code = code;
+	}
 	public int getCount() {
 		return count;
 	}
