@@ -1,0 +1,98 @@
+<table id="demo" lay-filter="orderList">
+</table>
+
+
+<script>
+	layui.use(['table','layer'], function(){
+		
+		var table = layui.table;
+		var $ = layui.jquery;
+		var layer = layui.layer;
+		//执行渲染
+		table.render({
+			elem: '#demo', //指定原始表格元素选择器（推荐id选择器）
+			url: '/OnlineMeal/UserOrderInfo/getAll/marchant/page.mvc',
+			height: 510, //容器高度
+			cellMinWidth: 90,  //设定最小的宽度
+			method:'post',
+			request: {
+				pageName: 'page', //页码的参数名称，默认：page
+				limitName: 'rows' //每页数据量的参数名，默认：limit
+			},
+			where: {
+				marchantId:0
+			},
+			response: {
+				countName: 'count', //数据总数的字段名称，默认：count
+				dataName: 'list' //数据列表的字段名称，默认：data
+			},
+			cols: [[ //表头
+			      {field: 'code', title: '订单编号',width:200},
+			      {field: 'username', title: '用户名',width:90},
+			      {field: 'userphone', title: '联系方式',width:120},
+			      {field: 'isToRestaurant', title: '到店就餐',width:88}, 
+			      {field: 'sendAddress', title: '送餐地址'},
+			      {field: 'state', title: '订单状态',width:88},
+			      {field: 'payType', title: '付款类型',width:88},
+			      {field: 'payState', title: '付款状态',width:88},
+			      {field: 'createTime', title: '下单时间',sort: true,width:190},
+			      {field: '', title: '操作', width: 150,fixed:'right', align:'center', toolbar: '#btnGroup'}
+			    ]], //设置表头
+			page: true,
+			loading: true,
+		});
+		
+		table.on('tool(orderList)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+			var data = obj.data; //获得当前行数据
+			var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+			var tr = obj.tr; //获得当前行 tr 的DOM对象
+			if(layEvent === 'detail'){ //查看
+				showDetail(data);
+			} else if(layEvent === 'del'){ //删除
+				layer.confirm('真的删除行么', function(index){
+					obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+					layer.close(index);
+					//向服务端发送删除指令
+				});
+			} else if(layEvent === 'edit'){ //编辑
+				//do something
+				  
+				//同步更新缓存对应的值
+				obj.update({
+				  username: '123'
+				  ,title: 'xxx'
+				});
+			}
+		});
+		
+		function showDetail(data){
+			layer.open({
+				type: 1,
+				title: '订单编号: ' + data.code, //不显示标题栏
+				closeBtn: false,
+				area: ['800px', '500px'],
+				shade: 0.8,
+				id: 'LAY_layuipro', //设定一个id，防止重复弹出
+				btn: ['火速围观', '残忍拒绝'],
+				btnAlign: 'c',
+				moveType: 1 ,//拖拽模式，0或者1
+				content: $('#userOrderShow'),
+				success: function(layero){
+					var btn = layero.find('.layui-layer-btn');
+					btn.find('.layui-layer-btn0').attr({
+						href: 'http://www.layui.com/',
+						target: '_blank'
+					});
+				}
+			})
+		};
+		
+	}); 
+	
+	
+</script>
+
+<script type="text/html" id="btnGroup">
+	  <a class="layui-btn layui-btn-xs" lay-event="detail" data-method="notice">查看</a>
+	  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
