@@ -50,10 +50,25 @@
 		USER_ORDER_CODE, USER_ORDER_USERID, USER_ORDER_USERNAME, USER_ORDER_USERPHONE,
 		USER_ORDER_IS_TO_RESTAURANT,
 		USER_ORDER_MEMBER, USER_ORDER_RESERVE_TIME, USER_ORDER_SEND_ADDRESS,
-		USER_ORDER_CREATE_TIME,
 		USER_ORDER_STATE, USER_ORDER_PAY_TYPE, USER_ORDER_PAY_STATE, USER_ORDER_PRODUCT_COUNT,
 		USER_ORDER_OFFEST_PRICE, USER_ORDER_TOTAL_PRICE, USER_ORDER_PAY_PRICE,
 		USER_ORDER_NOTE
+	</sql>
+	
+	<sql id="Base_Column_List_Collection">
+		USER_ORDER_ID, USER_ORDER_MARCHANT_ID, USER_ORDER_MARCHANT_NAME,
+		USER_ORDER_MARCHANT_STATE,
+		USER_ORDER_CODE, USER_ORDER_USERID, USER_ORDER_USERNAME, USER_ORDER_USERPHONE,
+		USER_ORDER_IS_TO_RESTAURANT,
+		USER_ORDER_MEMBER, to_char(USER_ORDER_RESERVE_TIME, 'yyyy-MM-dd hh24:mi:ss') USER_ORDER_RESERVE_TIME, USER_ORDER_SEND_ADDRESS,
+		USER_ORDER_STATE, USER_ORDER_PAY_TYPE, USER_ORDER_PAY_STATE, USER_ORDER_PRODUCT_COUNT,
+		USER_ORDER_OFFEST_PRICE, USER_ORDER_TOTAL_PRICE, USER_ORDER_PAY_PRICE,
+		USER_ORDER_NOTE,to_char(USER_ORDER_CREATE_TIME, 'yyyy-MM-dd hh24:mi:ss') USER_ORDER_CREATE_TIME,
+		ORDER_ID, ORDER_USER_ORDER_ID, ORDER_DISHED_ID,
+		ORDER_DISHED_NAME,
+		ORDER_DISHED_COUNT,
+		ORDER_DISHED_PRICE,
+		ORDER_DISHED_DISCOUNT, ORDER_DISHED_DISCOUNT_PRICE
 	</sql>
 	
 	<select id="selectCurrentSeq" resultType="int">
@@ -61,27 +76,26 @@
 	</select>
 	
 	<select id="selectByMarchantId" parameterType="java.math.BigDecimal" resultMap="UserOrderInfoWithOrderInfo">
-		select *
-		from USER_ORDER_INFO,ORDER_INFO
+		select <include refid="Base_Column_List_Collection"/> from USER_ORDER_INFO,ORDER_INFO
 		where USER_ORDER_MARCHANT_ID = #{marchantId,jdbcType=DECIMAL} and USER_ORDER_INFO.USER_ORDER_ID = ORDER_INFO.ORDER_USER_ORDER_ID 
 	</select>
 	
 	<select id="selectByMarchantIdWithPage" parameterType="java.math.BigDecimal" resultMap="UserOrderInfoWithOrderInfo">
-		select *
+		select <include refid="Base_Column_List_Collection"/>
 		from USER_ORDER_INFO,ORDER_INFO
 		where USER_ORDER_MARCHANT_ID = #{marchantId,jdbcType=DECIMAL} and USER_ORDER_INFO.USER_ORDER_ID = ORDER_INFO.ORDER_USER_ORDER_ID
 	</select>
 	
 	<select id="selectByPrimaryKey" parameterType="java.math.BigDecimal"
 		resultMap="UserOrderInfoWithOrderInfo">
-		select *
+		select <include refid="Base_Column_List_Collection"/>
 		from USER_ORDER_INFO,ORDER_INFO
 		where USER_ORDER_ID = #{id,jdbcType=DECIMAL} and USER_ORDER_INFO.USER_ORDER_ID = ORDER_INFO.ORDER_USER_ORDER_ID
 	</select>
 	
 	<select id="selectByUserId" resultMap="UserOrderInfoWithOrderInfo"
 		parameterType="java.math.BigDecimal">
-		select *
+		select <include refid="Base_Column_List_Collection"/>
 		from USER_ORDER_INFO,ORDER_INFO
 		where USER_ORDER_USERID = #{userId} and ORDER_INFO.ORDER_USER_ORDER_ID = USER_ORDER_INFO.USER_ORDER_ID
 	</select>
@@ -89,7 +103,7 @@
 	<select id="selectByUserIdWithPage" resultMap="UserOrderInfoWithOrderInfo"
 		parameterType="java.math.BigDecimal">
 		select
-		* from USER_ORDER_INFO,ORDER_INFO 
+		<include refid="Base_Column_List_Collection"/> from USER_ORDER_INFO,ORDER_INFO 
 		where USER_ORDER_USERID = #{userId} and USER_ORDER_INFO.USER_ORDER_ID = ORDER_INFO.ORDER_USER_ORDER_ID
 	</select>
 	
