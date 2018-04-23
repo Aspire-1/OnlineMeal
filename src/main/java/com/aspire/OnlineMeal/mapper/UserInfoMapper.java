@@ -14,6 +14,8 @@ public interface UserInfoMapper{
     
     UserInfo selectByUserOpenId(String openId) throws Exception;
 
+    UserInfo selectByLoginMessage(UserInfo target) throws Exception;
+    
     int updateByPrimaryKeySelective(UserInfo record) throws Exception ;
     
     int updateByOpenIdSelective(UserInfo record) throws Exception ;

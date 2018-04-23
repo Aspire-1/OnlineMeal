@@ -57,6 +57,21 @@
 		from USER_INFO
 		where USER_ID = #{id,jdbcType=DECIMAL}
 	</select>
+	
+	<select id="selectByLoginMessage" parameterType="com.aspire.OnlineMeal.model.UserInfo" resultMap="BaseResultMap"> 
+		select <include refid="Base_Column_List" /> from USER_INFO
+		where 
+		<if test="registPhone != null">
+			USER_REGIST_PHONE = #{registPhone,jdbcType=VARCHAR}
+		</if>
+		<if test="registEmail != null">
+			USER_REGIST_EMAIL = #{registEmail,jdbcType=VARCHAR}
+		</if>
+		<if test="userName != null">
+			USER_USER_NAME = #{userName,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
 	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
 		delete from USER_INFO
 		where USER_ID = #{id,jdbcType=DECIMAL}

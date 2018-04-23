@@ -3,6 +3,8 @@ package com.aspire.OnlineMeal.controller;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -69,6 +71,46 @@ public class UserInfoController {
 		iuis.modifyByOpenIdSelective(userInfo);
 		result.setResult("Y");
 		result.setMessage("修改信息成功");
+		return result;
+	}
+	
+	@RequestMapping(value="/validate",method=RequestMethod.POST)
+	public ResultMessage validateWithOpenId(String openId,String userName,String password) throws Exception{
+		ResultMessage result = new ResultMessage();
+		if(iuis.validateWithOpenId(openId, userName, password)){
+			result.setResult("true");
+			result.setMessage("校验用户名密码正确");
+		}else{
+			result.setResult("false");
+			result.setMessage("用户名或密码错误");
+		}
+		return result;
+	}
+	
+	@RequestMapping(value="/validate/loginMessage",method=RequestMethod.POST)
+	public ResultMessage validateWithLogin(String loginMessage,String password) throws Exception{
+		ResultMessage result = new ResultMessage();
+		UserInfo userInfo = new UserInfo();
+		String ruleEmail = "^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$";
+		String rulePhone = "^1[0-9]{10}$";
+		Pattern pEmail = Pattern.compile(ruleEmail);
+		Pattern pPhone = Pattern.compile(rulePhone);
+		Matcher mEmail = pEmail.matcher(loginMessage);
+		Matcher mPhone = pPhone.matcher(loginMessage);
+		if(mEmail.matches()){
+			userInfo.setRegistEmail(loginMessage);
+		}else if(mPhone.matches()){
+			userInfo.setRegistPhone(loginMessage);
+		}else{
+			userInfo.setUserName(loginMessage);
+		}
+		if(iuis.validateWithLoginMessage(userInfo, password)){
+			result.setResult("true");
+			result.setMessage("校验用户名密码正确");
+		}else{
+			result.setResult("false");
+			result.setMessage("用户名或密码错误");
+		}
 		return result;
 	}
 	

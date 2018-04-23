@@ -45,6 +45,32 @@ public class UserInfoServiceImpl implements IUserInfoService {
 	public int modifyByOpenIdSelective(UserInfo userInfo) throws Exception {
 		return uim.updateByOpenIdSelective(userInfo);
 	}
+
+	@Override
+	//通过OpenId获取用户信息并校验数据
+	public boolean validateWithOpenId(String openId,String userName,String password) throws Exception {
+		UserInfo user = uim.selectByUserOpenId(openId);
+		if(user!=null && userName!=null && userName.equals(user.getUserName())){
+			if(password != null && password.equals(user.getPassword())){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public UserInfo searchByLoginMessage(UserInfo userInfo) throws Exception {
+		return uim.selectByLoginMessage(userInfo);
+	}
+
+	@Override
+	public boolean validateWithLoginMessage(UserInfo userInfo, String password) throws Exception {
+		UserInfo user = uim.selectByLoginMessage(userInfo);
+		if(user!=null && password.equals(user.getPassword())){
+			return true;
+		}
+		return false;
+	}
 	
 	
 }
