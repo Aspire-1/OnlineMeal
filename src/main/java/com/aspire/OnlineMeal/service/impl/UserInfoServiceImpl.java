@@ -71,6 +71,18 @@ public class UserInfoServiceImpl implements IUserInfoService {
 		}
 		return false;
 	}
+
+	@Override
+	public boolean isExitWithLoginMessage(UserInfo userInfo) throws Exception {
+		UserInfo user = uim.selectByLoginMessage(userInfo);
+		if(user!=null){
+			//该用户信息已存在
+			return true;
+		}else{
+			//该用户信息未存在
+			return false;
+		}
+	}
 	
 	
 }

@@ -114,4 +114,33 @@ public class UserInfoController {
 		return result;
 	}
 	
+	@RequestMapping(value="/isExit/loginMessage",method=RequestMethod.POST)
+	public ResultMessage isExitWithRegist(String loginMessage,String password) throws Exception{
+		ResultMessage result = new ResultMessage();
+		UserInfo userInfo = new UserInfo();
+		String ruleEmail = "^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$";
+		String rulePhone = "^1[0-9]{10}$";
+		Pattern pEmail = Pattern.compile(ruleEmail);
+		Pattern pPhone = Pattern.compile(rulePhone);
+		Matcher mEmail = pEmail.matcher(loginMessage);
+		Matcher mPhone = pPhone.matcher(loginMessage);
+		if(mEmail.matches()){
+			userInfo.setRegistEmail(loginMessage);
+			System.out.println("匹配邮箱格式");
+		}else if(mPhone.matches()){
+			userInfo.setRegistPhone(loginMessage);
+			System.out.println("匹配手机格式");
+		}else{
+			userInfo.setUserName(loginMessage);
+		}
+		if(iuis.isExitWithLoginMessage(userInfo)){
+			result.setResult("true");
+			result.setMessage("该信息已存在");
+		}else{
+			result.setResult("false");
+			result.setMessage("该信息未存在");
+		}
+		return result;
+	}
+	
 }

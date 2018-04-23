@@ -24,4 +24,6 @@ public interface IUserInfoService {
 	public boolean validateWithOpenId(String openId,String userName,String password) throws Exception;
 	//根据用户登陆信息校验用户密码
 	public boolean validateWithLoginMessage(UserInfo userInfo,String password) throws Exception;
+	//根据校验用户的用户名或是手机号或是邮箱是否存在
+	public boolean isExitWithLoginMessage(UserInfo userInfo) throws Exception;
 }
