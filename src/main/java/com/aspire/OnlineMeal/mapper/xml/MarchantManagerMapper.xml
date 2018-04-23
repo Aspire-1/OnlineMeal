@@ -17,12 +17,20 @@
     MARCHANT_MANAGER_PASSWORD, MANAGER_LASTLOGIN_TIME, MARCHANT_MANAGER_ROLE, MARCHANT_MANAGER_STATES, 
     MANAGER_LOGIN_STATES
   </sql>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
     select 
     <include refid="Base_Column_List" />
     from MARCHANT_MANAGER
     where MARCHANT_MANAGER_ID = #{id,jdbcType=DECIMAL}
   </select>
+  
+  <select id="selectByPhone" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select <include refid="Base_Column_List" />
+  	from MARCHANT_MANAGER
+    where MARCHANT_MANAGER_PHONE = #{phone,jdbcType=VARCHAR}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
     delete from MARCHANT_MANAGER
     where MARCHANT_MANAGER_ID = #{id,jdbcType=DECIMAL}

@@ -4,15 +4,18 @@ import com.aspire.OnlineMeal.model.MarchantManager;
 import java.math.BigDecimal;
 
 public interface MarchantManagerMapper {
-    int deleteByPrimaryKey(BigDecimal id);
+    int deleteByPrimaryKey(BigDecimal id) throws Exception;
 
-    int insert(MarchantManager record);
+    int insert(MarchantManager record) throws Exception;
 
-    int insertSelective(MarchantManager record);
+    int insertSelective(MarchantManager record) throws Exception;
 
-    MarchantManager selectByPrimaryKey(BigDecimal id);
+    MarchantManager selectByPrimaryKey(BigDecimal id) throws Exception;
+    //通过手机号查找商家管理员
+    MarchantManager selectByPhone(String phone) throws Exception;
+    
+    int updateByPrimaryKeySelective(MarchantManager record) throws Exception;
 
-    int updateByPrimaryKeySelective(MarchantManager record);
-
-    int updateByPrimaryKey(MarchantManager record);
+    int updateByPrimaryKey(MarchantManager record) throws Exception;
+    
 }
