@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aspire.OnlineMeal.mapper.MarchantQualifiedMapper" >
+  <resultMap id="BaseResultMap" type="com.aspire.OnlineMeal.model.MarchantQualified" >
+    <result column="QUALIFIED_ID" property="id" jdbcType="DECIMAL" />
+    <result column="QUALIFIED_MARCHANT_ID" property="marchantId" jdbcType="DECIMAL" />
+    <result column="MANAGER_NAME" property="managerName" jdbcType="VARCHAR" />
+    <result column="MANAGER_IDENTIFY_TYPE" property="managerIdentifyType" jdbcType="VARCHAR" />
+    <result column="MANAGER_IDENTIFY_CODE" property="managerIdentifyCode" jdbcType="VARCHAR" />
+    <result column="BUS_LICENSE_CODE" property="busLicenseCode" jdbcType="VARCHAR" />
+    <result column="BUS_LICENSE_NAME" property="busLicenseName" jdbcType="VARCHAR" />
+    <result column="BUS_LICENSE_ADDRESS" property="busLicenseAddress" jdbcType="VARCHAR" />
+    <result column="BUS_LICENSE_VALID_TIME" property="busLicenseValidTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.aspire.OnlineMeal.model.MarchantQualifiedWithBLOBs" extends="BaseResultMap" >
+    <result column="QUALIFIED_FACADE_PHOTO" property="facadePhoto" jdbcType="BLOB" />
+    <result column="QUALIFIED_INNER_PHOTO1" property="innerPhoto1" jdbcType="BLOB" />
+    <result column="QUALIFIED_INNER_PHOTO2" property="innerPhoto2" jdbcType="BLOB" />
+    <result column="QUALIFIED_IDCARD_FRONT" property="idcardFront" jdbcType="BLOB" />
+    <result column="QUALIFIED_IDCARD_BACK" property="idcardBack" jdbcType="BLOB" />
+    <result column="BUS_LICENSE" property="busLicense" jdbcType="BLOB" />
+    <result column="CATERING_SERVICE_LICENSE" property="cateringServiceLicense" jdbcType="BLOB" />
+  </resultMap>
+  <sql id="Blob_Column_List" >
+    QUALIFIED_FACADE_PHOTO, QUALIFIED_INNER_PHOTO1, QUALIFIED_INNER_PHOTO2, QUALIFIED_IDCARD_FRONT, 
+    QUALIFIED_IDCARD_BACK, BUS_LICENSE, CATERING_SERVICE_LICENSE
+  </sql>
+  <insert id="insert" parameterType="com.aspire.OnlineMeal.model.MarchantQualifiedWithBLOBs" >
+    <selectKey resultType="java.math.BigDecimal" keyProperty="id" order="BEFORE" >
+      select seq_MARCHANT_QUALIFIED.nextval from dual
+    </selectKey>
+    insert into MARCHANT_QUALIFIED (QUALIFIED_ID, QUALIFIED_MARCHANT_ID, MANAGER_NAME, 
+      MANAGER_IDENTIFY_TYPE, MANAGER_IDENTIFY_CODE, 
+      BUS_LICENSE_CODE, BUS_LICENSE_NAME, BUS_LICENSE_ADDRESS, 
+      BUS_LICENSE_VALID_TIME, QUALIFIED_FACADE_PHOTO, QUALIFIED_INNER_PHOTO1, 
+      QUALIFIED_INNER_PHOTO2, QUALIFIED_IDCARD_FRONT, QUALIFIED_IDCARD_BACK, 
+      BUS_LICENSE, CATERING_SERVICE_LICENSE)
+    values (#{id,jdbcType=DECIMAL}, #{marchantId,jdbcType=DECIMAL}, #{managerName,jdbcType=VARCHAR}, 
+      #{managerIdentifyType,jdbcType=VARCHAR}, #{managerIdentifyCode,jdbcType=VARCHAR}, 
+      #{busLicenseCode,jdbcType=VARCHAR}, #{busLicenseName,jdbcType=VARCHAR}, #{busLicenseAddress,jdbcType=VARCHAR}, 
+      #{busLicenseValidTime,jdbcType=TIMESTAMP}, #{facadePhoto,jdbcType=BLOB}, #{innerPhoto1,jdbcType=BLOB}, 
+      #{innerPhoto2,jdbcType=BLOB}, #{idcardFront,jdbcType=BLOB}, #{idcardBack,jdbcType=BLOB}, 
+      #{busLicense,jdbcType=BLOB}, #{cateringServiceLicense,jdbcType=BLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="com.aspire.OnlineMeal.model.MarchantQualifiedWithBLOBs" >
+    <selectKey resultType="java.math.BigDecimal" keyProperty="id" order="BEFORE" >
+      select seq_MARCHANT_QUALIFIED.nextval from dual
+    </selectKey>
+    insert into MARCHANT_QUALIFIED
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      QUALIFIED_ID,
+      <if test="marchantId != null" >
+        QUALIFIED_MARCHANT_ID,
+      </if>
+      <if test="managerName != null" >
+        MANAGER_NAME,
+      </if>
+      <if test="managerIdentifyType != null" >
+        MANAGER_IDENTIFY_TYPE,
+      </if>
+      <if test="managerIdentifyCode != null" >
+        MANAGER_IDENTIFY_CODE,
+      </if>
+      <if test="busLicenseCode != null" >
+        BUS_LICENSE_CODE,
+      </if>
+      <if test="busLicenseName != null" >
+        BUS_LICENSE_NAME,
+      </if>
+      <if test="busLicenseAddress != null" >
+        BUS_LICENSE_ADDRESS,
+      </if>
+      <if test="busLicenseValidTime != null" >
+        BUS_LICENSE_VALID_TIME,
+      </if>
+      <if test="facadePhoto != null" >
+        QUALIFIED_FACADE_PHOTO,
+      </if>
+      <if test="innerPhoto1 != null" >
+        QUALIFIED_INNER_PHOTO1,
+      </if>
+      <if test="innerPhoto2 != null" >
+        QUALIFIED_INNER_PHOTO2,
+      </if>
+      <if test="idcardFront != null" >
+        QUALIFIED_IDCARD_FRONT,
+      </if>
+      <if test="idcardBack != null" >
+        QUALIFIED_IDCARD_BACK,
+      </if>
+      <if test="busLicense != null" >
+        BUS_LICENSE,
+      </if>
+      <if test="cateringServiceLicense != null" >
+        CATERING_SERVICE_LICENSE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="marchantId != null" >
+        #{marchantId,jdbcType=DECIMAL},
+      </if>
+      <if test="managerName != null" >
+        #{managerName,jdbcType=VARCHAR},
+      </if>
+      <if test="managerIdentifyType != null" >
+        #{managerIdentifyType,jdbcType=VARCHAR},
+      </if>
+      <if test="managerIdentifyCode != null" >
+        #{managerIdentifyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="busLicenseCode != null" >
+        #{busLicenseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="busLicenseName != null" >
+        #{busLicenseName,jdbcType=VARCHAR},
+      </if>
+      <if test="busLicenseAddress != null" >
+        #{busLicenseAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="busLicenseValidTime != null" >
+        #{busLicenseValidTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="facadePhoto != null" >
+        #{facadePhoto,jdbcType=BLOB},
+      </if>
+      <if test="innerPhoto1 != null" >
+        #{innerPhoto1,jdbcType=BLOB},
+      </if>
+      <if test="innerPhoto2 != null" >
+        #{innerPhoto2,jdbcType=BLOB},
+      </if>
+      <if test="idcardFront != null" >
+        #{idcardFront,jdbcType=BLOB},
+      </if>
+      <if test="idcardBack != null" >
+        #{idcardBack,jdbcType=BLOB},
+      </if>
+      <if test="busLicense != null" >
+        #{busLicense,jdbcType=BLOB},
+      </if>
+      <if test="cateringServiceLicense != null" >
+        #{cateringServiceLicense,jdbcType=BLOB},
+      </if>
+    </trim>
+  </insert>
+</mapper>
