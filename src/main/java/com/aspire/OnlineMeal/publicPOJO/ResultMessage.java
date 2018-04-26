@@ -5,6 +5,14 @@ public class ResultMessage {
 	private String result=null;
 	private String message=null;
 	private String errors=null;
+	private Object object = null;
+	
+	public Object getObject() {
+		return object;
+	}
+	public void setObject(Object object) {
+		this.object = object;
+	}
 	public String getResult() {
 		return result;
 	}
