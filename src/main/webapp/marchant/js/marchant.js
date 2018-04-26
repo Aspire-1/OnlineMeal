@@ -24,8 +24,7 @@ function clickChoiceBtn(){
 	$(this).parent().prev("input").val(inputElem);
 }
 
-//$(".dished-info-choice .layui-btn-group button").on("click",clickChoiceBtn);
-
+//动态加载元素的注册事件
 $(".dished-info-list").on("click",".dished-info-choice .layui-btn-group button",clickChoiceBtn);
 
 var valueList = [{

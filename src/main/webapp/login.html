@@ -3,12 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="js/layui/css/layui.css">
+<link rel="stylesheet" href="css/login.css">
 </head>
-<body>
-	<form action ="TestController/testLogin.mvc"> 
-		用户：<input name="id"/>
-		类型：<input name="type"/>
-		<input type="submit" />
-	</form> 
+<body >
+	<div class="loginBg">
+		<form action ="" class="layui-form-pane" id="loginForm" method="POST"> 
+			<div class="layui-form-item">
+				<label class="layui-form-label">用户名</label>
+				<div class="layui-input-block">
+					<input name="loginMessage" placeholder="邮箱/手机号/用户名" autocomplete="off" class="layui-input" type="text">
+				</div>
+				<div class="layui-form-mid layui-word-aux">由字母、数字、下划线组成，以字母开头，6-20位</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">密码</label>
+				<div class="layui-input-block">
+					<input name="password" placeholder="请输入密码" autocomplete="off" class="layui-input" type="password">
+				</div>
+			</div>
+		</form> 
+		<div class="layui-form-item" id="btnGroup">
+			<div class="layui-input-block">
+				<button class="layui-btn" id="loginBtn">登陆</button>
+				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		</div>
+	</div>
+	
+	<script src="js/jquery-dist/jquery.js"></script>
+	<script src="js/jquery-dist/jquery.cookie.js"></script>
+	<script src="js/layui/layui.js"></script>
+	<script src="js/login.js"></script>
 </body>
 </html>
