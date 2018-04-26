@@ -32,7 +32,7 @@
 	<sql id="Base_Column_List">
 		USER_ID, USER_REGIST_PHONE, USER_REGIST_EMAIL, USER_REGIST_CODE,
 		USER_REGIST_CODE_TIME,
-		USER_REGIST_TIME, USER_LAST_LOGIN_TIME, USER_USER_NAME, USER_PASSWORD,
+		to_char(USER_REGIST_TIME, 'yyyy-MM-dd hh24:mi:ss') USER_REGIST_TIME,to_char(USER_LAST_LOGIN_TIME, 'yyyy-MM-dd hh24:mi:ss') USER_LAST_LOGIN_TIME, USER_USER_NAME, USER_PASSWORD,
 		USER_LOGIN_STATE,
 		USER_STATE, USER_IS_DELETE, USER_ADDRESS, USER_OPENID,USER_HEAD_PHOTO_URL
 	</sql>
@@ -178,7 +178,7 @@
 				to_date(#{registTime,jdbcType=TIMESTAMP}, 'yyyy-MM-dd HH24:mi:ss'),
 			</if>
 			<if test="lastLoginTime != null">
-				#{lastLoginTime,jdbcType=TIMESTAMP},
+				to_date(#{lastLoginTime,jdbcType=TIMESTAMP}, 'yyyy-MM-dd HH24:mi:ss'),
 			</if>
 			<if test="userName != null">
 				#{userName,jdbcType=VARCHAR},
@@ -278,11 +278,11 @@
 				#{registCodeTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="registTime != null">
-				USER_REGIST_TIME = #{registTime,jdbcType=TIMESTAMP},
+				USER_REGIST_TIME = to_date(#{registTime,jdbcType=TIMESTAMP}, 'yyyy-MM-dd HH24:mi:ss'),
 			</if>
 			<if test="lastLoginTime != null">
 				USER_LAST_LOGIN_TIME =
-				#{lastLoginTime,jdbcType=TIMESTAMP},
+				to_date(#{lastLoginTime,jdbcType=TIMESTAMP}, 'yyyy-MM-dd HH24:mi:ss'),
 			</if>
 			<if test="userName != null">
 				USER_USER_NAME = #{userName,jdbcType=VARCHAR},
@@ -318,8 +318,8 @@
 		USER_REGIST_EMAIL = #{registEmail,jdbcType=VARCHAR},
 		USER_REGIST_CODE = #{registCode,jdbcType=VARCHAR},
 		USER_REGIST_CODE_TIME = #{registCodeTime,jdbcType=TIMESTAMP},
-		USER_REGIST_TIME = #{registTime,jdbcType=TIMESTAMP},
-		USER_LAST_LOGIN_TIME = #{lastLoginTime,jdbcType=TIMESTAMP},
+		USER_REGIST_TIME = to_date(#{registTime,jdbcType=TIMESTAMP}, 'yyyy-MM-dd HH24:mi:ss'),
+		USER_LAST_LOGIN_TIME = to_date(#{lastLoginTime,jdbcType=TIMESTAMP}, 'yyyy-MM-dd HH24:mi:ss'),
 		USER_USER_NAME = #{userName,jdbcType=VARCHAR},
 		USER_PASSWORD = #{password,jdbcType=VARCHAR},
 		USER_LOGIN_STATE = #{loginState,jdbcType=VARCHAR},
@@ -337,8 +337,8 @@
 		USER_REGIST_EMAIL = #{registEmail,jdbcType=VARCHAR},
 		USER_REGIST_CODE = #{registCode,jdbcType=VARCHAR},
 		USER_REGIST_CODE_TIME = #{registCodeTime,jdbcType=TIMESTAMP},
-		USER_REGIST_TIME = #{registTime,jdbcType=TIMESTAMP},
-		USER_LAST_LOGIN_TIME = #{lastLoginTime,jdbcType=TIMESTAMP},
+		USER_REGIST_TIME = to_date(#{registTime,jdbcType=TIMESTAMP}, 'yyyy-MM-dd HH24:mi:ss'),
+		USER_LAST_LOGIN_TIME = to_date(#{lastLoginTime,jdbcType=TIMESTAMP}, 'yyyy-MM-dd HH24:mi:ss'),
 		USER_USER_NAME = #{userName,jdbcType=VARCHAR},
 		USER_PASSWORD = #{password,jdbcType=VARCHAR},
 		USER_LOGIN_STATE = #{loginState,jdbcType=VARCHAR},

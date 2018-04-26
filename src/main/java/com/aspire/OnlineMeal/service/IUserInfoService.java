@@ -26,4 +26,8 @@ public interface IUserInfoService {
 	public boolean validateWithLoginMessage(UserInfo userInfo,String password) throws Exception;
 	//根据校验用户的用户名或是手机号或是邮箱是否存在
 	public boolean isExitWithLoginMessage(UserInfo userInfo) throws Exception;
+	//登出
+	public void logout(UserInfo record) throws Exception;
+	//登陆
+	public void login(UserInfo record) throws Exception;
 }

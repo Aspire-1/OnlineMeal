@@ -1,6 +1,8 @@
 package com.aspire.OnlineMeal.service.impl;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -84,5 +86,18 @@ public class UserInfoServiceImpl implements IUserInfoService {
 		}
 	}
 	
+	public void logout(UserInfo record) throws Exception{
+		UserInfo user = uim.selectByLoginMessage(record);
+		user.setLoginState("02");
+		uim.updateByPrimaryKeySelective(user);
+	}
+	
+	public void login(UserInfo record) throws Exception{
+		UserInfo user = uim.selectByLoginMessage(record);
+		user.setLoginState("01");
+		SimpleDateFormat  sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		user.setLastLoginTime(sdf.format(new Date()));
+		uim.updateByPrimaryKeySelective(user);
+	}
 	
 }

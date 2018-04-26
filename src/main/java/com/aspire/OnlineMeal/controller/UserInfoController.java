@@ -6,6 +6,10 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +23,8 @@ import com.aspire.OnlineMeal.service.IUserInfoService;
 @RequestMapping(value ="/UserInfo")
 public class UserInfoController {
 	
+	private String ruleEmail = "^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$";
+	private String rulePhone = "^1[0-9]{10}$";
 	@Autowired
 	private IUserInfoService iuis=null;
 	
@@ -91,8 +97,6 @@ public class UserInfoController {
 	public ResultMessage validateWithLogin(String loginMessage,String password) throws Exception{
 		ResultMessage result = new ResultMessage();
 		UserInfo userInfo = new UserInfo();
-		String ruleEmail = "^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$";
-		String rulePhone = "^1[0-9]{10}$";
 		Pattern pEmail = Pattern.compile(ruleEmail);
 		Pattern pPhone = Pattern.compile(rulePhone);
 		Matcher mEmail = pEmail.matcher(loginMessage);
@@ -118,8 +122,6 @@ public class UserInfoController {
 	public ResultMessage isExitWithRegist(String loginMessage,String password) throws Exception{
 		ResultMessage result = new ResultMessage();
 		UserInfo userInfo = new UserInfo();
-		String ruleEmail = "^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$";
-		String rulePhone = "^1[0-9]{10}$";
 		Pattern pEmail = Pattern.compile(ruleEmail);
 		Pattern pPhone = Pattern.compile(rulePhone);
 		Matcher mEmail = pEmail.matcher(loginMessage);
@@ -140,6 +142,44 @@ public class UserInfoController {
 			result.setResult("false");
 			result.setMessage("该信息未存在");
 		}
+		return result;
+	}
+	
+	//登陆 修改状态
+	@RequestMapping(value="/login",method=RequestMethod.POST)
+	public ResultMessage login(String loginMessage,String password,HttpServletRequest request,HttpServletResponse response,BigDecimal marchantId) throws Exception{
+		ResultMessage result = new ResultMessage();
+		Pattern pEmail = Pattern.compile(ruleEmail);
+		Pattern pPhone = Pattern.compile(rulePhone);
+		Matcher mEmail = pEmail.matcher(loginMessage);
+		Matcher mPhone = pPhone.matcher(loginMessage);
+		UserInfo userInfo = new UserInfo();
+		if(mEmail.matches()){
+			userInfo.setRegistEmail(loginMessage);
+			System.out.println("匹配邮箱格式");
+		}else if(mPhone.matches()){
+			userInfo.setRegistPhone(loginMessage);
+			System.out.println("匹配手机格式");
+		}else{
+			userInfo.setUserName(loginMessage);
+		}
+		//获取对象
+		UserInfo user = iuis.searchByLoginMessage(userInfo);
+		//修改登陆状态
+		iuis.login(userInfo);
+		result.setResult("Y");
+		result.setMessage("登陆成功");
+		result.setObject(user);
+		return result;
+	}
+	
+	//登出
+	@RequestMapping(value="/logout",method=RequestMethod.POST)
+	public ResultMessage logout(UserInfo user) throws Exception{
+		ResultMessage result = new ResultMessage();
+		iuis.logout(user);
+		result.setResult("Y");
+		result.setMessage("已退出账号");
 		return result;
 	}
 	
