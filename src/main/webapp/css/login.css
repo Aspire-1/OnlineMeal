@@ -1,0 +1,16 @@
+.loginBg{
+	padding: 30px;
+	line-height: 22px;
+	background-color: rgb(35,38,46);
+	color: #fff;
+	font-weight: 300;
+}
+
+.layui-form-label{
+	color: gray;
+}
+
+#btnGroup{
+	margin-left: auto;
+	margin-right: auto;
+}

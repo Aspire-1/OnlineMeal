@@ -2,7 +2,7 @@
 layui.use(['layer','element'],function(){
 	
 	$("#contain").on("click",".marchant-info-list .marchant-info-elem",function(event){
-		if(window.sessionStorage.getItem("SessionData")==null){
+		if(window.localStorage.getItem("userData")==null){
 			showLogin();
 		}
 	});
@@ -67,15 +67,25 @@ layui.use(['layer','element'],function(){
 	function showLogin(){
 		var index = layer.open({
 			type: 2,
-			title: '请登陆',
+			title: false,
 			closeBtn: 0,
-			area: ['720px', '310px'],
+			area: ['400px', '340px'],
 			shade: 0.8,
 			id: 'LAY_layuipro', //设定一个id，防止重复弹出
-			btn: false,
+			btn: ['登陆', '取消'],
 			btnAlign: 'c',
 			moveType: 1 ,//拖拽模式，0或者1
 			content: 'login.html',
+			resize: false,
+			move: false,
+			yes: function(index,layero){
+				var loginForm = layer.getChildFrame('#loginForm',index);
+				var loginMessage= $(loginForm).find('input[name="loginMessage"]').val();
+				var password = $(loginForm).find('input[name="password"]').val();
+				var iframeWin = window[layero.find('iframe')[0]['name']];
+				iframeWin.loginBtn();
+			},
 		})
 	};
+	
 });
