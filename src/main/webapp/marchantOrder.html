@@ -13,11 +13,11 @@
 		var websocket;
 		
 		if('WebSocket' in window) {
-	        websocket = new WebSocket("ws://22.117.96.22:9999/OnlineMeal/websocket.mvc");
+	        websocket = new WebSocket("ws://localhost:9999/OnlineMeal/websocket.mvc");
 	    } else if('MozWebSocket' in window) {
-	        websocket = new MozWebSocket("ws://22.117.96.22:9999/OnlineMeal/websocket.mvc");
+	        websocket = new MozWebSocket("ws://localhost:9999/OnlineMeal/websocket.mvc");
 	    } else {
-	        websocket = new SockJS("http://22.117.96.22:9999/OnlineMeal/sockjs/websocket.mvc");
+	        websocket = new SockJS("http://localhost:9999/OnlineMeal/sockjs/websocket.mvc");
 	    }
 		
 		// 打开时
@@ -40,6 +40,9 @@
 	        console.log("  websocket.onclose  ");
 	    };
 	    
+	    window.onunload = function(){
+	    	webSocket.onclose();
+	    }
 	
 
 	</script>

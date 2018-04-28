@@ -15,11 +15,11 @@
 			var webSocket;
 			
 			if('WebSocket' in window) {
-				webSocket = new WebSocket("ws://22.117.96.22:9999/OnlineMeal/websocket.mvc");
+				webSocket = new WebSocket("ws://localhost:9999/OnlineMeal/websocket.mvc");
 		    } else if('MozWebSocket' in window) {
-		    	webSocket = new MozWebSocket("ws://22.117.96.22:9999/OnlineMeal/websocket.mvc");
+		    	webSocket = new MozWebSocket("ws://localhost:9999/OnlineMeal/websocket.mvc");
 		    } else {
-		    	webSocket = new SockJS("http://22.117.96.22:9999/OnlineMeal/sockjs/websocket.mvc");
+		    	webSocket = new SockJS("http://localhost:9999/OnlineMeal/sockjs/websocket.mvc");
 		    }
 			
 			// 打开时
@@ -29,6 +29,7 @@
 
 		    // 处理消息时
 		    webSocket.onmessage = function(evnt) {
+		    	console.log(evnt.data)
 		        console.log("  websocket.onmessage   ");
 		    };
 
@@ -49,8 +50,13 @@
 	    			"orderId":document.getElementById("orderId").value
 	    	};
 	    	
+	    	console.log(JSON.stringify(msg));
 	    	webSocket.send(JSON.stringify(msg));
 	    	//document.getElementById("biaodan").submit();
+	    }
+	    
+	    window.onunload = function(){
+	    	webSocket.onclose();
 	    }
 	
 	</script>
