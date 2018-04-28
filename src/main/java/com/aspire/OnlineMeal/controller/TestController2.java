@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.socket.TextMessage;
 
+import com.aspire.OnlineMeal.model.UserInfo;
 import com.aspire.OnlineMeal.publicPOJO.Message;
 import com.aspire.OnlineMeal.publicPOJO.ResultMessage;
 import com.aspire.OnlineMeal.publicPOJO.URLUtil2;
 import com.aspire.OnlineMeal.webSocket.MyWebSocketHandler;
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 @RestController
@@ -28,7 +30,7 @@ import com.google.gson.GsonBuilder;
 public class TestController2 {
 	
 	@RequestMapping(value="/testLogin",method=RequestMethod.GET)
-	public String loginTest(HttpServletRequest request,HttpServletResponse response,String id,String type) throws Exception{
+	public void loginTest(HttpServletRequest request,HttpServletResponse response,String id,String type) throws Exception{
 		//用户登陆之后要存储信息到httpSession中
 		request.getSession().setAttribute("id", id);
 		request.getSession().setAttribute("type", type);
@@ -41,7 +43,6 @@ public class TestController2 {
 			rd=request.getRequestDispatcher("/marchantOrder.html");
 			rd.forward(request, response);
 		}
-		return "404";
 	}
 	
 	
@@ -54,7 +55,7 @@ public class TestController2 {
 	}
 	
 	@RequestMapping(value="/getOpenId")
-	public String getOpenId(String code){
+	public String getOpenId(String code) throws Exception{
 		String wxCode = code;
 		String requestUrl = "https://api.weixin.qq.com/sns/jscode2session";  //请求地址 https://api.weixin.qq.com/sns/jscode2session  
         Map<String,String> requestUrlParam = new HashMap<String,String>(); 
@@ -63,8 +64,15 @@ public class TestController2 {
         requestUrlParam.put("appid", appId);  //开发者设置中的appId  
         requestUrlParam.put("secret", appSecret); //开发者设置中的appSecret  
         requestUrlParam.put("js_code", wxCode); //小程序调用wx.login返回的code  
-        requestUrlParam.put("grant_type", "authorization_code");    //默认参数  
-        return URLUtil2.sendPost(requestUrl,requestUrlParam);
+        requestUrlParam.put("grant_type", "authorization_code");    //默认参数
+        String openid = URLUtil2.sendPost(requestUrl,requestUrlParam);
+        System.out.println(openid);
+        
+        UserInfo user = new UserInfo();
+        user.setOpenId(openid);
+        UserInfoController uic = new UserInfoController();
+        uic.addWithSelective(user);
+        return openid;
 	}
 	
 }
