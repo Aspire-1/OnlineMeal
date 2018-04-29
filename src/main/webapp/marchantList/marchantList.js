@@ -2,13 +2,15 @@
 layui.use(['layer','element'],function(){
 	
 	$("#contain").on("click",".marchant-info-list .marchant-info-elem",function(event){
-		if(window.localStorage.getItem("userData")==null){
+		if(window.sessionStorage.getItem("userData")==null){
 			showLogin();
+		}else{
+			$("#contain").load("marchant/marchant1.html",function(){
+			});
 		}
 	});
 
 	$(function(){
-	
 		//测试数据
 		var valueList = [{
 			"name":"商家1",
@@ -79,13 +81,17 @@ layui.use(['layer','element'],function(){
 			resize: false,
 			move: false,
 			yes: function(index,layero){
-				var loginForm = layer.getChildFrame('#loginForm',index);
-				var loginMessage= $(loginForm).find('input[name="loginMessage"]').val();
-				var password = $(loginForm).find('input[name="password"]').val();
 				var iframeWin = window[layero.find('iframe')[0]['name']];
-				iframeWin.loginBtn();
+				if(true===iframeWin.loginBtn()){
+					layer.close(index);
+					$("#contain").load("marchant/marchant1.html",function(){
+						if(window.sessionStorage.getItem('userData')!=null){
+							$("#nav_userName").html(JSON.parse(window.sessionStorage.getItem('userData'))["local_userName"]);
+							$("#nav_userHead").append('<dl class="layui-nav-child"><dd><a href="#">基本资料</a></dd><dd><a href="#" id="logoutBtn">退出</a></dd></dl>');
+						}
+					});
+				}
 			},
 		})
-	};
-	
+	}
 });

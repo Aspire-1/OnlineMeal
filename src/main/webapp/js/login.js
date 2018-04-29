@@ -24,8 +24,10 @@ function verifyLoginMessage(data){
 function loginBtn(){
 	var loginMessage = $('input[name="loginMessage"]').val();
 	var password = $('input[name="password"]').val();
+	var flag = false;
 	if(true===verifyLoginMessage(loginMessage)){	//前端先校验格式
 		$.ajax({
+			async: false,
 			type: 'POST',
 			url: 'UserInfo/validate/loginMessage.mvc',
 			data:{
@@ -35,6 +37,7 @@ function loginBtn(){
 			success: function(data){
 				if("true"==data.result){
 					$.ajax({
+						async: false,
 						type:"POST",
 						url:"UserInfo/login.mvc",
 						data:{
@@ -43,7 +46,8 @@ function loginBtn(){
 						},
 						success:function(data){
 							console.log(data);
-							storeLocalStorage("userData",data);
+							storeSessionStorage("userData",data.object);
+							flag = true;
 						}
 					});
 				}else{
@@ -53,12 +57,24 @@ function loginBtn(){
 		});
 	}else{
 		layer.msg("输入的用户名格式不正确");
+		flag = false;
 	}
+	return flag;
 }
 
-function storeLocalStorage(dataName,data){
+function storeSessionStorage(dataName,data){
 	var userData = {
-			'local_test':"test"
+			'local_id':data.id,
+			'local_registPhone':data.registPhone,
+			'local_registEmail':data.registEmail,
+			'local_registCode':data.registCode,
+			'local_registTime':data.registTime,
+			'local_lastLoginTime':data.lastLoginTime,
+			'local_userName':data.userName,
+			'local_password':data.password,
+			'local_loginState':data.loginState,
+			'local_state':data.state,
+			'local_openId':data.openId
 	};
-	window.localStorage.setItem(dataName,JSON.stringify(userData));
+	window.sessionStorage.setItem(dataName,JSON.stringify(userData));
 }
