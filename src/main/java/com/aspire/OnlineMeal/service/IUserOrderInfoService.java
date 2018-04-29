@@ -33,4 +33,6 @@ public interface IUserOrderInfoService {
 	public int getAllPageByUserId(int rows,BigDecimal userId) throws Exception;
 	//获取商家订单的总页数
 	public int getAllPageByMarchantId(int rows,BigDecimal marchantId) throws Exception;
+	//根据时间获取商家订单
+	public List<UserOrderInfo> getUserOrderByMarchantIdWithTime(String startTime,String endTime,BigDecimal marchantId) throws Exception;
 }
