@@ -109,4 +109,10 @@ public class UserOrderInfoController {
 	public UserOrderInfo getByPrimaryKey(BigDecimal id) throws Exception{
 		return iuois.getByPriamryKey(id);
 	}
+	
+	@RequestMapping(value="/get/marchant/time",method=RequestMethod.POST)
+	public List<UserOrderInfo> getByMarchantIdWithTime(String startTime,String endTime,BigDecimal marchantId) throws Exception{
+		return iuois.getUserOrderByMarchantIdWithTime(startTime, endTime, marchantId);
+	}
+	
 }

@@ -102,6 +102,12 @@ public class UserOrderInfoServiceImpl implements IUserOrderInfoService {
 	public UserOrderInfo getByPriamryKey(BigDecimal id) throws Exception {
 		return uoim.selectByPrimaryKey(id);
 	}
+
+	@Override
+	public List<UserOrderInfo> getUserOrderByMarchantIdWithTime(String startTime, String endTime, BigDecimal marchantId)
+			throws Exception {
+		return uoim.selectUserOrderByMarchantIdWithTime(startTime, endTime, marchantId);
+	}
 	
 	
 

@@ -115,6 +115,16 @@
 		select count(USER_ORDER_ID) from USER_ORDER_INFO,ORDER_INFO where USER_ORDER_MARCHANT_ID = #{marchantId,jdbcType=DECIMAL} and USER_ORDER_INFO.USER_ORDER_ID = ORDER_INFO.ORDER_USER_ORDER_ID
 	</select>
 	
+	<select id="selectUserOrderByMarchantIdWithTime"
+	 resultMap="UserOrderInfoWithOrderInfo">
+		select * from user_order_info,ORDER_INFO
+		where trunc(USER_ORDER_CREATE_TIME) 
+		between to_date(#{param1},'yyyy-MM-dd') 
+		and to_date(#{param2},'yyyy-MM-dd') 
+		and USER_ORDER_MARCHANT_ID = #{param3,jdbcType=DECIMAL} 
+		and USER_ORDER_INFO.USER_ORDER_ID = ORDER_INFO.ORDER_USER_ORDER_ID
+	</select>
+	
 	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
 		delete from USER_ORDER_INFO
 		where USER_ORDER_ID = #{id,jdbcType=DECIMAL}
