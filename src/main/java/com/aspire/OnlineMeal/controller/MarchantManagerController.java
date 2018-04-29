@@ -50,4 +50,18 @@ public class MarchantManagerController {
 		}
 		return result;
 	}
+	
+	@RequestMapping(value="/modify/pwd",method=RequestMethod.POST)
+	public ResultMessage modifyManagerPwd(String phone,String oldPwd,String newPwd) throws Exception{
+		ResultMessage result = new ResultMessage();
+		if(imms.modifyManagerPwd(oldPwd, newPwd, phone)!=-1){
+			result.setResult("Y");
+			result.setMessage("密码修改成功");
+		}else{
+			result.setResult("N");
+			result.setMessage("密码修改失败");
+		}
+		return result;
+	}
+	
 }

@@ -8,4 +8,5 @@ public interface IMarchantManagerService {
 	public MarchantManager getByPhone(String phone) throws Exception;
 	public boolean isExit(String phone) throws Exception;
 	public boolean validateLogin(String phone,String password) throws Exception;
+	public int modifyManagerPwd(String oldPwd,String newPwd,String phone) throws Exception;
 }

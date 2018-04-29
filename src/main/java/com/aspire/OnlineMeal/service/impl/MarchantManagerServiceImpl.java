@@ -41,5 +41,20 @@ public class MarchantManagerServiceImpl implements IMarchantManagerService {
 		}
 		return false;
 	}
+
+	@Override
+	public int modifyManagerPwd(String oldPwd, String newPwd, String phone) throws Exception {
+		if(this.validateLogin(phone, oldPwd)){
+			MarchantManager manager = mmm.selectByPhone(phone);
+			MarchantManager newManager = new MarchantManager();
+			newManager.setId(manager.getId());
+			newManager.setPassword(newPwd);
+			return mmm.updateByPrimaryKeySelective(newManager);
+		}
+		
+		return -1;
+	}
+	
+	
 	
 }
