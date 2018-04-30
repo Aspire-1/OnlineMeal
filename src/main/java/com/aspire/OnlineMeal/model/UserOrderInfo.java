@@ -45,17 +45,27 @@ public class UserOrderInfo {
     private BigDecimal payPrice;
 
     private String note;
+    
+    private String table;
 
     //订单内容信息
     private List<OrderInfo> orderContents;
     
     
-    public List<OrderInfo> getOrderContents() {
-		return orderContents;
+    public String getTable() {
+		return table;
 	}
 
-	public void setOrderContentList(List<OrderInfo> orderContents) {
+	public void setTable(String table) {
+		this.table = table;
+	}
+
+	public void setOrderContents(List<OrderInfo> orderContents) {
 		this.orderContents = orderContents;
+	}
+
+	public List<OrderInfo> getOrderContents() {
+		return orderContents;
 	}
 
 	public BigDecimal getId() {

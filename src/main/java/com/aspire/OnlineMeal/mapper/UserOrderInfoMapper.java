@@ -31,9 +31,10 @@ public interface UserOrderInfoMapper {
     
     int selectUserOrderCountByMarchantId(BigDecimal marchantId) throws Exception;
     
-    int selectCurrentSeq() throws Exception;
+    BigDecimal selectCurrentSeq() throws Exception;
     
     int updateByPrimaryKeySelective(UserOrderInfo record) throws Exception;
 
     int updateByPrimaryKey(UserOrderInfo record) throws Exception;
+    
 }
