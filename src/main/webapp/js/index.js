@@ -33,10 +33,10 @@ layui.use(['table','layer','carousel','element'], function(){
 	
 });
 
-$("#nav_userHead").on('click',"#logoutBtn",function(){
+$("#nav_userHead").on('click',"#logoutBtn",function(event){
 	logout(event);
 });
-$("#loginBtn").on('click',function(){
+$("#loginBtn").on('click',function(event){
 	if(window.sessionStorage.getItem('userData')==null){
 		clickLogin(event);
 	}
