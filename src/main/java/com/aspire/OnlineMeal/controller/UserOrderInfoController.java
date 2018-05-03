@@ -7,14 +7,17 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.aspire.OnlineMeal.model.OrderInfo;
 import com.aspire.OnlineMeal.model.UserOrderInfo;
 import com.aspire.OnlineMeal.publicPOJO.ResultInfo;
 import com.aspire.OnlineMeal.publicPOJO.ResultMessage;
+import com.aspire.OnlineMeal.service.IOrderInfoService;
 import com.aspire.OnlineMeal.service.IUserOrderInfoService;
 
 @RestController
@@ -23,6 +26,8 @@ public class UserOrderInfoController {
 
 	@Autowired
 	private IUserOrderInfoService iuois = null;
+	@Autowired
+	private IOrderInfoService iois = null;
 
 	@RequestMapping(value = "/add/Selective", method = RequestMethod.POST)
 	public ResultMessage addUserOrderWithSelective(UserOrderInfo uoi) throws Exception {
@@ -105,6 +110,7 @@ public class UserOrderInfoController {
 		return result;
 	}
 	
+	//通过主键获取userOrderInfo
 	@RequestMapping(value="/get/primaryKey",method=RequestMethod.POST)
 	public UserOrderInfo getByPrimaryKey(BigDecimal id) throws Exception{
 		return iuois.getByPriamryKey(id);
@@ -113,6 +119,29 @@ public class UserOrderInfoController {
 	@RequestMapping(value="/get/marchant/time",method=RequestMethod.POST)
 	public List<UserOrderInfo> getByMarchantIdWithTime(String startTime,String endTime,BigDecimal marchantId) throws Exception{
 		return iuois.getUserOrderByMarchantIdWithTime(startTime, endTime, marchantId);
+	}
+	
+	//获取订单主键
+	@RequestMapping(value="/get/key",method=RequestMethod.POST)
+	public BigDecimal getPrimaryKey() throws Exception{
+		return iuois.getPrimaryKey();
+	}
+	
+	//下订单操作
+	@RequestMapping(value="/placeOrder",method=RequestMethod.POST)
+	public ResultMessage placeOrder(@RequestBody UserOrderInfo userOrder) throws Exception{
+		ResultMessage result = new ResultMessage();
+		List<OrderInfo> orderContent = userOrder.getOrderContents();
+		BigDecimal userOrderId = iuois.addUserOrderInfoWithSelective(userOrder);
+		System.out.println("---当前序列值："+userOrderId+"-----");
+		for (OrderInfo orderInfo : orderContent) {
+			orderInfo.setUserOrderId(userOrderId);
+		}
+		iois.addOrderInfoWithBatch(orderContent);
+		
+		result.setResult(""+userOrderId);
+		result.setMessage("提交订单成功");
+		return result;
 	}
 	
 }

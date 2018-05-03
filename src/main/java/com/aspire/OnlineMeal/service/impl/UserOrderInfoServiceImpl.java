@@ -18,10 +18,11 @@ public class UserOrderInfoServiceImpl implements IUserOrderInfoService {
 	
 	@Autowired
 	private UserOrderInfoMapper uoim = null;
-	
+
 	@Override
-	public int addUserOrderInfoWithSelective(UserOrderInfo uoi) throws Exception {
-		return uoim.insertSelective(uoi);
+	public BigDecimal addUserOrderInfoWithSelective(UserOrderInfo uoi) throws Exception {
+		uoim.insertSelective(uoi);
+		return uoi.getId();
 	}
 
 	@Override
@@ -40,7 +41,7 @@ public class UserOrderInfoServiceImpl implements IUserOrderInfoService {
 	}
 
 	@Override
-	public int getPrimaryKey() throws Exception {
+	public BigDecimal getPrimaryKey() throws Exception {
 		return uoim.selectCurrentSeq();
 	}
 
@@ -108,7 +109,5 @@ public class UserOrderInfoServiceImpl implements IUserOrderInfoService {
 			throws Exception {
 		return uoim.selectUserOrderByMarchantIdWithTime(startTime, endTime, marchantId);
 	}
-	
-	
 
 }

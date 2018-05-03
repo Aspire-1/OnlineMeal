@@ -159,9 +159,9 @@
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="com.aspire.OnlineMeal.model.UserOrderInfo">
-		<selectKey keyProperty="id" order="BEFORE" resultType="java.math.BigDecimal">
-			select seq_user_order_info.nextval from dual
-		</selectKey>
+		 <selectKey resultType="java.math.BigDecimal" order="AFTER" keyProperty="id">
+            select seq_user_order_info.currval from dual
+        </selectKey>
 		insert into USER_ORDER_INFO
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			USER_ORDER_ID,
@@ -230,7 +230,7 @@
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			#{id,jdbcType=DECIMAL},
+			seq_user_order_info.nextval,
 			<if test="marchantId != null">
 				#{marchantId,jdbcType=DECIMAL},
 			</if>
