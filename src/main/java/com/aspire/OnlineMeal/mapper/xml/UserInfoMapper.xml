@@ -44,7 +44,7 @@
 		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from ORDER_INFO where USER_OPENID =
+		from USER_INFO where USER_OPENID =
 		#{openId,jdbcType=VARCHAR}
 	</select>
 	
