@@ -3,6 +3,8 @@ package com.aspire.OnlineMeal.controller;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.aspire.OnlineMeal.model.UserInfo;
 import com.aspire.OnlineMeal.publicPOJO.ResultMessage;
+import com.aspire.OnlineMeal.publicPOJO.URLUtil2;
 import com.aspire.OnlineMeal.service.IUserInfoService;
 
 @RestController
@@ -180,6 +183,40 @@ public class UserInfoController {
 		iuis.logout(user);
 		result.setResult("Y");
 		result.setMessage("已退出账号");
+		return result;
+	}
+	
+	@RequestMapping(value="/getOpenId",method=RequestMethod.POST)
+	public String getOpenId(String code) throws Exception{
+		String wxCode = code;
+		String requestUrl = "https://api.weixin.qq.com/sns/jscode2session";  //请求地址 https://api.weixin.qq.com/sns/jscode2session  
+        Map<String,String> requestUrlParam = new HashMap<String,String>(); 
+        String appId="wxebecb8bf38bafe93";
+        String appSecret = "38cdd352e8c31668bb0d498de1c3a17a";
+        requestUrlParam.put("appid", appId);  //开发者设置中的appId  
+        requestUrlParam.put("secret", appSecret); //开发者设置中的appSecret  
+        requestUrlParam.put("js_code", wxCode); //小程序调用wx.login返回的code  
+        requestUrlParam.put("grant_type", "authorization_code");    //默认参数
+        String openid = URLUtil2.sendPost(requestUrl,requestUrlParam);
+        
+        return openid;
+	}
+	
+	@RequestMapping(value="/login/withWeChat",method=RequestMethod.POST)
+	public ResultMessage loginWeChat(UserInfo user) throws Exception{
+		ResultMessage result = new ResultMessage();
+		UserInfo exitUser = iuis.searchByOpenId(user.getOpenId());
+		if(exitUser!=null){
+			iuis.modifyByUserIdSelective(user);
+			result.setResult("gx");
+			result.setMessage("更新用户数据成功");
+			result.setObject(exitUser);
+		}else{
+			iuis.addWithSelective(user);
+			result.setResult("zj");
+			result.setMessage("增加用户数据成功");
+			result.setObject(iuis.searchByOpenId(user.getOpenId()));
+		}
 		return result;
 	}
 	
