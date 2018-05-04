@@ -1,4 +1,28 @@
-//发起请求
+//存储数据的全局变量
+var valueList;
+
+//测试数据
+valueList = [{
+	"name":"商家1",
+	"photo":"pic/img/foodlist2.jpg",
+	"note":"喝茶读书，不争朝夕"
+},{
+	"name":"商家2",
+	"photo":"pic/img/foodlist3.jpg",
+	"note":"喝茶读书，不争朝夕"
+},{
+	"name":"商家3",
+	"photo":"pic/img/foodlist4.jpg",
+	"note":"喝茶读书，不争朝夕"
+}];
+
+$(function(){
+	bianli(valueList);
+	clickTypeBtn();
+	clickSearchBtn();
+});
+
+
 layui.use(['layer','element'],function(){
 	
 	$("#contain").on("click",".marchant-info-list .marchant-info-elem",function(event){
@@ -8,62 +32,6 @@ layui.use(['layer','element'],function(){
 			$("#contain").load("marchant/marchant1.html",function(){
 			});
 		}
-	});
-
-	$(function(){
-		//测试数据
-		var valueList = [{
-			"name":"商家1",
-			"photo":"pic/img/foodlist2.jpg",
-			"note":"喝茶读书，不争朝夕"
-		},{
-			"name":"商家2",
-			"photo":"pic/img/foodlist3.jpg",
-			"note":"喝茶读书，不争朝夕"
-		},{
-			"name":"商家3",
-			"photo":"pic/img/foodlist4.jpg",
-			"note":"喝茶读书，不争朝夕"
-		}];
-	
-		//生成格子
-		function productBox(value){
-			
-			var block = $(".marchant-info-list");
-			var element = document.createElement("div");
-			element.setAttribute("class","marchant-info-elem");
-			
-			var imgBlock = document.createElement("div");
-			imgBlock.setAttribute("class","marchant-info-img");
-			
-			var img = document.createElement("img");
-			img.setAttribute("alt",value.name);
-			img.setAttribute("src",value.photo);
-			
-			var marchantName = document.createElement("h2");
-			marchantName.innerHTML = value.name;
-			
-			var descBlock = document.createElement("div");
-			descBlock.setAttribute("class","marchant-info-desc");
-			descBlock.innerHTML = value.note;
-			
-			imgBlock.appendChild(img);
-			
-			element.appendChild(imgBlock);
-			element.appendChild(marchantName);
-			element.appendChild(descBlock);
-			
-			block.append(element);
-		}
-	
-		//显示函数
-		function bianli(valueList){
-			for(var x=0;x<20;x++){
-				productBox(valueList[x%3]);
-			}
-		}
-		
-		bianli(valueList);
 	});
 
 	function showLogin(){
@@ -95,3 +63,94 @@ layui.use(['layer','element'],function(){
 		})
 	}
 });
+
+
+//生成格子
+function productBox(value){
+	
+	var block = $(".marchant-info-list");
+	var element = document.createElement("div");
+	element.setAttribute("class","marchant-info-elem");
+	
+	var imgBlock = document.createElement("div");
+	imgBlock.setAttribute("class","marchant-info-img");
+	
+	var img = document.createElement("img");
+	img.setAttribute("alt",value.name);
+	img.setAttribute("src",value.photo);
+	
+	var marchantName = document.createElement("h2");
+	marchantName.innerHTML = value.name;
+	
+	var descBlock = document.createElement("div");
+	descBlock.setAttribute("class","marchant-info-desc");
+	descBlock.innerHTML = value.note;
+	
+	imgBlock.appendChild(img);
+	
+	element.appendChild(imgBlock);
+	element.appendChild(marchantName);
+	element.appendChild(descBlock);
+	
+	block.append(element);
+}
+
+//显示函数
+function bianli(valueList){
+	for(var x=0;x<valueList.length;x++){
+		productBox(valueList[x]);
+	}
+}
+
+//点击类型按钮
+function clickTypeBtn(){
+	var btns =  document.querySelectorAll(".marchant-select-box .marchant-select .layui-anim-fadein");
+	for(var i = 0;i<btns.length;i++){
+		btns[i].addEventListener("click",function(event){
+			var target = event.toElement;
+			$.ajax({
+				async: false,
+				type: 'POST',
+				url: 'MarchantInfo/get/type.mvc',
+				data:{
+					"type":target.innerText
+				},
+				success: function(data){
+					valueList = data;
+					console.log(valueList.length);
+				}
+			});
+			if(valueList.length != 0){
+				$(".marchant-info-list").html("");
+				bianli(valueList);
+			}else if(valueList.length == 0){
+				$(".marchant-info-list").html('<h2>暂无此类型商家</h2>');
+			}
+			
+		});
+	}
+}
+
+//搜索按钮
+function clickSearchBtn(){
+	$("#searchName_btn").on('click',function(){
+		$.ajax({
+			async: false,
+			type: 'POST',
+			url: 'MarchantInfo/get/vagueName.mvc',
+			data:{
+				"name":$("#seachName_input").val()
+			},
+			success: function(data){
+				valueList = data;
+				console.log(valueList.length);
+			}
+		});
+		if(valueList.length != 0){
+			$(".marchant-info-list").html("");
+			bianli(valueList);
+		}else if(valueList.length == 0){
+			$(".marchant-info-list").html('<h2>无查找到商家</h2>');
+		}
+	});
+}

@@ -5,6 +5,16 @@
 	width: 100%;
 }
 
+.marchant-info-list h2{
+	padding: 10px 0 5px;
+	line-height: 22px; 
+	font-size: 16px; 
+	white-space: nowrap; 
+	overflow: hidden; 
+	text-align: center;
+	color: gray;
+}
+
 /*商家信息的元素模块*/
 .marchant-info-elem {
 	display: inline-block;
