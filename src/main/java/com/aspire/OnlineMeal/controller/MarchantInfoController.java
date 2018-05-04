@@ -3,6 +3,7 @@ package com.aspire.OnlineMeal.controller;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aspire.OnlineMeal.model.MarchantInfo;
+import com.aspire.OnlineMeal.publicPOJO.ResultInfo;
 import com.aspire.OnlineMeal.publicPOJO.ResultMessage;
 import com.aspire.OnlineMeal.service.IMarchantInfoService;
 
@@ -74,5 +76,14 @@ public class MarchantInfoController {
 		return imis.getByPrimaryKey(id);
 	}
 	
+	@RequestMapping(value="/get/type",method=RequestMethod.POST)
+	public List<MarchantInfo> getByType(String type) throws Exception{
+		return imis.getMarchantByType(type);
+	}
+	
+	@RequestMapping(value="/get/vagueName",method=RequestMethod.POST)
+	public List<MarchantInfo> getByName(String name) throws Exception{
+		return imis.getWithVagueName(name);
+	}
 	
 }
