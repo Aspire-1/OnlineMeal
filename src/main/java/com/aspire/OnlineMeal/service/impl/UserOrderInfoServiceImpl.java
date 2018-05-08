@@ -110,4 +110,9 @@ public class UserOrderInfoServiceImpl implements IUserOrderInfoService {
 		return uoim.selectUserOrderByMarchantIdWithTime(startTime, endTime, marchantId);
 	}
 
+	@Override
+	public int modifyUserOrderState(UserOrderInfo uoi) throws Exception {
+		return uoim.updateByPrimaryKeySelective(uoi);
+	}
+
 }

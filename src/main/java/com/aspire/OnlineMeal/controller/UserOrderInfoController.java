@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.aspire.OnlineMeal.model.DishedInfo;
 import com.aspire.OnlineMeal.model.OrderInfo;
 import com.aspire.OnlineMeal.model.UserOrderInfo;
 import com.aspire.OnlineMeal.publicPOJO.ResultInfo;
 import com.aspire.OnlineMeal.publicPOJO.ResultMessage;
+import com.aspire.OnlineMeal.service.IDishedInfoService;
 import com.aspire.OnlineMeal.service.IOrderInfoService;
 import com.aspire.OnlineMeal.service.IUserOrderInfoService;
 
@@ -28,6 +30,8 @@ public class UserOrderInfoController {
 	private IUserOrderInfoService iuois = null;
 	@Autowired
 	private IOrderInfoService iois = null;
+	@Autowired
+	private IDishedInfoService idis = null;
 
 	@RequestMapping(value = "/add/Selective", method = RequestMethod.POST)
 	public ResultMessage addUserOrderWithSelective(UserOrderInfo uoi) throws Exception {
@@ -121,6 +125,25 @@ public class UserOrderInfoController {
 		return iuois.getUserOrderByMarchantIdWithTime(startTime, endTime, marchantId);
 	}
 	
+	//订单状态的修改
+	@RequestMapping(value="/modify/state",method=RequestMethod.POST)
+	public ResultMessage modifyUserOrderState(UserOrderInfo uoi) throws Exception{
+		ResultMessage result = new ResultMessage();
+		//用户订单状态 01 完成订单 02 待商家接单 03 商家已接单 04 烹饪中 05 配送中 06 待取消订单 07 取消订单 99 异常
+		int sqlResult = iuois.modifyUserOrderState(uoi);
+		if(uoi.getState().equals("01")){
+			result.setResult("Y");
+			result.setMessage("订单已完成");
+		}else if(sqlResult==0){
+			result.setResult("N");
+			result.setMessage("数据库操作异常");
+		}else if(uoi.getState().equals("03")){
+			result.setResult("Y");
+			result.setMessage("商家接单成功");
+		}
+		return result;
+	}
+	
 	//获取订单主键
 	@RequestMapping(value="/get/key",method=RequestMethod.POST)
 	public BigDecimal getPrimaryKey() throws Exception{
@@ -131,7 +154,28 @@ public class UserOrderInfoController {
 	@RequestMapping(value="/placeOrder",method=RequestMethod.POST)
 	public ResultMessage placeOrder(@RequestBody UserOrderInfo userOrder) throws Exception{
 		ResultMessage result = new ResultMessage();
+		Date date = new Date();
+		
+		// 用户订单编号的生成
+		DecimalFormat dFormat = new DecimalFormat("0000");
+		if(userOrder.getUserid()!=null && userOrder.getMarchantId()!=null){
+			String code = dFormat.format(userOrder.getUserid().longValue()) + dFormat.format(userOrder.getMarchantId().longValue())
+			+ String.valueOf(date.getTime());
+			userOrder.setCode(code);
+		}
+		
+		//订单状态置为待商家接单
+		userOrder.setState("02");
+		
+		// 订单创建时间的添加
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		userOrder.setCreateTime(sdf.format(date));
+		
 		List<OrderInfo> orderContent = userOrder.getOrderContents();
+		
+		//修改菜肴信息表中的库存信息
+		modifyDeshedInfoStore(orderContent);
+		
 		BigDecimal userOrderId = iuois.addUserOrderInfoWithSelective(userOrder);
 		System.out.println("---当前序列值："+userOrderId+"-----");
 		for (OrderInfo orderInfo : orderContent) {
@@ -142,6 +186,18 @@ public class UserOrderInfoController {
 		result.setResult(""+userOrderId);
 		result.setMessage("提交订单成功");
 		return result;
+	}
+	
+	public void modifyDeshedInfoStore(List<OrderInfo> orderInfos) throws Exception{
+		for (OrderInfo orderInfo : orderInfos) {
+			DishedInfo dishedInfo = idis.getByPrimaryKey(orderInfo.getDishedId());
+			BigDecimal oldStore = dishedInfo.getStore();
+			BigDecimal useDished = orderInfo.getDishedCount();
+			BigDecimal newStore = oldStore.subtract(useDished);
+			System.out.println("新库存："+ newStore);
+			dishedInfo.setStore(newStore);
+			idis.modifyDished(dishedInfo);
+		}
 	}
 	
 }

@@ -41,21 +41,28 @@
 		<result column="USER_ORDER_TABLE" jdbcType="VARCHAR" property="table" />
 	</resultMap>
 	
+	<!-- 内嵌式ResultMap方式 但是关联查询语句不会写...
 	<resultMap id="UserOrderInfoWithOrderInfo" type="com.aspire.OnlineMeal.model.UserOrderInfo" extends="BaseResultMap">
 		<collection property="orderContents" resultMap="com.aspire.OnlineMeal.mapper.OrderInfoMapper.BaseResultMap"></collection>
 	</resultMap>
+	 -->
 	
+	<resultMap id="UserOrderInfoWithOrderInfo" type="com.aspire.OnlineMeal.model.UserOrderInfo" extends="BaseResultMap">
+		<collection property="orderContents" column="USER_ORDER_ID" select="com.aspire.OnlineMeal.mapper.OrderInfoMapper.selectByUserOrderId">
+		</collection>
+	</resultMap>
+	 
 	<sql id="Base_Column_List">
 		USER_ORDER_ID, USER_ORDER_MARCHANT_ID, USER_ORDER_MARCHANT_NAME,
 		USER_ORDER_MARCHANT_STATE,
 		USER_ORDER_CODE, USER_ORDER_USERID, USER_ORDER_USERNAME, USER_ORDER_USERPHONE,
-		USER_ORDER_IS_TO_RESTAURANT,
-		USER_ORDER_MEMBER, USER_ORDER_RESERVE_TIME, USER_ORDER_SEND_ADDRESS,
+		USER_ORDER_IS_TO_RESTAURANT,to_char(USER_ORDER_CREATE_TIME, 'yyyy-MM-dd hh24:mi:ss') USER_ORDER_CREATE_TIME,
+		USER_ORDER_MEMBER, to_char(USER_ORDER_RESERVE_TIME, 'yyyy-MM-dd hh24:mi:ss') USER_ORDER_RESERVE_TIME, USER_ORDER_SEND_ADDRESS,
 		USER_ORDER_STATE, USER_ORDER_PAY_TYPE, USER_ORDER_PAY_STATE, USER_ORDER_PRODUCT_COUNT,
 		USER_ORDER_OFFEST_PRICE, USER_ORDER_TOTAL_PRICE, USER_ORDER_PAY_PRICE,
 		USER_ORDER_NOTE,USER_ORDER_TABLE
 	</sql>
-	
+	<!-- 
 	<sql id="Base_Column_List_Collection">
 		USER_ORDER_ID, USER_ORDER_MARCHANT_ID, USER_ORDER_MARCHANT_NAME,
 		USER_ORDER_MARCHANT_STATE,
@@ -71,59 +78,69 @@
 		ORDER_DISHED_PRICE,
 		ORDER_DISHED_DISCOUNT, ORDER_DISHED_DISCOUNT_PRICE
 	</sql>
-	
+	 -->
 	<select id="selectCurrentSeq" resultType="java.math.BigDecimal">
 		select seq_user_order_info.currval from dual
 	</select>
 	
 	<select id="selectByMarchantId" parameterType="java.math.BigDecimal" resultMap="UserOrderInfoWithOrderInfo">
-		select <include refid="Base_Column_List_Collection"/> from USER_ORDER_INFO,ORDER_INFO
-		where USER_ORDER_MARCHANT_ID = #{marchantId,jdbcType=DECIMAL} and USER_ORDER_INFO.USER_ORDER_ID = ORDER_INFO.ORDER_USER_ORDER_ID 
+		select <include refid="Base_Column_List"/> from USER_ORDER_INFO
+		where USER_ORDER_MARCHANT_ID = #{marchantId,jdbcType=DECIMAL}
 	</select>
-	
+	<!-- 
 	<select id="selectByMarchantIdWithPage" parameterType="java.math.BigDecimal" resultMap="UserOrderInfoWithOrderInfo">
-		select <include refid="Base_Column_List_Collection"/>
+		select <include refid="Base_Column_List"/>
 		from USER_ORDER_INFO,ORDER_INFO
 		where USER_ORDER_MARCHANT_ID = #{marchantId,jdbcType=DECIMAL} and USER_ORDER_INFO.USER_ORDER_ID = ORDER_INFO.ORDER_USER_ORDER_ID
 	</select>
-	
+	 -->
+	 <select id="selectByMarchantIdWithPage" parameterType="java.math.BigDecimal" resultMap="UserOrderInfoWithOrderInfo">
+		select <include refid="Base_Column_List"/>
+		from USER_ORDER_INFO
+		where USER_ORDER_MARCHANT_ID = #{marchantId,jdbcType=DECIMAL}
+	</select>
+	 
 	<select id="selectByPrimaryKey" parameterType="java.math.BigDecimal"
 		resultMap="UserOrderInfoWithOrderInfo">
-		select <include refid="Base_Column_List_Collection"/>
-		from USER_ORDER_INFO,ORDER_INFO
-		where USER_ORDER_ID = #{id,jdbcType=DECIMAL} and USER_ORDER_INFO.USER_ORDER_ID = ORDER_INFO.ORDER_USER_ORDER_ID
+		select <include refid="Base_Column_List"/>
+		from USER_ORDER_INFO
+		where USER_ORDER_ID = #{id,jdbcType=DECIMAL}
 	</select>
 	
 	<select id="selectByUserId" resultMap="UserOrderInfoWithOrderInfo"
 		parameterType="java.math.BigDecimal">
-		select <include refid="Base_Column_List_Collection"/>
-		from USER_ORDER_INFO,ORDER_INFO
-		where USER_ORDER_USERID = #{userId} and ORDER_INFO.ORDER_USER_ORDER_ID = USER_ORDER_INFO.USER_ORDER_ID
+		select <include refid="Base_Column_List"/>
+		from USER_ORDER_INFO
+		where USER_ORDER_USERID = #{userId}
 	</select>
 	
 	<select id="selectByUserIdWithPage" resultMap="UserOrderInfoWithOrderInfo"
 		parameterType="java.math.BigDecimal">
 		select
-		<include refid="Base_Column_List_Collection"/> from USER_ORDER_INFO,ORDER_INFO 
-		where USER_ORDER_USERID = #{userId} and USER_ORDER_INFO.USER_ORDER_ID = ORDER_INFO.ORDER_USER_ORDER_ID
+		<include refid="Base_Column_List"/> from USER_ORDER_INFO
+		where USER_ORDER_USERID = #{userId}
 	</select>
 	
 	<select id="selectUserOrderCountByUserId" resultType="int" parameterType="java.math.BigDecimal">
-		select count(USER_ORDER_ID) from USER_ORDER_INFO,ORDER_INFO where USER_ORDER_USERID = #{userId} and USER_ORDER_INFO.USER_ORDER_ID = ORDER_INFO.ORDER_USER_ORDER_ID
+		select count(USER_ORDER_ID) from USER_ORDER_INFO where USER_ORDER_USERID = #{userId}
 	</select>
-	
+	<!--
 	<select id="selectUserOrderCountByMarchantId" resultType="int" parameterType="java.math.BigDecimal">
 		select count(USER_ORDER_ID) from USER_ORDER_INFO,ORDER_INFO where USER_ORDER_MARCHANT_ID = #{marchantId,jdbcType=DECIMAL} and USER_ORDER_INFO.USER_ORDER_ID = ORDER_INFO.ORDER_USER_ORDER_ID
+	</select>
+	-->
+	
+	<select id="selectUserOrderCountByMarchantId" resultType="int" parameterType="java.math.BigDecimal">
+		select count(USER_ORDER_ID) from USER_ORDER_INFO where USER_ORDER_MARCHANT_ID = #{marchantId,jdbcType=DECIMAL}
 	</select>
 	
 	<select id="selectUserOrderByMarchantIdWithTime"
 	 resultMap="UserOrderInfoWithOrderInfo">
-		select * from user_order_info,ORDER_INFO
+		select * from user_order_info
 		where trunc(USER_ORDER_CREATE_TIME) 
 		between to_date(#{param1},'yyyy-MM-dd') 
 		and to_date(#{param2},'yyyy-MM-dd') 
 		and USER_ORDER_MARCHANT_ID = #{param3,jdbcType=DECIMAL} 
-		and USER_ORDER_INFO.USER_ORDER_ID = ORDER_INFO.ORDER_USER_ORDER_ID
 	</select>
 	
 	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">

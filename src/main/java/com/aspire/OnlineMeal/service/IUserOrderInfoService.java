@@ -14,6 +14,8 @@ public interface IUserOrderInfoService {
 	public BigDecimal getPrimaryKey() throws Exception;
 	//取消订单 将订单状态置为取消状态 不为删除订单操作
 	public int deleteUserOrderInfo(UserOrderInfo uoi) throws Exception;
+	//修改用户订单状态
+	public int modifyUserOrderState(UserOrderInfo uoi) throws Exception;
 	//根据主键获取订单
 	public UserOrderInfo getByPriamryKey(BigDecimal id) throws Exception;
 	//获取订单的详情
