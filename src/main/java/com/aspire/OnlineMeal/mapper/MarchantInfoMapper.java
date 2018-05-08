@@ -16,7 +16,7 @@ public interface MarchantInfoMapper {
     List<MarchantInfo> selectByType(String type) throws Exception;
     //按照商家名称模糊查找
     List<MarchantInfo> selectWithVagueName(String name) throws Exception;
-
+    List<MarchantInfo> selectAll() throws Exception;
     int updateByPrimaryKeySelective(MarchantInfo record) throws Exception;
 
     int updateByPrimaryKey(MarchantInfo record) throws Exception;

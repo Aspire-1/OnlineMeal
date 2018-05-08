@@ -14,4 +14,5 @@ public interface IMarchantInfoService {
 	public MarchantInfo getByPrimaryKey(BigDecimal id) throws Exception;
 	public List<MarchantInfo> getMarchantByType(String type) throws Exception;
 	public List<MarchantInfo> getWithVagueName(String name) throws Exception;
+	public List<MarchantInfo> getAll() throws Exception;
 }

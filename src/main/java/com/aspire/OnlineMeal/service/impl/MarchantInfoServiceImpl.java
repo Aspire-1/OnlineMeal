@@ -28,7 +28,6 @@ public class MarchantInfoServiceImpl implements IMarchantInfoService {
 
 	@Override
 	public int modifyMarthantState(MarchantInfo marchantInfo) throws Exception {
-		// TODO Auto-generated method stub
 		return mim.updateByPrimaryKeySelective(marchantInfo);
 	}
 
@@ -44,6 +43,11 @@ public class MarchantInfoServiceImpl implements IMarchantInfoService {
 	
 	public List<MarchantInfo> getWithVagueName(String name) throws Exception{
 		return mim.selectWithVagueName(name);
+	}
+
+	@Override
+	public List<MarchantInfo> getAll() throws Exception {
+		return mim.selectAll();
 	}
 
 }

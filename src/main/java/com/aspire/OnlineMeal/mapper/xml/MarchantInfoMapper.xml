@@ -40,6 +40,11 @@
     where MARCHANT_INFO_ID = #{infoId,jdbcType=DECIMAL}
   </select>
   
+  <select id="selectAll" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List" />
+  	from MARCHANT_INFO
+  </select>
+  
   <select id="selectByType" parameterType="java.lang.String" resultMap="BaseResultMap">
   	select <include refid="Base_Column_List" />
   	from MARCHANT_INFO where MARCHANT_TYPE = #{type,jdbcType=VARCHAR}

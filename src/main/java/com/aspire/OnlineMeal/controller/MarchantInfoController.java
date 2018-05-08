@@ -86,4 +86,9 @@ public class MarchantInfoController {
 		return imis.getWithVagueName(name);
 	}
 	
+	@RequestMapping(value="/get/all",method=RequestMethod.GET)
+	public List<MarchantInfo> getAll() throws Exception{
+		return imis.getAll();
+	}
+	
 }
