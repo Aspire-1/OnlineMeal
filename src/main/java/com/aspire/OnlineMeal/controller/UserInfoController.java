@@ -43,14 +43,13 @@ public class UserInfoController {
 	}
 	
 	@RequestMapping(value ="/add/selective",method=RequestMethod.POST)
-	public ResultMessage addWithSelective(UserInfo userInfo) throws Exception{
+	public ResultMessage addWithSelective(UserInfo userInfo,HttpServletRequest request,HttpServletResponse response) throws Exception{
 		ResultMessage result = new ResultMessage();
-		SimpleDateFormat  sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		userInfo.setRegistTime(sdf.format(new Date()));
 		iuis.addWithSelective(userInfo);
 		result.setMessage("用户简易注册成功");
 		result.setResult("Y");
-		
 		return result;
 	}
 	
@@ -122,7 +121,7 @@ public class UserInfoController {
 	}
 	
 	@RequestMapping(value="/isExit/loginMessage",method=RequestMethod.POST)
-	public ResultMessage isExitWithRegist(String loginMessage,String password) throws Exception{
+	public ResultMessage isExitWithRegist(String loginMessage) throws Exception{
 		ResultMessage result = new ResultMessage();
 		UserInfo userInfo = new UserInfo();
 		Pattern pEmail = Pattern.compile(ruleEmail);
@@ -212,6 +211,8 @@ public class UserInfoController {
 			result.setMessage("更新用户数据成功");
 			result.setObject(exitUser);
 		}else{
+			SimpleDateFormat  sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			user.setRegistTime(sdf.format(new Date()));
 			iuis.addWithSelective(user);
 			result.setResult("zj");
 			result.setMessage("增加用户数据成功");
