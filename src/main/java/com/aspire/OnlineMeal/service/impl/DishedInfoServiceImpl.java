@@ -83,4 +83,9 @@ public class DishedInfoServiceImpl implements IDishedInfoService {
 		return pageCount;
 	}
 
+	@Override
+	public DishedInfo getByPrimaryKey(BigDecimal id) throws Exception {
+		return dim.selectByPrimaryKey(id);
+	}
+
 }

@@ -14,6 +14,8 @@ public interface IDishedInfoService {
 	public int deleteDished(BigDecimal id) throws Exception;
 	//修改菜肴信息
 	public int modifyDished(DishedInfo dishedInfo) throws Exception;
+	//根据主键获取菜肴信息
+	public DishedInfo getByPrimaryKey(BigDecimal id) throws Exception;
 	//获取所有的菜肴信息
 	public List<DishedInfo> getAll(BigDecimal marchantId) throws Exception;
 	//按菜肴类型查找菜肴信息
