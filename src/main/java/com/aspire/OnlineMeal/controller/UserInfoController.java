@@ -1,5 +1,6 @@
 package com.aspire.OnlineMeal.controller;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,13 +10,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.aspire.OnlineMeal.model.UserInfo;
 import com.aspire.OnlineMeal.publicPOJO.ResultMessage;
@@ -64,8 +68,21 @@ public class UserInfoController {
 	}
 	
 	@RequestMapping(value="/modify/userId",method=RequestMethod.POST)
-	public ResultMessage modifyByUserId(UserInfo userInfo) throws Exception{
+	public ResultMessage modifyByUserId(UserInfo userInfo,MultipartFile uploadphoto,HttpSession session) throws Exception{
 		ResultMessage result = new ResultMessage();
+		if(uploadphoto!=null&&(!uploadphoto.isEmpty())){
+		   String fileName=uploadphoto.getOriginalFilename();
+		   String contentType=uploadphoto.getContentType();
+		   ServletContext application=session.getServletContext();
+		   
+		   String path=application.getRealPath("/upload/user"+fileName);
+		   uploadphoto.transferTo(new File(path));
+		   
+		   userInfo.setHeadPhoto(uploadphoto.getBytes());
+		   userInfo.setPhotoFileName(fileName);
+		   userInfo.setPhotoContentType(contentType);
+		   userInfo.setHeadPhotoUrl("./upload/user"+fileName);
+		}	
 		iuis.modifyByUserIdSelective(userInfo);
 		result.setResult("Y");
 		result.setMessage("修改信息成功");

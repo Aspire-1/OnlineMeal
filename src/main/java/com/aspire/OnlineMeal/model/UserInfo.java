@@ -2,6 +2,8 @@ package com.aspire.OnlineMeal.model;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class UserInfo {
     private BigDecimal id;
 
@@ -29,13 +31,34 @@ public class UserInfo {
 
     private String address;
 
+    @JsonIgnore
     private byte[] headPhoto;
+    //附件文件名
+  	private String photoFileName=null;
+  	//附件文件类型
+  	private String photoContentType=null;
 
     private String openId;
     
     private String headPhotoUrl;
     
-    public String getHeadPhotoUrl() {
+    public String getPhotoFileName() {
+		return photoFileName;
+	}
+
+	public void setPhotoFileName(String photoFileName) {
+		this.photoFileName = photoFileName;
+	}
+
+	public String getPhotoContentType() {
+		return photoContentType;
+	}
+
+	public void setPhotoContentType(String photoContentType) {
+		this.photoContentType = photoContentType;
+	}
+
+	public String getHeadPhotoUrl() {
 		return headPhotoUrl;
 	}
 
