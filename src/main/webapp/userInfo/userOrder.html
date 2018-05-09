@@ -1,0 +1,109 @@
+
+<link rel="stylesheet" href="userInfo/css/user.css">
+
+<div>
+	<div class="user-bar">
+		<!-- 
+		<div class="user-bar-contain">
+			<div class="user-bar-photo">
+				<img src="pic/img/foodlist4.jpg">
+			</div>
+			<div class="user-bar-title">
+				<h2>xxx用户</h2>
+			</div>
+		</div>
+		 -->
+	</div>
+
+	<div class="layui-container">
+		
+		<div class="orderContainer">
+		
+			<div class="layui-row titleRow">
+				<div class="layui-col-md6">
+					<span>商家名称</span>
+				</div>
+				<div class="layui-col-md2">
+					<span>订单价格</span>
+				</div>
+				<div class="layui-col-md2">
+					<span>订单状态</span>
+				</div>
+				<div class="layui-col-md2">
+					<span>订单详情按钮</span>
+				</div>
+			</div>
+			<hr>
+			<div id="orderRow">
+				<ul class="layui-timeline">
+					<li class="layui-timeline-item">
+						<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+						<div class="layui-timeline-content layui-text">
+							<h3 class="layui-timeline-title">8月18日</h3>
+							<div class="layui-row">
+								<div class="layui-col-md6">
+									<div class="order_marchantName">商家名称</div>
+									<div>订单内容菜肴名称</div>
+									<div>订单编号</div>
+								</div>
+								<div class="layui-col-md2">
+									<div class="order_price">19.60</div>
+								</div>
+								<div class="layui-col-md2">
+									<div>订单状态</div>
+								</div>
+								<div class="layui-col-md2">
+									<div>
+										<button class="layui-btn layui-btn-primary">查看详情</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/tmpl" id="timeLineTemp">
+
+	<ul class="layui-timeline">
+		<li class="layui-timeline-item">
+			<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+			<div class="layui-timeline-content layui-text">
+			<h3 class="layui-timeline-title">{{time}}</h3>
+				<div class="layui-row">
+					<div class="layui-col-md6">
+						<div class="order_marchantName">{{marchantName}}</div>
+						<div>{{contain[0].dishedName}}等</div>
+						<div>{{code}}</div>
+					</div>
+					<div class="layui-col-md2">
+						<div class="order_price">{{price}}</div>
+					</div>
+					<div class="layui-col-md2">
+						<div>{{state}}</div>
+					</div>
+					<div class="layui-col-md2">
+						<div>
+							<button class="layui-btn layui-btn-primary">查看详情</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</li>
+	</ul>
+
+</script>
+<script type="text/tmpl" id="userBar">
+<div class="user-bar-contain">
+<div class="user-bar-photo">
+	<img src="${local_headPhotoUrl}">
+</div>
+<div class="user-bar-title">
+	<h2>${local_userName}</h2>
+</div>
+</div>
+</script>
+<script src="userInfo/js/userInfo.js"></script>
