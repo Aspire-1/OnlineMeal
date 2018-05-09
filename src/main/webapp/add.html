@@ -5,7 +5,53 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<form action="MarchantInfo/add/selective.mvc" enctype="multipart/form-data" method="post">
+		<h4>添加商家信息测试</h4>
+		商家名称： <input name ="name" >
+		<br/>
+		商家地址： <input name="address" >
+		<br/>
+		联系方式： <input name = "contact">
+		<br/>
+		管理员名称： <input name = "managerName">
+		<br/>
+		管理员手机号： <input name = "managerPhone">
+		<br/>
+		商家类型： <input name = "type">
+		<br/>
+		
+		商家介绍： <input name = "note">
+		<br/>
+		<input type="file" name="uploadphoto">
+		
+		<input type="submit">
+	</form>
+	
+	<hr>
+	<form action="MarchantInfo/modify.mvc" enctype="multipart/form-data" method="post">
+		<h4>修改商家信息测试</h4>
+		商家id： <input name ="infoId" >
+		商家名称： <input name ="name" >
+		<br/>
+		商家地址： <input name="address" >
+		<br/>
+		联系方式： <input name = "contact">
+		<br/>
+		管理员名称： <input name = "managerName">
+		<br/>
+		管理员手机号： <input name = "managerPhone">
+		<br/>
+		商家类型： <input name = "type">
+		<br/>
+		
+		商家介绍： <input name = "note">
+		<br/>
+		<input type="file" name="uploadphoto">
+		
+		<input type="submit">
+	</form>
+	
+	<hr>
 	<form action="UserInfo/add/selective.mvc" method="post">
 		<h4>添加用户信息测试</h4>
 		注册手机号： <input name ="registPhone" >
@@ -64,7 +110,7 @@
 		<!-- 发送异步请求进行查询反显 -->
 		用户id：<input name ="userid" value="2">
 		<br/>
-		用户名：<input name ="userName" value="嘻嘻嘻">
+		用户名：<input name ="username" value="嘻嘻嘻">
 		<br/>
 		用户联系方式：<input name ="userphone" value="18814383324">
 		<br/>
