@@ -2,6 +2,8 @@ package com.aspire.OnlineMeal.model;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class MarchantInfo {
     private BigDecimal infoId;
 
@@ -45,9 +47,41 @@ public class MarchantInfo {
     //登陆状态
     private String loginState;
     //商家头像 
+    @JsonIgnore
     private byte[] photo;
+    //商家头像路径
+    private String photoSrc;
+    //附件文件名
+  	private String photoFileName=null;
+  	//附件文件类型
+  	private String photoContentType=null;	
+
     
-    public byte[] getPhoto() {
+    public String getPhotoSrc() {
+		return photoSrc;
+	}
+
+	public void setPhotoSrc(String photoSrc) {
+		this.photoSrc = photoSrc;
+	}
+
+	public String getPhotoFileName() {
+		return photoFileName;
+	}
+
+	public void setPhotoFileName(String photoFileName) {
+		this.photoFileName = photoFileName;
+	}
+
+	public String getPhotoContentType() {
+		return photoContentType;
+	}
+
+	public void setPhotoContentType(String photoContentType) {
+		this.photoContentType = photoContentType;
+	}
+
+	public byte[] getPhoto() {
 		return photo;
 	}
 

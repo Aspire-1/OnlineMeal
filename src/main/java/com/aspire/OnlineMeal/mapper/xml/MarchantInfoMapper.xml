@@ -24,14 +24,15 @@
     <result column="MARCHANT_NOTE" jdbcType="VARCHAR" property="note" />
     <result column="MARCHANT_LOGIN_STATE" jdbcType="VARCHAR" property="loginState" />
     <result column="MARCHANT_PHOTO" property="photo" jdbcType="BLOB" />
+    <result column="MARCHANT_PHOTO_URL" property="photoSrc" jdbcType="VARCHAR" />
     
   </resultMap>
   <sql id="Base_Column_List">
     MARCHANT_INFO_ID, MARCHANT_NAME, MARCHANT_ADDRESS, MARCHANT_CONTACT, MARCHANT_LONGITUDE, 
     MARCHANT_LATITUDE, MARCHANT_MANAGER_NAME, MARCHANT_MANAGER_PHONE, MARCHANT_QUALIFIED_AUDUT_ID, 
-    MARCHANT_IS_AUDIT, MARCHANT_STATE, MARCHANT_REGIST_TIME, MARCHANT_TYPE,to_char(MARCHANT_START_TIME, 'hh24:mi') MARCHANT_START_TIME, 
+    MARCHANT_IS_AUDIT, MARCHANT_STATE, to_char(MARCHANT_REGIST_TIME, 'yyyy-MM-dd hh24:mi:ss') MARCHANT_REGIST_TIME, MARCHANT_TYPE,to_char(MARCHANT_START_TIME, 'hh24:mi') MARCHANT_START_TIME, 
     to_char(MARCHANT_END_TIME, 'hh24:mi') MARCHANT_END_TIME, MARCHANT_TOTAL_SCORE, MARCHANT_FOOD_SCORE, MARCHANT_SERVICE_SOCRE, 
-    MARCHANT_ENVIRONMENT_SCORE, MARCHANT_NOTE,MARCHANT_LOGIN_STATE,MARCHANT_PHOTO
+    MARCHANT_ENVIRONMENT_SCORE, MARCHANT_NOTE,MARCHANT_LOGIN_STATE,MARCHANT_PHOTO,MARCHANT_PHOTO_URL
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
     select 
@@ -148,139 +149,148 @@
       <if test="loginState != null">
         MARCHANT_LOGIN_STATE,
       </if>
+      <if test="photoSrc != null">
+        MARCHANT_PHOTO_URL,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       #{infoId,jdbcType=DECIMAL},
-      <if test="name != null">
+      <if test="name != null and name !=''">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="address != null">
+      <if test="address != null and address !=''">
         #{address,jdbcType=VARCHAR},
       </if>
-      <if test="contact != null">
+      <if test="contact != null and contact !=''">
         #{contact,jdbcType=VARCHAR},
       </if>
-      <if test="longitude != null">
+      <if test="longitude != null and longitude !=''">
         #{longitude,jdbcType=VARCHAR},
       </if>
-      <if test="latitude != null">
+      <if test="latitude != null and latitude !=''">
         #{latitude,jdbcType=VARCHAR},
       </if>
-      <if test="managerName != null">
+      <if test="managerName != null and managerName !=''">
         #{managerName,jdbcType=VARCHAR},
       </if>
-      <if test="managerPhone != null">
+      <if test="managerPhone != null and managerPhone !=''">
         #{managerPhone,jdbcType=VARCHAR},
       </if>
-      <if test="qualifiedAudutId != null">
+      <if test="qualifiedAudutId != null and qualifiedAudutId !=''">
         #{qualifiedAudutId,jdbcType=DECIMAL},
       </if>
-      <if test="isAudit != null">
+      <if test="isAudit != null and isAudit !=''">
         #{isAudit,jdbcType=VARCHAR},
       </if>
-      <if test="state != null">
+      <if test="state != null and state !=''">
         #{state,jdbcType=VARCHAR},
       </if>
-      <if test="registTime != null">
-        #{registTime,jdbcType=TIMESTAMP},
+      <if test="registTime != null and registTime !=''">
+        to_date(#{registTime,jdbcType=TIMESTAMP}, 'yyyy-MM-dd HH24:mi:ss'),
       </if>
-      <if test="type != null">
+      <if test="type != null and type !=''">
         #{type,jdbcType=VARCHAR},
       </if>
-      <if test="startTime != null">
-        #{startTime,jdbcType=TIMESTAMP},
+      <if test="startTime != null and startTime !=''">
+        to_date(#{startTime,jdbcType=TIMESTAMP}, 'yyyy-MM-dd HH24:mi:ss'),
       </if>
-      <if test="endTime != null">
-        #{endTime,jdbcType=TIMESTAMP},
+      <if test="endTime != null and endTime !=''">
+        to_date(#{endTime,jdbcType=TIMESTAMP}, 'yyyy-MM-dd HH24:mi:ss'),
       </if>
-      <if test="totalScore != null">
+      <if test="totalScore != null and totalScore !=''">
         #{totalScore,jdbcType=DECIMAL},
       </if>
       <if test="foodScore != null">
         #{foodScore,jdbcType=DECIMAL},
       </if>
-      <if test="serviceSocre != null">
+      <if test="serviceSocre != null and serviceSocre !=''">
         #{serviceSocre,jdbcType=DECIMAL},
       </if>
-      <if test="environmentScore != null">
+      <if test="environmentScore != null and environmentScore !=''">
         #{environmentScore,jdbcType=DECIMAL},
       </if>
-      <if test="note != null">
+      <if test="note != null and note !=''">
         #{note,jdbcType=VARCHAR},
       </if>
-      <if test="photo != null">
+      <if test="photo != null and photo!=''">
         #{photo,jdbcType=BLOB},
       </if>
-      <if test="loginState != null">
+      <if test="loginState != null and loginState!=''">
         #{loginState,jdbcType=VARCHAR}
+      </if>
+      <if test="photoSrc != null and photoSrc !=''">
+        #{photoSrc,jdbcType=VARCHAR}
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.aspire.OnlineMeal.model.MarchantInfo">
     update MARCHANT_INFO
     <set>
-      <if test="name != null">
+      <if test="name != null and name !=''">
         MARCHANT_NAME = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="address != null">
+      <if test="address != null and address !=''">
         MARCHANT_ADDRESS = #{address,jdbcType=VARCHAR},
       </if>
-      <if test="contact != null">
+      <if test="contact != null and contact !=''">
         MARCHANT_CONTACT = #{contact,jdbcType=VARCHAR},
       </if>
-      <if test="longitude != null">
+      <if test="longitude != null and longitude !=''">
         MARCHANT_LONGITUDE = #{longitude,jdbcType=VARCHAR},
       </if>
-      <if test="latitude != null">
+      <if test="latitude != null and latitude !=''">
         MARCHANT_LATITUDE = #{latitude,jdbcType=VARCHAR},
       </if>
-      <if test="managerName != null">
+      <if test="managerName != null and managerName !=''">
         MARCHANT_MANAGER_NAME = #{managerName,jdbcType=VARCHAR},
       </if>
-      <if test="managerPhone != null">
+      <if test="managerPhone != null and managerPhone !=''">
         MARCHANT_MANAGER_PHONE = #{managerPhone,jdbcType=VARCHAR},
       </if>
-      <if test="qualifiedAudutId != null">
+      <if test="qualifiedAudutId != null and qualifiedAudutId !=''">
         MARCHANT_QUALIFIED_AUDUT_ID = #{qualifiedAudutId,jdbcType=DECIMAL},
       </if>
-      <if test="isAudit != null">
+      <if test="isAudit != null and isAudit !=''">
         MARCHANT_IS_AUDIT = #{isAudit,jdbcType=VARCHAR},
       </if>
-      <if test="state != null">
+      <if test="state != null and state !=''">
         MARCHANT_STATE = #{state,jdbcType=VARCHAR},
       </if>
-      <if test="registTime != null">
+      <if test="registTime != null and registTime !=''">
         MARCHANT_REGIST_TIME = #{registTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="type != null">
+      <if test="type != null and type !=''">
         MARCHANT_TYPE = #{type,jdbcType=VARCHAR},
       </if>
-      <if test="startTime != null">
+      <if test="startTime != null and startTime !=''">
         MARCHANT_START_TIME = #{startTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="endTime != null">
+      <if test="endTime != null and endTime !=''">
         MARCHANT_END_TIME = #{endTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="totalScore != null">
+      <if test="totalScore != null and totalScore !=''">
         MARCHANT_TOTAL_SCORE = #{totalScore,jdbcType=DECIMAL},
       </if>
-      <if test="foodScore != null">
+      <if test="foodScore != null and foodScore !=''">
         MARCHANT_FOOD_SCORE = #{foodScore,jdbcType=DECIMAL},
       </if>
-      <if test="serviceSocre != null">
+      <if test="serviceSocre != null and serviceSocre !=''">
         MARCHANT_SERVICE_SOCRE = #{serviceSocre,jdbcType=DECIMAL},
       </if>
-      <if test="environmentScore != null">
+      <if test="environmentScore != null and environmentScore !=''">
         MARCHANT_ENVIRONMENT_SCORE = #{environmentScore,jdbcType=DECIMAL},
       </if>
-      <if test="note != null">
+      <if test="note != null and note !=''">
         MARCHANT_NOTE = #{note,jdbcType=VARCHAR},
       </if>
-      <if test="photo != null">
+      <if test="photo != null and photo !=''">
        MARCHANT_PHOTO = #{photo,jdbcType=BLOB},
       </if>
-      <if test="loginState != null">
+      <if test="loginState != null and loginState!=''">
        MARCHANT_LOGIN_STATE = #{loginState,jdbcType=VARCHAR}
+      </if>
+      <if test="photoSrc != null and photoSrc !=''">
+       MARCHANT_PHOTO_URL= #{photoSrc,jdbcType=VARCHAR}
       </if>
     </set>
     where MARCHANT_INFO_ID = #{infoId,jdbcType=DECIMAL}
