@@ -9,11 +9,20 @@ layui.use(['table','layer','carousel','element'], function(){
 		$("ul.layui-layout-left li.layui-nav-item a").on("click",function(event){
 			var href=$(this).attr("href");
 			if(href!="#" && $(this).text()!="首页"){
-				$("#contain").load(href,function(){
-					
-				});
-				event.preventDefault();
-			}else{
+				if((href!="#" && $(this).text()=="订单管理") || (href!="#" && $(this).text()=="用户信息")){
+					if(window.sessionStorage.getItem('userData')==null){
+						clickLogin(event);
+					}else{
+						$("#contain").load(href,function(){
+							
+						});
+						event.preventDefault();
+					}
+				}else{
+					$("#contain").load(href,function(){
+					});
+					event.preventDefault();
+				}
 			}
 		});
 		if(window.sessionStorage.getItem('userData')!=null){
