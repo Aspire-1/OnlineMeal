@@ -1,23 +1,21 @@
-//存储数据的全局变量
 var valueList;
-
-//测试数据
-valueList = [{
-	"name":"商家1",
-	"photo":"pic/img/foodlist2.jpg",
-	"note":"喝茶读书，不争朝夕"
-},{
-	"name":"商家2",
-	"photo":"pic/img/foodlist3.jpg",
-	"note":"喝茶读书，不争朝夕"
-},{
-	"name":"商家3",
-	"photo":"pic/img/foodlist4.jpg",
-	"note":"喝茶读书，不争朝夕"
-}];
-
 $(function(){
-	bianli(valueList);
+	$.ajax({
+		async: false,
+		type: 'get',
+		url: 'MarchantInfo/get/all.mvc',
+		data:{
+			
+		},
+		success: function(data){
+			valueList = data;
+			console.log(valueList);
+			for(var i = 0;i<valueList.length;i++){
+				productBox(valueList[i]);
+			}
+		}
+	});
+	//bianli(valueList);
 	clickTypeBtn();
 	clickSearchBtn();
 });
@@ -29,7 +27,10 @@ layui.use(['layer','element'],function(){
 		if(window.sessionStorage.getItem("userData")==null){
 			showLogin();
 		}else{
+			var marchantId= $(this).closest(".marchant-info-elem").find("#marchantId").val();
+			window.sessionStorage.setItem("marchantId",marchantId);
 			$("#contain").load("marchant/marchant1.html",function(){
+				
 			});
 		}
 	});
@@ -72,12 +73,17 @@ function productBox(value){
 	var element = document.createElement("div");
 	element.setAttribute("class","marchant-info-elem");
 	
+	var elemId = document.createElement("input");
+	elemId.setAttribute("type","hidden");
+	elemId.setAttribute("value",value.infoId);
+	elemId.setAttribute("id","marchantId");
+	
 	var imgBlock = document.createElement("div");
 	imgBlock.setAttribute("class","marchant-info-img");
 	
 	var img = document.createElement("img");
 	img.setAttribute("alt",value.name);
-	img.setAttribute("src",value.photo);
+	img.setAttribute("src",value.photoSrc);
 	
 	var marchantName = document.createElement("h2");
 	marchantName.innerHTML = value.name;
@@ -88,6 +94,7 @@ function productBox(value){
 	
 	imgBlock.appendChild(img);
 	
+	element.appendChild(elemId);
 	element.appendChild(imgBlock);
 	element.appendChild(marchantName);
 	element.appendChild(descBlock);
