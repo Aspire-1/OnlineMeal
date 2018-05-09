@@ -7,60 +7,105 @@
 	</head>
 <body>
 	<script type="text/javascript">
-		function submitList() {
-			var list = new Array();
-			list.push({
-				userOrderId : "18",
-				dishedId : "1",
-				dishedName : "红烧鱼",
-				dishedCount : "1",
-				dishedPrice : "100",
-				dishedDiscount : "0.5",
-				dishedDiscountPrice : "50"
-			});
-			list.push({
-				userOrderId : "18",
-				dishedId : "2",
-				dishedName : "清蒸鱼",
-				dishedCount : "1",
-				dishedPrice : "100",
-				dishedDiscount : "0.5",
-				dishedDiscountPrice : "50"
-			});
-			list.push({
-				userOrderId : "18",
-				dishedId : "3",
-				dishedName : "煎炸鱼",
-				dishedCount : "1",
-				dishedPrice : "100",
-				dishedDiscount : "0.5",
-				dishedDiscountPrice : "50"
-			});
-			list.push({
-				userOrderId : "18",
-				dishedId : "4",
-				dishedName : "水煮鱼",
-				dishedCount : "1",
-				dishedPrice : "100",
-				dishedDiscount : "0.5",
-				dishedDiscountPrice : "50"
-			});
+		var list = new Array();
+		list.push({
+			dishedId : "1",
+			dishedName : "红烧鱼",
+			dishedCount : "1",
+			dishedPrice : "100",
+			dishedDiscount : "0.5",
+			dishedDiscountPrice : "50"
+		});
+		list.push({
+			dishedId : "2",
+			dishedName : "清蒸鱼",
+			dishedCount : "1",
+			dishedPrice : "100",
+			dishedDiscount : "0.5",
+			dishedDiscountPrice : "50"
+		});
+		list.push({
+			dishedId : "3",
+			dishedName : "煎炸鱼",
+			dishedCount : "1",
+			dishedPrice : "100",
+			dishedDiscount : "0.5",
+			dishedDiscountPrice : "50"
+		});
+		list.push({
+			dishedId : "4",
+			dishedName : "水煮鱼",
+			dishedCount : "1",
+			dishedPrice : "100",
+			dishedDiscount : "0.5",
+			dishedDiscountPrice : "50"
+		});
+		console.log(list);
+		
+		
+		function fun(){
+			var user = {
+					"marchantId": $("#marchantId").val(),
+               		"userid": $("#userid").val(), 
+               		"username": $("#userName").val(), 
+               		"userphone": $("#userphone").val(), 
+               		"member": $("#member").val(), 
+               		"reserveTime": $("#reserveTime").val(), 
+               		"payType": $("#payType").val(),
+               		"orderContents":list
+			}
+			console.log(user);
+			console.log(user);
 			$.ajax({
-                url: "OrderInfo/add/batch.mvc",
+				asyn: false,
+				url: "UserOrderInfo/placeOrder.mvc",
                 type: "POST",
                 contentType : 'application/json', //设置请求头信息
                 dataType:"json",
-                data: JSON.stringify(list),    //将Json对象序列化成Json字符串，JSON.stringify()原生态方法
+                data: JSON.stringify(user), //将Json对象序列化成Json字符串，JSON.stringify()原生态方法
                 //data: $.toJSON(customerArray),            //将Json对象序列化成Json字符串，toJSON()需要引用jquery.json.min.js
                 success: function(data){
-                    alert(data);
+                    console.log(data);
                 },
                 error: function(res){
-                    alert(res.responseText);
+                	console.log(res.responseText);
                 }
             });
 		}
+		
 	</script>
-	<input id="submit" type="button" value="Submit" onclick="submitList();">
+	
+	<form action="UserOrderInfo/placeOrder.mvc" method="post">
+		<h4>添加用户订单信息测试</h4>
+		
+		<!-- 发送异步请求进行查询反显 -->
+		商家主键： <input name ="marchantId" value="0" id="marchantId">
+		<br/>
+		<!-- 发送异步请求进行查询反显 -->
+		用户id：<input name ="userid" value="11" id="userid">
+		<br/>
+		用户名：<input name ="username" value="yy" id="userName">
+		<br/>
+		用户联系方式：<input name ="userphone" value="18814383330" id="userphone">
+		<br/>
+		
+		用户是否到店就餐：<input type="radio" name="isToRestaurant" value="Y">是
+		<input type="radio" name="isToRestaurant" value="N">否
+		<br/>
+		
+		用户到店就餐人数：<input name ="member" id="member">
+		<br/>
+		
+		用户预约时间：<input name ="reserveTime" type="date" id="reserveTime">
+		<br/>
+		
+		用户支付类型：
+		<select name="payType" id="payType">
+			<option value="01">到店支付</option>
+			<option value="02">网上支付</option>
+		</select>
+		<input type="submit">
+	</form>
+	<button id="xxxx" onclick="fun()">提交</button>
 </body>
 </html>
