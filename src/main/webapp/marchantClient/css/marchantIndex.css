@@ -1,3 +1,17 @@
-.formDisplay{
+.orderShow{
 	display:none;
+	padding:30px;
+}
+
+/*ËÑË÷¿ò*/
+.order-select input{
+	display: inline-block;
+	width: 240px;
+	margin-right: 10px
+}
+
+.order-select select{
+	display: inline-block;
+	width: 180px;
+	margin-right: 10px
 }

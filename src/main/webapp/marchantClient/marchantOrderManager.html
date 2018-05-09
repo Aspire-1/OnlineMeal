@@ -1,22 +1,80 @@
+<blockquote class="layui-elem-quote">
+	<div class="order-select">
+ 		<input placeholder="请输入搜索信息" class="layui-input" type="text" id=""/>
+		<button class="layui-btn" id="">
+			<i class="layui-icon">&#xe615;</i>
+			搜索
+		</button>
+		
+		<select name="payState" class="layui-input">
+			<option value="" selected="">--筛选付款状态--</option>
+			<option value="01">已付款</option>
+			<option value="02">未付款</option>
+		</select>
+		
+		<select name="Time" class="layui-input">
+			<option value="" selected="">--筛选订单时间--</option>
+			<option value="01">今天</option>
+			<option value="02">近一个月</option>
+			<option value="02">近三个月</option>
+			<option value="02">近半年</option>
+			<option value="02">近一年</option>
+		</select>
+		
+	</div>
+</blockquote>
 <table id="demo" lay-filter="orderList">
-	<form action="" id="userOrderShow" class="layui-form layui-form-pane" >
-		<div class="layui-form-item  formDisplay">
+	<div class="layui-form layui-form-pane orderShow" id="formContain">
+		<div class="layui-form-item ">
 			<label class="layui-form-label">用户Id</label>
 			<div class="layui-input-inline">
-				<input name="code" lay-verify="title" autocomplete="off" class="layui-input" type="text" disabled="disabled">
+				<input name="userid" lay-verify="title" autocomplete="off" class="layui-input" type="text" disabled="disabled">
 			</div>
 			
 			<label class="layui-form-label">用户名</label>
 			<div class="layui-input-inline">
 				<input name="username" lay-verify="title" autocomplete="off" class="layui-input" type="text" disabled="disabled">
 			</div>
-			
+		</div>
+		
+		<div class="layui-form-item ">
 			<label class="layui-form-label">联系方式</label>
 			<div class="layui-input-inline">
 				<input name="userphone" lay-verify="title" autocomplete="off" class="layui-input" type="text" disabled="disabled">
 			</div>
+			
+			<label class="layui-form-label">到店就餐</label>
+			<div class="layui-input-inline">
+				<input name="isToRestaurant" lay-verify="title" autocomplete="off" class="layui-input" type="text" disabled="disabled">
+			</div>
 		</div>
-	</form>
+		
+		<div class="layui-form-item">
+			<label class="layui-form-label">送餐地址</label>
+			<div class="layui-input-block">
+				<input name="sendAddress" lay-verify="title" autocomplete="off" class="layui-input" type="text" disabled="disabled">
+			</div>
+		</div>
+		
+		<div class="layui-form-item ">
+			<label class="layui-form-label">付款类型</label>
+			<div class="layui-input-inline">
+				<input name="payType" lay-verify="title" autocomplete="off" class="layui-input" type="text" disabled="disabled">
+			</div>
+			
+			<label class="layui-form-label">付款状态</label>
+			<div class="layui-input-inline">
+				<input name="payState" lay-verify="title" autocomplete="off" class="layui-input" type="text" disabled="disabled">
+			</div>
+		</div>
+		
+		<fieldset class="layui-elem-field layui-field-title">
+			<legend>订单信息</legend>
+		</fieldset>
+		<div id="orderContains">
+		</div>
+		
+	</div>
 </table>
 
 
@@ -58,6 +116,9 @@
 			    ]], //设置表头
 			page: true,
 			loading: true,
+			done: function(res){
+				console.log(res)
+			}
 		});
 		
 		table.on('tool(orderList)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
@@ -77,8 +138,8 @@
 				  
 				//同步更新缓存对应的值
 				obj.update({
-				  username: '123'
-				  ,title: 'xxx'
+				  username: '123',
+				  title: 'xxx'
 				});
 			}
 		});
@@ -86,23 +147,30 @@
 		function showDetail(data){
 			layer.open({
 				type: 1,
-				title: '订单编号: ' + data.code, //不显示标题栏
+				title: '订单编号: ' + data.code + '  下单时间：' + data.createTime , //不显示标题栏
 				closeBtn: false,
 				area: ['800px', '500px'],
-				shade: 0.8,
 				id: 'LAY_layuipro', //设定一个id，防止重复弹出
-				btn: ['火速围观', '残忍拒绝'],
+				btn: ['接单', '订单完成'],
 				btnAlign: 'c',
 				moveType: 1 ,//拖拽模式，0或者1
-				content: $('#userOrderShow'),
+				shade:0,
+				content: $('#formContain'),
+				scrollbar: true,
+				resize:false,
 				success: function(layero){
-					var btn = layero.find('.layui-layer-btn');
-					btn.find('.layui-layer-btn0').attr({
-						href: 'http://www.layui.com/',
-						target: '_blank'
-					});
 				}
-			})
+			});
+			$("[name='userid']").val(data.userid);
+			$("[name='username']").val(data.username);
+			$("[name='userphone']").val(data.userphone);
+			$("[name='isToRestaurant']").val(data.isToRestaurant);
+			$("[name='sendAddress']").val(data.sendAddress);
+			$("[name='payType']").val(data.payType);
+			$("[name='payState']").val(data.payState);
+			for(var x=0;x<data.orderContents.length;x++){
+				$("#orderContains").append('<div class="layui-row"><div class="layui-col-md4">'+data.orderContents[x].dishedName+'</div><div class="layui-col-md4">'+data.orderContents[x].dishedCount+'</div><div class="layui-col-md4">￥'+data.orderContents[x].dishedPrice+'</div></div>');
+			}
 		};
 		
 	}); 
