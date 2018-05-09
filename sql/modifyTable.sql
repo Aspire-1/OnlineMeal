@@ -19,3 +19,6 @@ comment on column DISHED_INFO.DISHED_MARCHANT_ID is '商家id'
 --2018-04-30
 alter table USER_ORDER_INFO ADD(USER_ORDER_TABLE VARCHAR(5));
 comment on column USER_ORDER_INFO.USER_ORDER_TABLE is '微信-桌号'
+
+alter table MARCHANT_INFO ADD (MARCHANT_PHOTO_URL VARCHAR(200));
+comment on column MARCHANT_INFO.MARCHANT_PHOTO_URL is '用户头像路径';
