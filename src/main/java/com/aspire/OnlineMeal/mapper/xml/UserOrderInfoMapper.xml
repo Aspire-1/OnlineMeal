@@ -136,7 +136,7 @@
 	
 	<select id="selectUserOrderByMarchantIdWithTime"
 	 resultMap="UserOrderInfoWithOrderInfo">
-		select * from user_order_info
+		select <include refid="Base_Column_List"/> from user_order_info
 		where trunc(USER_ORDER_CREATE_TIME) 
 		between to_date(#{param1},'yyyy-MM-dd') 
 		and to_date(#{param2},'yyyy-MM-dd') 
