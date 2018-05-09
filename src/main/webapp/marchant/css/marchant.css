@@ -140,7 +140,7 @@
 
 .dished-info-price span{
 	vertical-align: middle;
-	width:150px;
+	width:90px;
 	font-size: 20px;
 	text-align: right;
 }
@@ -149,7 +149,7 @@
 	vertical-align: middle;
 	background: white;
 	border: 0;
-	width:150px;
+	width:90px;
 	font-size: 25px;
 	text-align: left;
 }
