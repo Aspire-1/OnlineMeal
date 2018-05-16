@@ -21,4 +21,4 @@ alter table USER_ORDER_INFO ADD(USER_ORDER_TABLE VARCHAR(5));
 comment on column USER_ORDER_INFO.USER_ORDER_TABLE is '微信-桌号'
 
 alter table MARCHANT_INFO ADD (MARCHANT_PHOTO_URL VARCHAR(200));
-comment on column MARCHANT_INFO.MARCHANT_PHOTO_URL is '用户头像路径';
+comment on column MARCHANT_INFO.MARCHANT_PHOTO_URL is '商家相片';
