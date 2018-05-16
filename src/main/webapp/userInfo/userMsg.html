@@ -24,39 +24,38 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">用户名</label>
 					<div class="layui-input-inline">
-						<input name="userName" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+						<input name="userName" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label">手机号</label>
 					<div class="layui-input-inline">
-						<input name="registPhone" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+						<input name="registPhone" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
 					</div>
 				</div>
 	
 				<div class="layui-form-item">
 					<label class="layui-form-label">邮箱</label>
 					<div class="layui-input-inline">
-						<input name="registEmail" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" type="text">
+						<input name="registEmail" placeholder="请输入邮箱" autocomplete="off" class="layui-input" type="text">
 					</div>
 				</div>
+				<!-- 
 				<div class="layui-form-item">
 					<label class="layui-form-label">密码</label>
 					<div class="layui-input-inline">
 						<input name="password" placeholder="请输入密码" autocomplete="off" class="layui-input" type="password">
 					</div>
 				</div>
+				 -->
 				<div class="layui-form-item">
 					<label class="layui-form-label">地址</label>
 					<div class="layui-input-block">
-						<input name="address" autocomplete="off" placeholder="请输入用户名" class="layui-input" type="text">
+						<input name="address" autocomplete="off" placeholder="请输入地址" class="layui-input" type="text">
 					</div>
 				</div>
-	  
-				<div class="layui-form-item">
-					<button class="layui-btn" lay-submit="" lay-filter="demo2">修改提交</button>
-				</div>
 			</form>	
+			<button class="layui-btn" id="submitUserInfo">修改提交</button>
 		</div>
 	</div>
 </div>
@@ -71,5 +70,4 @@
 </div>
 </div>
 </script>
-
 <script src="userInfo/js/userInfo.js"></script>
