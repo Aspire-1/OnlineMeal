@@ -52,6 +52,21 @@
 	</form>
 	
 	<hr>
+	<form action="MarchantManager/add/selective.mvc" method="post">
+		<h4>添加商家管理员信息测试</h4>
+		商家id： <input name ="marchantid" ><br>
+		管理员名称： <input name = "username">
+		<br/>
+		管理员手机号： <input name = "phone">
+		<br/>
+		
+		管理员密码： <input name = "password">
+		<br/>
+		<input type="submit">
+	</form>
+	
+	<hr>
+	
 	<form action="UserInfo/add/selective.mvc" method="post">
 		<h4>添加用户信息测试</h4>
 		注册手机号： <input name ="registPhone" >
@@ -147,8 +162,9 @@
 	
 	<hr>
 	
-	<form action="DishedInfo/add/selective.mvc" method="post">
+	<form action="DishedInfo/add/selective.mvc" method="post" enctype="multipart/form-data" >
 		<h4>添加菜肴信息测试</h4>
+		商家id：<input name="marchantId">
 		菜肴关联菜单的键： <input name ="menuid" >
 		<br/>
 		菜肴名称： <input name = "name">
@@ -168,7 +184,7 @@
 		菜肴折扣：<input name="discount">
 		<br>
 		菜肴折后价：<input name="discountName">
-		
+		<input name="uploadphoto" type="file">
 		<input type="submit">
 	</form>
 	
