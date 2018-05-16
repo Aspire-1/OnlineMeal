@@ -7,8 +7,10 @@
 	<div class="layui-tab layui-tab-brief" lay-filter="DishedInfoTab">
 		<ul class="layui-tab-title">
 			<li  class="layui-this">所有商品</li>
+			<!-- 
 			<li>评价</li>
 			<li>商家资历</li>
+			 -->
 		</ul>
 		<div class="layui-tab-content" style="height: auto;">
 			<div class="layui-tab-item layui-show">
@@ -17,12 +19,14 @@
 				</div>
 
 			</div>
+			<!-- 
 			<div class="layui-tab-item">
 				tab2
 			</div>
 			<div class="layui-tab-item">
 				tab3
 			</div>
+			 -->
 		</div>
 	</div>
 </div>
@@ -34,7 +38,6 @@
 				<col width="150">
 				<col width="75">
 				<col width="75">
-				<col>
 			</colgroup>
 			<tbody id="record">
 				<tr>
@@ -79,6 +82,8 @@
 	</div>
 	<div class="marchant-bar-title">
 		<h2>${name}</h2>
+		<span>地址：${address}</span></br>
+		<span>营业时间：${startTime} - ${endTime}</span>
 	</div>
 </div>
 </script>
