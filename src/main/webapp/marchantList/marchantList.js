@@ -24,11 +24,17 @@ $(function(){
 layui.use(['layer','element'],function(){
 	
 	$("#contain").on("click",".marchant-info-list .marchant-info-elem",function(event){
+		var marchantId= $(this).closest(".marchant-info-elem").find("#marchantId").val();
+		var marchantName= $(this).closest(".marchant-info-elem").find("#marchantName").html();
+		var marchantRecord = {
+				'marchantId':marchantId,
+				'marchantName':marchantName
+		}
+		window.sessionStorage.setItem("marchantRecord",JSON.stringify(marchantRecord));
+		window.sessionStorage.setItem("marchantId",marchantId);
 		if(window.sessionStorage.getItem("userData")==null){
 			showLogin();
 		}else{
-			var marchantId= $(this).closest(".marchant-info-elem").find("#marchantId").val();
-			window.sessionStorage.setItem("marchantId",marchantId);
 			$("#contain").load("marchant/marchant1.html",function(){
 				
 			});
@@ -86,6 +92,7 @@ function productBox(value){
 	img.setAttribute("src",value.photoSrc);
 	
 	var marchantName = document.createElement("h2");
+	marchantName.setAttribute("id","marchantName");
 	marchantName.innerHTML = value.name;
 	
 	var descBlock = document.createElement("div");
