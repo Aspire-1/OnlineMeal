@@ -264,48 +264,48 @@
 	<update id="updateByPrimaryKeySelective" parameterType="com.aspire.OnlineMeal.model.UserInfo">
 		update USER_INFO
 		<set>
-			<if test="registPhone != null">
+			<if test="registPhone != null and registPhone!=''">
 				USER_REGIST_PHONE = #{registPhone,jdbcType=VARCHAR},
 			</if>
-			<if test="registEmail != null">
+			<if test="registEmail != null and registEmail!=''">
 				USER_REGIST_EMAIL = #{registEmail,jdbcType=VARCHAR},
 			</if>
-			<if test="registCode != null">
+			<if test="registCode != null and registCode!=''">
 				USER_REGIST_CODE = #{registCode,jdbcType=VARCHAR},
 			</if>
-			<if test="registCodeTime != null">
+			<if test="registCodeTime != null and registCodeTime!=''">
 				USER_REGIST_CODE_TIME =
 				#{registCodeTime,jdbcType=TIMESTAMP},
 			</if>
-			<if test="registTime != null">
+			<if test="registTime != null and registTime!=''">
 				USER_REGIST_TIME = to_date(#{registTime,jdbcType=TIMESTAMP}, 'yyyy-MM-dd HH24:mi:ss'),
 			</if>
-			<if test="lastLoginTime != null">
+			<if test="lastLoginTime != null and lastLoginTime!=''">
 				USER_LAST_LOGIN_TIME =
 				to_date(#{lastLoginTime,jdbcType=TIMESTAMP}, 'yyyy-MM-dd HH24:mi:ss'),
 			</if>
-			<if test="userName != null">
+			<if test="userName != null and userName!=''">
 				USER_USER_NAME = #{userName,jdbcType=VARCHAR},
 			</if>
-			<if test="password != null">
+			<if test="password != null and password!=''">
 				USER_PASSWORD = #{password,jdbcType=VARCHAR},
 			</if>
-			<if test="loginState != null">
+			<if test="loginState != null and loginState!=''">
 				USER_LOGIN_STATE = #{loginState,jdbcType=VARCHAR},
 			</if>
-			<if test="state != null">
+			<if test="state != null and state!=''">
 				USER_STATE = #{state,jdbcType=VARCHAR},
 			</if>
-			<if test="isDelete != null">
+			<if test="isDelete != null and isDelete!=''">
 				USER_IS_DELETE = #{isDelete,jdbcType=VARCHAR},
 			</if>
-			<if test="address != null">
+			<if test="address != null and address!=''">
 				USER_ADDRESS = #{address,jdbcType=VARCHAR},
 			</if>
-			<if test="headPhoto != null">
+			<if test="headPhoto != null and headPhoto!=''">
 				USER_HEAD_PHOTO = #{headPhoto,jdbcType=BLOB},
 			</if>
-			<if test="headPhotoUrl != null">
+			<if test="headPhotoUrl != null and headPhotoUrl!=''">
 				USER_HEAD_PHOTO_URL = #{headPhotoUrl,jdbcType=VARCHAR},
 			</if>
 		</set>
