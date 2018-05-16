@@ -1,0 +1,165 @@
+<link rel="stylesheet" href="placeOrder/css/userOrder.css">
+<div class="layui-container">
+	<fieldset class="layui-elem-field  layui-field-title desp-li">
+		<legend>订单信息</legend>
+		
+		<div>
+			<form action="#" method="POST">
+				<table class="layui-table orderTable">
+					<colgroup>
+						<col width="18">
+						<col width="75">
+						<col width="18">
+						<col width="75">
+					</colgroup>
+					<tbody>
+						<tr>
+							<td>用户名</td>
+							<td>
+								<input name="username" type="text" disabled="disabled">
+								<input name="userid" type="hidden" disabled="disabled">
+							</td>
+							<td>用户联系方式</td>
+							<td>
+								<input name="userphone" type="text">
+							</td>
+						</tr>
+						<tr>
+							<td>是否到店</td>
+							<td id="isToRestaurantInput">
+								是 <input type="radio" name="isToRestaurant" value="是" style="width: 15px;height: 15px;border: 2px">
+								否 <input type="radio" name="isToRestaurant" value="否"  style="width: 15px;height: 15px;border: 2px">
+							</td>
+							<td>用户地址</td>
+							<td colspan="2">
+								<input name="sendAddress" type="text">
+							</td>
+						</tr>
+						<tr>
+							<td>商家名称</td>
+							<td colspan="3">
+								<input name="marchantName" type="text" disabled="disabled">
+								<input name="marchantId" type="hidden" disabled="disabled">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<table class="layui-table">
+					<colgroup>
+						<col width="62">
+						<col width="62">
+						<col width="62">
+					</colgroup>
+					<tbody id="orderInfo">
+						<tr>
+							<td>商品</td>
+							<td>份数</td>
+							<td>小计(元)</td>
+						</tr>
+					</tbody>
+				</table>
+				到店支付 <input type="radio" name="payType" value="01" style="width: 15px;height: 15px;border: 2px">
+				网上支付 <input type="radio" name="payType" value="02"  style="width: 15px;height: 15px;border: 2px">
+			</form>
+			<div style="height: 10px"></div>
+			<span>总价：</span><strong id="allPrice" style="font-size: 20px"></strong>
+			<button class="layui-btn layui-btn-danger" id="placeOrder">确认订单</button>
+			
+		</div>		
+		
+	</fieldset>
+	
+</div>
+
+<script>
+
+
+
+$(function(){
+	var marchant = JSON.parse(window.sessionStorage.getItem("marchantRecord"));
+	$("[name=marchantId]").val(marchant.marchantId);
+	$("[name=marchantName]").val(marchant.marchantName);
+	var orderList = JSON.parse(window.sessionStorage.getItem("cartData"));
+	var page_allPrice = 0;
+	for(var i = 0;i<orderList.length;i++){
+		$("#orderInfo").append("<tr><td>"+orderList[i].dished_name+"</td><td>"+orderList[i].dished_count+"</td><td name='recordPrice'>￥"+orderList[i].dished_count*orderList[i].dished_price+"</td></tr>");
+		page_allPrice = page_allPrice + orderList[i].dished_count*orderList[i].dished_price;
+	}
+	$("#allPrice").html(page_allPrice);
+	var user = JSON.parse(window.sessionStorage.getItem("userData"));
+	$("[name=username]").val(user.local_userName);
+	$("[name=userid]").val(user.local_id);
+	$("[name=userphone]").val(user.local_registPhone);
+	$("[name=sendAddress]").val(user.local_sendAddress);
+	
+});
+
+var list = new Array();
+$("#placeOrder").on("click",function placeOrder(){
+	var orderList = JSON.parse(window.sessionStorage.getItem("cartData"));
+	var allPrice = 0;
+	for(var x=0;x<orderList.length;x++){
+		var temp = {
+			dishedId:orderList[x].dished_id,
+			dishedName:orderList[x].dished_name,
+			dishedCount:orderList[x].dished_count,
+			dishedPrice:orderList[x].dished_price
+		};
+		allPrice = allPrice + parseInt(orderList[x].dished_price)*parseInt(orderList[x].dished_count);
+		list.push(temp);
+	}
+	console.log(list);
+	var user = {
+			"marchantId": $("[name=marchantId]").val(),
+			"marchantName":$("[name=marchantName]").val(),
+       		"userid": $("[name=userid]").val(), 
+       		"username":$("[name=username]").val(), 
+       		"userphone": $("[name=userphone]").val(), 
+       		"isToRestaurant":$("[name=isToRestaurant]:checked").val(),
+       		"payType": $("[name=payType]:checked").val(),
+       		"payPrice":allPrice,
+       		"sendAddress":$("[name=sendAddress]").val(),
+       		"orderContents":list
+	}
+	$.ajax({
+		asyn: false,
+		url: "UserOrderInfo/placeOrder.mvc",
+        type: "POST",
+        contentType : 'application/json', //设置请求头信息
+        dataType:"json",
+        data: JSON.stringify(user), //将Json对象序列化成Json字符串，JSON.stringify()原生态方法
+        //data: $.toJSON(customerArray),            //将Json对象序列化成Json字符串，toJSON()需要引用jquery.json.min.js
+        success: function(data){
+        	console.log(data);
+        	var index = layer.open({
+                type: 1,
+                content: '<div style="padding: 20px 100px;">下单成功</div>',
+                btn: '确定',
+                btnAlign: 'c', //按钮居中
+                shade: 0,//不显示遮罩
+                yes: function(){
+                	$("#contain").load('userInfo/userOrder.html',function(){
+						
+					});
+					event.preventDefault();
+					layer.close(index);
+                }
+              });
+        },
+        error: function(res){
+        	console.log(res.responseText);
+        }
+    });
+});
+
+$("#isToRestaurantInput input").on('click',function clickRadio(){
+	if($("[name=isToRestaurant]:checked").val()=="否"){
+		$("[name='payType']").eq(1).attr("checked","checked");
+		$("[name='payType']").eq(0).attr("disabled","disabled");
+	}else{
+		$("[name='payType']").eq(0).removeAttr("disabled");
+	}
+});
+
+
+</script>
