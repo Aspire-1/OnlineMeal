@@ -263,10 +263,10 @@
         MARCHANT_TYPE = #{type,jdbcType=VARCHAR},
       </if>
       <if test="startTime != null and startTime !=''">
-        MARCHANT_START_TIME = #{startTime,jdbcType=TIMESTAMP},
+        MARCHANT_START_TIME = to_date(#{startTime,jdbcType=TIMESTAMP}, 'yyyy-MM-dd HH24:mi:ss'),
       </if>
       <if test="endTime != null and endTime !=''">
-        MARCHANT_END_TIME = #{endTime,jdbcType=TIMESTAMP},
+        MARCHANT_END_TIME = to_date(#{endTime,jdbcType=TIMESTAMP}, 'yyyy-MM-dd HH24:mi:ss'),
       </if>
       <if test="totalScore != null and totalScore !=''">
         MARCHANT_TOTAL_SCORE = #{totalScore,jdbcType=DECIMAL},

@@ -63,7 +63,7 @@ public class MarchantInfoController {
 		   marchantInfo.setPhoto(uploadphoto.getBytes());
 		   marchantInfo.setPhotoFileName(fileName);
 		   marchantInfo.setPhotoContentType(contentType);
-		   marchantInfo.setPhotoSrc("/upload/marchant"+fileName);
+		   marchantInfo.setPhotoSrc("./upload/marchant"+fileName);
 		}
 		
 		imis.addWithSelective(marchantInfo);
@@ -107,7 +107,6 @@ public class MarchantInfoController {
 		   marchantInfo.setPhotoContentType(contentType);
 		   marchantInfo.setPhotoSrc("./upload/marchant/"+fileName);
 		}
-		//前端传过指定的状态值来更改状态 例如 01 正常 02 休息中 03 接单中
 		imis.modifyMarthantState(marchantInfo);
 		
 		result.setResult("Y");
