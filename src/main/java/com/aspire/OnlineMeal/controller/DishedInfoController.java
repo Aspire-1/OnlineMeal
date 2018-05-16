@@ -79,9 +79,22 @@ public class DishedInfoController {
 	}
 	
 	@RequestMapping(value="/modify",method=RequestMethod.POST)
-	public ResultMessage modifyDished(DishedInfo dishedInfo) throws Exception{
+	public ResultMessage modifyDished(DishedInfo dishedInfo,MultipartFile uploadphoto,HttpSession session) throws Exception{
 		ResultMessage result = new ResultMessage();
-		
+		if(uploadphoto!=null&&(!uploadphoto.isEmpty())){
+		   String fileName=uploadphoto.getOriginalFilename();
+		   String contentType=uploadphoto.getContentType();
+		   ServletContext application=session.getServletContext();
+		   
+		   String path=application.getRealPath("/upload/"+fileName);
+		   uploadphoto.transferTo(new File(path));
+		   
+		   dishedInfo.setPhoto(uploadphoto.getBytes());
+		   dishedInfo.setPhotoFileName(fileName);
+		   dishedInfo.setPhotoContentType(contentType);
+		   dishedInfo.setPhotoSrc("/upload/"+fileName);
+		}
+			
 		idis.modifyDished(dishedInfo);
 		result.setResult("Y");
 		result.setMessage("修改菜肴信息成功");
