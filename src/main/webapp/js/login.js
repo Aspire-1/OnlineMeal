@@ -11,6 +11,7 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 var rulePhone = /^[1][3,4,5,7,8][0-9]{9}$/; //手机号码
 var ruleUserName = /^[a-zA-z]\w{5,19}$/;		//用户名规则：字母、数字、下划线组成，字母开头，6-20位
 var ruleEmail = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/; //邮箱规则
+var rulePwd = /^\S{6,20}$/;
 var user;
 
 function verifyLoginMessage(data){
@@ -76,7 +77,8 @@ function storeSessionStorage(dataName,data){
 			'local_loginState':data.loginState,
 			'local_state':data.state,
 			'local_openId':data.openId,
-			'local_headPhotoUrl':data.headPhotoUrl
+			'local_headPhotoUrl':data.headPhotoUrl,
+			'local_sendAddress':data.address
 	};
 	window.sessionStorage.setItem(dataName,JSON.stringify(userData));
 }
