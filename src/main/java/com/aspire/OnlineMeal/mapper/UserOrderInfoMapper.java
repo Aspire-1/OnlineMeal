@@ -25,7 +25,11 @@ public interface UserOrderInfoMapper {
     
     List<UserOrderInfo> selectByMarchantIdWithPage(RowBounds rb,BigDecimal marchantId) throws Exception;
    
-    List<UserOrderInfo> selectUserOrderByMarchantIdWithTime(String startTime,String endTime, BigDecimal marchantId) throws Exception;
+    List<UserOrderInfo> selectUserOrderByMarchantIdWithTime(String startTime,String endTime, BigDecimal marchantId,RowBounds rb) throws Exception;
+    int selectOrderCountByMarchantIdWithTime(String startTime,String endTime,BigDecimal marchantId) throws Exception;
+
+    List<UserOrderInfo> selectUserOrderByPhone(String phone, BigDecimal marchantId,RowBounds rb) throws Exception;
+    int selectCountWithUserOrderByPhone(String phone,BigDecimal marchantId) throws Exception;
     
     int selectUserOrderCountByUserId(BigDecimal userId) throws Exception;
     
@@ -36,5 +40,7 @@ public interface UserOrderInfoMapper {
     int updateByPrimaryKeySelective(UserOrderInfo record) throws Exception;
 
     int updateByPrimaryKey(UserOrderInfo record) throws Exception;
-    
+
+    List<UserOrderInfo> selectUserOrderByPayState(String payState, BigDecimal marchantId,RowBounds rb) throws Exception;
+    int selectCountWithUserOrderByPayState(String payState,BigDecimal marchantId) throws Exception;
 }

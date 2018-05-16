@@ -28,6 +28,12 @@ public interface IUserOrderInfoService {
 	public int getOrderCountByUserId(BigDecimal id) throws Exception;
 	//查询商家所有的订单数
 	public int getOrderCountByMarchantId(BigDecimal id) throws Exception;
+	//根据电话查找用户订单
+	public List<UserOrderInfo> getUserOrderWithPhone(String phone,BigDecimal marchantId,int rows,int page) throws Exception;
+	//根据电话查找的用户订单总数
+	public int getOrderCountWithPhone(String phone,BigDecimal marchantId) throws Exception;
+	//根据电话查找获取用户订单总页数
+	public int getAllPageByPhone(int rows,BigDecimal marchantId,String phone) throws Exception;
 	//分页查找用户订单
 	public List<UserOrderInfo> getUserOrderWithPageByUserId(int rows,int page,BigDecimal userId) throws Exception;
 	//分页查找商家订单
@@ -37,5 +43,15 @@ public interface IUserOrderInfoService {
 	//获取商家订单的总页数
 	public int getAllPageByMarchantId(int rows,BigDecimal marchantId) throws Exception;
 	//根据时间获取商家订单
-	public List<UserOrderInfo> getUserOrderByMarchantIdWithTime(String startTime,String endTime,BigDecimal marchantId) throws Exception;
+	public List<UserOrderInfo> getUserOrderByMarchantIdWithTime(String startTime,String endTime,BigDecimal marchantId,int rows,int page) throws Exception;
+	//根据时间获取商家订单的总数
+	public int getOrderCountByMarchantIdWithTime(String startTime,String endTime,BigDecimal marchantId) throws Exception;
+	//根据时间获取商家订单的总页数
+	public int getAllPageByTime(int rows,String startTime,String endTime,BigDecimal marchantId) throws Exception;
+	//根据付款状态获取商家
+	public List<UserOrderInfo> getUserOrderByPayState(String payState,BigDecimal marchantId,int rows,int page) throws Exception;
+	//根据付款状态获取商家的总数
+	public int getUserOrderCountByPayState(String payState,BigDecimal marchantId) throws Exception;
+	//根据付款状态获取商家的总页数
+	public int getAllPageByPayState(int rows,String payState,BigDecimal marchantId) throws Exception;
 }

@@ -120,9 +120,49 @@ public class UserOrderInfoController {
 		return iuois.getByPriamryKey(id);
 	}
 	
+//	@RequestMapping(value="/get/marchant/time",method=RequestMethod.POST)
+//	public List<UserOrderInfo> getByMarchantIdWithTime(String startTime,String endTime,BigDecimal marchantId) throws Exception{
+//		return iuois.getUserOrderByMarchantIdWithTime(startTime, endTime, marchantId);
+//	}
+	
 	@RequestMapping(value="/get/marchant/time",method=RequestMethod.POST)
-	public List<UserOrderInfo> getByMarchantIdWithTime(String startTime,String endTime,BigDecimal marchantId) throws Exception{
-		return iuois.getUserOrderByMarchantIdWithTime(startTime, endTime, marchantId);
+	public ResultInfo getByMarchantIdWithTime(String startTime,String endTime,
+			@RequestParam(required=false,defaultValue="3") int rows,
+			@RequestParam(required=false,defaultValue="1") int page,BigDecimal marchantId) throws Exception{
+		ResultInfo result = new ResultInfo();
+		result.setCount(iuois.getOrderCountByMarchantIdWithTime(startTime, endTime, marchantId));
+		result.setPageCount(iuois.getAllPageByTime(rows, startTime, endTime, marchantId));
+		result.setList(iuois.getUserOrderByMarchantIdWithTime(startTime, endTime, marchantId, rows, page));
+		result.setRows(rows);
+		result.setPage(page);
+		
+		return result;
+	}
+	
+	@RequestMapping(value="/get/payState",method=RequestMethod.POST)
+	public ResultInfo getByPayState(String payState,
+			@RequestParam(required=false,defaultValue="3") int rows,
+			@RequestParam(required=false,defaultValue="1") int page,BigDecimal marchantId) throws Exception{
+		ResultInfo result = new ResultInfo();
+		result.setCount(iuois.getUserOrderCountByPayState(payState, marchantId));
+		result.setPageCount(iuois.getAllPageByPayState(rows, payState, marchantId));
+		result.setList(iuois.getUserOrderByPayState(payState, marchantId, rows, page));
+		result.setRows(rows);
+		result.setPage(page);
+		return result;
+	}
+	
+	@RequestMapping(value="/get/phone",method=RequestMethod.POST)
+	public ResultInfo getByUserPhone(String phone,
+			@RequestParam(required=false,defaultValue="3") int rows,
+			@RequestParam(required=false,defaultValue="1") int page,BigDecimal marchantId) throws Exception{
+		ResultInfo result = new ResultInfo();
+		result.setCount(iuois.getOrderCountWithPhone(phone, marchantId));
+		result.setPageCount(iuois.getAllPageByPhone(rows, marchantId, phone));
+		result.setList(iuois.getUserOrderWithPhone(phone, marchantId,rows,page));
+		result.setRows(rows);
+		result.setPage(page);
+		return result;
 	}
 	
 	//订单状态的修改
@@ -166,7 +206,8 @@ public class UserOrderInfoController {
 		
 		//订单状态置为待商家接单
 		userOrder.setState("02");
-		
+		//订单状态一开始为未付款状态
+		userOrder.setPayState("02");
 		// 订单创建时间的添加
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		userOrder.setCreateTime(sdf.format(date));
@@ -174,7 +215,7 @@ public class UserOrderInfoController {
 		List<OrderInfo> orderContent = userOrder.getOrderContents();
 		
 		//修改菜肴信息表中的库存信息
-		modifyDeshedInfoStore(orderContent);
+		//modifyDeshedInfoStore(orderContent);
 		
 		BigDecimal userOrderId = iuois.addUserOrderInfoWithSelective(userOrder);
 		System.out.println("---当前序列值："+userOrderId+"-----");

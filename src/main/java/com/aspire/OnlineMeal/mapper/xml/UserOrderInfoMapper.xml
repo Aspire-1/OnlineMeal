@@ -94,7 +94,8 @@
 		where USER_ORDER_MARCHANT_ID = #{marchantId,jdbcType=DECIMAL} and USER_ORDER_INFO.USER_ORDER_ID = ORDER_INFO.ORDER_USER_ORDER_ID
 	</select>
 	 -->
-	 <select id="selectByMarchantIdWithPage" parameterType="java.math.BigDecimal" resultMap="UserOrderInfoWithOrderInfo">
+	 
+	<select id="selectByMarchantIdWithPage" parameterType="java.math.BigDecimal" resultMap="UserOrderInfoWithOrderInfo">
 		select <include refid="Base_Column_List"/>
 		from USER_ORDER_INFO
 		where USER_ORDER_MARCHANT_ID = #{marchantId,jdbcType=DECIMAL}
@@ -142,6 +143,61 @@
 		and to_date(#{param2},'yyyy-MM-dd') 
 		and USER_ORDER_MARCHANT_ID = #{param3,jdbcType=DECIMAL} 
 	</select>
+	
+	<select id="selectOrderCountByMarchantIdWithTime"
+	  resultType="int">
+		select count(USER_ORDER_ID) from user_order_info
+		where trunc(USER_ORDER_CREATE_TIME) 
+		between to_date(#{param1},'yyyy-MM-dd') 
+		and to_date(#{param2},'yyyy-MM-dd') 
+		and USER_ORDER_MARCHANT_ID = #{param3,jdbcType=DECIMAL} 
+	</select>
+	
+	 <select id="selectUserOrderByPhone" resultMap="UserOrderInfoWithOrderInfo">
+	 	select <include refid="Base_Column_List" /> from USER_ORDER_INFO 
+	 	where 
+	 	<trim>
+		 	<if test="param1 != null and param1 !=''">
+				USER_ORDER_USERPHONE = #{param1} and 
+			</if>
+		</trim>
+	 	USER_ORDER_MARCHANT_ID = #{param2,jdbcType=DECIMAL} 
+	 </select>
+	 
+	 <select id="selectCountWithUserOrderByPhone" resultType="int">
+	 	select count(USER_ORDER_ID) from USER_ORDER_INFO 
+	 	where
+	 	<trim>
+		 	<if test="param1 != null and param1 !=''">
+				USER_ORDER_USERPHONE = #{param1} and
+			</if>
+		</trim>
+	 	USER_ORDER_MARCHANT_ID = #{param2,jdbcType=DECIMAL} 
+	 </select>
+	 
+	 <select id="selectUserOrderByPayState" resultMap="UserOrderInfoWithOrderInfo">
+	 	select <include refid="Base_Column_List" />
+	 	from USER_ORDER_INFO 
+	 	where
+	 	<trim>
+		 	<if test="param1 != null and param1 !=''">
+				 USER_ORDER_PAY_STATE = #{param1} and
+			</if>
+		</trim>
+		USER_ORDER_MARCHANT_ID = #{param2,jdbcType=DECIMAL} 
+	 </select>
+	 
+	 <select id="selectCountWithUserOrderByPayState" resultType="int">
+	 	select count(USER_ORDER_ID) from USER_ORDER_INFO 
+	 	where 
+	 	<trim>
+		 	<if test="param1 != null and param1 !=''">
+				 USER_ORDER_PAY_STATE = #{param1} and
+			</if>
+		</trim> 
+		USER_ORDER_MARCHANT_ID = #{param2,jdbcType=DECIMAL} 
+	 </select>
+	 
 	
 	<delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
 		delete from USER_ORDER_INFO

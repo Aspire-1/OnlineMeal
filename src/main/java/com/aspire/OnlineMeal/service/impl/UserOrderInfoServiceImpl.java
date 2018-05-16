@@ -104,15 +104,91 @@ public class UserOrderInfoServiceImpl implements IUserOrderInfoService {
 		return uoim.selectByPrimaryKey(id);
 	}
 
-	@Override
-	public List<UserOrderInfo> getUserOrderByMarchantIdWithTime(String startTime, String endTime, BigDecimal marchantId)
-			throws Exception {
-		return uoim.selectUserOrderByMarchantIdWithTime(startTime, endTime, marchantId);
-	}
+//	@Override
+//	public List<UserOrderInfo> getUserOrderByMarchantIdWithTime(String startTime, String endTime, BigDecimal marchantId)
+//			throws Exception {
+//		return uoim.selectUserOrderByMarchantIdWithTime(startTime, endTime, marchantId);
+//	}
 
 	@Override
 	public int modifyUserOrderState(UserOrderInfo uoi) throws Exception {
 		return uoim.updateByPrimaryKeySelective(uoi);
+	}
+
+	@Override
+	public List<UserOrderInfo> getUserOrderWithPhone(String phone, BigDecimal marchantId,int rows,int page) throws Exception {
+		RowBounds rb = new RowBounds(rows*(page-1),rows);
+		return uoim.selectUserOrderByPhone(phone, marchantId,rb);
+	}
+	
+	@Override
+	public int getOrderCountWithPhone(String phone, BigDecimal marchantId) throws Exception {
+		return uoim.selectCountWithUserOrderByPhone(phone, marchantId);
+	}
+	
+	@Override
+	public int getAllPageByPhone(int rows,BigDecimal marchantId,String phone) throws Exception {
+		int pageCount=0;
+		int count=this.getOrderCountWithPhone(phone, marchantId);
+		if(count%rows==0){
+			pageCount=count/rows;
+		}
+		else{
+			pageCount=count/rows+1;
+		}
+		return pageCount;
+	}
+
+	@Override
+	public List<UserOrderInfo> getUserOrderByMarchantIdWithTime(String startTime, String endTime, BigDecimal marchantId,
+			int rows, int page) throws Exception {
+		RowBounds rb = new RowBounds(rows*(page-1),rows);
+		return uoim.selectUserOrderByMarchantIdWithTime(startTime, endTime, marchantId, rb);
+	}
+
+	@Override
+	public int getOrderCountByMarchantIdWithTime(String startTime, String endTime, BigDecimal marchantId)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return uoim.selectOrderCountByMarchantIdWithTime(startTime, endTime, marchantId);
+	}
+
+	@Override
+	public int getAllPageByTime(int rows, String startTime, String endTime, BigDecimal marchantId) throws Exception {
+		int pageCount=0;
+		int count=this.getOrderCountByMarchantIdWithTime(startTime, endTime, marchantId);
+		if(count%rows==0){
+			pageCount=count/rows;
+		}
+		else{
+			pageCount=count/rows+1;
+		}
+		return pageCount;
+	}
+
+	@Override
+	public List<UserOrderInfo> getUserOrderByPayState(String payState, BigDecimal marchantId, int rows, int page)
+			throws Exception {
+		RowBounds rb = new RowBounds(rows*(page-1),rows);
+		return uoim.selectUserOrderByPayState(payState, marchantId, rb);
+	}
+
+	@Override
+	public int getUserOrderCountByPayState(String payState, BigDecimal marchantId) throws Exception {
+		return uoim.selectCountWithUserOrderByPayState(payState, marchantId);
+	}
+
+	@Override
+	public int getAllPageByPayState(int rows, String payState, BigDecimal marchantId) throws Exception {
+		int pageCount=0;
+		int count=this.getUserOrderCountByPayState(payState, marchantId);
+		if(count%rows==0){
+			pageCount=count/rows;
+		}
+		else{
+			pageCount=count/rows+1;
+		}
+		return pageCount;
 	}
 
 }
