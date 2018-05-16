@@ -57,12 +57,12 @@
 								<div class="layui-form-mid layui-word-aux">密码长度必须在6-20位之间</div>
 							</div>
 						</div>
+						
+					</form>
 						<div class="layui-form-item">
 							<button class="layui-btn" id="registBtn">注册</button>
 							<button type="reset" class="layui-btn layui-btn-primary">重置</button>
 						</div>
-					</form>
-					
 				</div>
 			</fieldset>
 			
@@ -80,7 +80,7 @@
 		var rulePhone = /^[1][3,4,5,7,8][0-9]{9}$/; //手机号码
 		var ruleUserName = /^[a-zA-z]\w{5,19}$/;		//用户名规则：字母、数字、下划线组成，字母开头，6-20位
 		var ruleEmail = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/; //邮箱规则
-
+		var rulePwd = /^\S{6,20}$/;
 		layui.use(['form', 'layedit', 'laydate'], function(){
 			var form = layui.form,
 			layer = layui.layer,
@@ -89,16 +89,40 @@
 			
 		});
 		
-		function clickRegBtn(){
-			
-		}
+		$('#registBtn').on('click',function clickRegBtn(){
+			if(verifyPhone($('[name=registPhone]').val()) == true && 
+					verifyEmail($('[name=registEmail]').val()) == true && 
+					verifyUserName($('[name=userName]').val()) == true &&
+					verifyPwd($('[name=password]').val())==true
+					){
+				$.ajax({
+					async: false,
+					type:"POST",
+					url:"UserInfo/add/selective.mvc",
+					data:{
+						"registPhone":$('[name=registPhone]').val(),
+						"registEmail":$('[name=registEmail]').val(),
+						"userName":$('[name=userName]').val(),
+						"password":$('[name=password]').val()
+					},
+					success:function(data){
+						console.log(data);
+						if(data.result === "false"){
+							flag = true;
+						}else{
+							layer.msg("注册成功");
+						}
+					}
+				});
+			}
+		});
 		
 		function verifyPhone(data){
 			var flag = false;
 			if(data.length == 0){
 				layer.msg("手机号不能为空");
 			}else{
-				if(!(rulePhone.test(data)){
+				if(!(rulePhone.test(data))){
 					layer.msg("手机号格式不正确");
 				}else{
 					$.ajax({
@@ -122,12 +146,26 @@
 			return flag;
 		}
 		
+		function verifyPwd(data){
+			var flag = false;
+			if(data.length == 0){
+				layer.msg("密码不能为空");
+			}else{
+				if(!(rulePwd.test(data))){
+					layer.msg("密码长度必须在6-20位之间");
+				}else{
+					flag = true;
+				}
+			}
+			return flag;
+		}
+		
 		function verifyEmail(data){
 			var flag = false;
 			if(data.length == 0){
 				layer.msg("邮箱不能为空");
 			}else{
-				if(!(ruleUserName.test(data)){
+				if(!(ruleEmail.test(data))){
 					layer.msg("邮箱格式不正确");
 				}else{
 					$.ajax({
@@ -156,7 +194,7 @@
 			if(data.length == 0){
 				layer.msg("用户名不能为空");
 			}else{
-				if(!(ruleEmail.test(data)){
+				if(!(ruleUserName.test(data))){
 					layer.msg("用户名格式不正确");
 				}else{
 					$.ajax({
