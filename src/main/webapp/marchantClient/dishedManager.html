@@ -1,24 +1,255 @@
 
 <blockquote class="layui-elem-quote">
-	�������������ð�ť��
+	<button class="layui-btn" id="addDished">新增菜肴</button>
 </blockquote>
 <table id="demo" lay-filter="dishedList">
-	<form action="" id="userOrderShow" class="layui-form layui-form-pane" >
-		<div class="layui-form-item  formDisplay">
-			<label class="layui-form-label">�û�Id</label>
+	<div class="layui-form layui-form-pane orderShow" id="formContain">
+		<input name="infoId" type="hidden">
+		<div class="layui-form-item ">
+			<label class="layui-form-label">菜肴名称</label>
 			<div class="layui-input-inline">
-				<input name="code" lay-verify="title" autocomplete="off" class="layui-input" type="text" disabled="disabled">
+				<input name="name" autocomplete="off" class="layui-input" type="text">
+			</div>
+			<label class="layui-form-label">菜肴类型</label>
+			<div class="layui-input-inline">
+				<select name="typeCode" lay-filter="">
+					<option value="001">主食</option>
+					<option value="002">汤粉</option>
+					<option value="004">小炒</option>
+					<option value="005">饮料</option>
+					<option value="006">汉堡</option>
+					<option value="008">快餐</option>
+				</select>
+			</div>
+			<!--
+			<label class="layui-form-label">菜肴类型</label>
+			<div class="layui-input-inline">
+				<input name="typeCode" autocomplete="off" class="layui-input" type="text" disabled="disabled">
+			</div>
+			-->
+		</div>
+		<div class="layui-form-item ">
+			<label class="layui-form-label">菜肴规格</label>
+			<div class="layui-input-inline">
+				<input name="specification" autocomplete="off" class="layui-input" type="text">
 			</div>
 			
-			<label class="layui-form-label">�û���</label>
+			<label class="layui-form-label">菜肴库存</label>
 			<div class="layui-input-inline">
-				<input name="username" lay-verify="title" autocomplete="off" class="layui-input" type="text" disabled="disabled">
-			</div>
-			
-			<label class="layui-form-label">��ϵ��ʽ</label>
-			<div class="layui-input-inline">
-				<input name="userphone" lay-verify="title" autocomplete="off" class="layui-input" type="text" disabled="disabled">
+				<input name="store" autocomplete="off" class="layui-input" type="text">
 			</div>
 		</div>
-	</form>
+		
+		<div class="layui-form-item">
+			<label class="layui-form-label">菜肴介绍</label>
+			<div class="layui-input-block">
+				<input name="introduce" autocomplete="off" class="layui-input" type="text">
+			</div>
+		</div>
+		
+		<div class="layui-form-item ">
+			<label class="layui-form-label">菜肴价格</label>
+			<div class="layui-input-inline">
+				<input name="price" lay-verify="title" autocomplete="off" class="layui-input" type="text">
+			</div>
+		</div>
+		
+		<label class="layui-form-label">菜肴图片</label>
+		<div class="layui-input-inline">
+			<input name="photo" lay-verify="title" autocomplete="off" type="file" style="margin-top:5px;">
+		</div>
+		
+	</div>
 </table>
+
+<script>
+	layui.use(['table','form','layer'], function(){
+		var form = layui.form;
+		var table = layui.table;
+		var $ = layui.jquery;
+		var layer = layui.layer;
+		form.render();
+		
+		$("#addDished").on('click',function clickAddDished(){
+			//alert("aaa");
+			
+			var index = layer.open({
+				type: 1,
+				title: '新增菜肴信息', //不显示标题栏
+				closeBtn: true,
+				area: ['800px', '500px'],
+				id: 'LAY_layuipro', //设定一个id，防止重复弹出
+				btn: ['提交'],
+				btnAlign: 'c',
+				moveType: 1 ,//拖拽模式，0或者1
+				shade:0,
+				content: $('#formContain'),
+				scrollbar: true,
+				resize:false,
+				success: function(layero){
+				},
+				yes:function(data){
+					
+					var formData = new FormData();
+					formData.append("marchantId",marchantId);
+					formData.append("name",$("[name='name']").val());
+					formData.append("typeName",$("[name=typeCode]").find('option:selected').text());
+					formData.append("typeCode",$("[name='typeCode']").val());
+					formData.append("specification",$("[name='specification']").val());
+					formData.append("store",$("[name='store']").val());
+					formData.append("introduce",$("[name='introduce']").val());
+					formData.append("price",$("[name='price']").val());
+					formData.append("uploadphoto",$("[name='photo']").get(0).files[0]);
+					$.ajax({
+						asyn: false,
+						url: "/OnlineMeal/DishedInfo/add/selective.mvc",
+				        type: "POST",
+				        data : formData, 
+					    // 告诉jQuery不要去处理发送的数据
+					    processData : false, 
+					    // 告诉jQuery不要去设置Content-Type请求头
+					    contentType : false,
+				        
+				        success: function(data){
+				        	console.log(data);
+				        	res = data.message;
+				        }
+				    });
+					table.reload('demo');
+					layer.close(index);
+				}
+			});
+			table.reload('demo');
+		});
+		
+		//执行渲染
+		table.render({
+			elem: '#demo', //指定原始表格元素选择器（推荐id选择器）
+			url: '/OnlineMeal/DishedInfo/get/page.mvc',
+			height: 510, //容器高度
+			cellMinWidth: 90,  //设定最小的宽度
+			method:'post',
+			request: {
+				pageName: 'page', //页码的参数名称，默认：page
+				limitName: 'rows' //每页数据量的参数名，默认：limit
+			},
+			where: {
+				marchantId:marchantId
+			},
+			response: {
+				countName: 'count', //数据总数的字段名称，默认：count
+				dataName: 'list' //数据列表的字段名称，默认：data
+			},
+			cols: [[ //表头
+				  
+			      {field: 'name', title: '菜肴名称',width:200},
+			      {field: 'typeName', title: '菜肴类型',width:90},
+			      {field: 'specification', title: '菜肴规格',width:120},
+			      {field: 'store', title: '菜肴储备',width:88}, 
+			      {field: 'introduce', title: '菜肴描述',width:320},
+			      {field: 'price', title: '菜肴价格',width:88},
+			      {field: '', title: '操作', width: 150,fixed:'right', align:'center', toolbar: '#btnGroup'}
+			    ]], //设置表头
+			page: true,
+			loading: true,
+			done: function(res){
+				console.log(res)
+			}
+		});
+		
+		table.on('tool(dishedList)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+			var data = obj.data; //获得当前行数据
+			var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+			var tr = obj.tr; //获得当前行 tr 的DOM对象
+			if(layEvent === 'detail'){ //查看
+				showDetail(data);
+			} else if(layEvent === 'del'){ //删除
+				layer.confirm('真的删除行么', function(index){
+					obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+					$.ajax({
+						asyn: false,
+						url: "/OnlineMeal/DishedInfo/delete.mvc",
+				        type: "POST",
+				        data : {
+				        	"id":data.infoId
+				        },
+				        success: function(data){
+				        	console.log(data);
+				        	res = data.message;
+				        }
+				    });
+					layer.close(index);
+				});
+			} else if(layEvent === 'edit'){ //编辑
+				//do something
+				  
+				//同步更新缓存对应的值
+				obj.update({
+				  username: '123',
+				  title: 'xxx'
+				});
+			}
+		});
+		
+		function showDetail(data){
+			var index = layer.open({
+				type: 1,
+				title: '菜肴信息', //不显示标题栏
+				closeBtn: true,
+				area: ['800px', '500px'],
+				id: 'LAY_layuipro', //设定一个id，防止重复弹出
+				btn: ['提交修改'],
+				btnAlign: 'c',
+				moveType: 1 ,//拖拽模式，0或者1
+				shade:0,
+				content: $('#formContain'),
+				scrollbar: true,
+				resize:false,
+				success: function(layero){
+				},
+				yes:function(data){
+					var formData = new FormData();
+					formData.append("infoId",$("[name='infoId']").val());
+					formData.append("name",$("[name='name']").val());
+					formData.append("typeName",$("[name=typeCode]").find('option:selected').text());
+					formData.append("typeCode",$("[name='typeCode']").val());
+					formData.append("specification",$("[name='specification']").val());
+					formData.append("store",$("[name='store']").val());
+					formData.append("introduce",$("[name='introduce']").val());
+					formData.append("price",$("[name='price']").val());
+					formData.append("uploadphoto",$("[name='photo']").get(0).files[0]);
+					$.ajax({
+						asyn: false,
+						url: "/OnlineMeal/DishedInfo/modify.mvc",
+				        type: "POST",
+				        data : formData, 
+					    processData : false, 
+					    contentType : false,
+				        success: function(data){
+				        	console.log(data);
+				        	res = data.message;
+				        }
+				    });
+					table.reload('demo');
+					layer.close(index);
+				}
+			});
+			$("[name='infoId']").val(data.infoId);
+			$("[name='name']").val(data.name);
+			$("[name='typeName']").val(data.typeName);
+			$("[name='specification']").val(data.specification);
+			$("[name='store']").val(data.store);
+			$("[name='introduce']").val(data.introduce);
+			$("[name='price']").val(data.price);
+			//for(var x=0;x<data.orderContents.length;x++){
+			//	$("#orderContains").append('<div class="layui-row"><div class="layui-col-md4">'+data.orderContents[x].dishedName+'</div><div class="layui-col-md4">'+data.orderContents[x].dishedCount+'</div><div class="layui-col-md4">￥'+data.orderContents[x].dishedPrice+'</div></div>');
+			//}
+		};
+	}); 
+	
+</script>
+
+<script type="text/html" id="btnGroup">
+	  <a class="layui-btn layui-btn-xs" lay-event="detail" data-method="notice">编辑</a>
+	  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>

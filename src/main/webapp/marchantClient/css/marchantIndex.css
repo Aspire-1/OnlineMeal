@@ -6,12 +6,17 @@
 /*ËÑË÷¿ò*/
 .order-select input{
 	display: inline-block;
-	width: 240px;
+	width: 200px;
 	margin-right: 10px
 }
-
+/*
 .order-select select{
 	display: inline-block;
 	width: 180px;
 	margin-right: 10px
+}
+*/
+
+.order-select .layui-input-inline{
+	margin-right:10px
 }

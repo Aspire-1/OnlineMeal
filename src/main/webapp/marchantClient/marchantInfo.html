@@ -1,0 +1,109 @@
+<div>
+	
+
+<div class="layui-container">
+		<div class="orderContainer">
+			<fieldset class="layui-elem-field layui-field-title">
+				<legend>商家基本信息</legend>
+			</fieldset>
+			<form class="layui-form layui-form-pane" action="">
+				<div class="layui-form-item">
+					<label class="layui-form-label">商家名</label>
+					<div class="layui-input-inline">
+						<input name="name" autocomplete="off" class="layui-input" type="text">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">联系方式</label>
+					<div class="layui-input-inline">
+						<input name="contact" autocomplete="off" class="layui-input" type="text">
+					</div>
+				</div>
+	
+				<div class="layui-form-item">
+					<label class="layui-form-label">营业时间</label>
+					<div class="layui-input-inline">
+						<input name="startTime" autocomplete="off" class="layui-input" type="text">
+					</div>
+					<div class="layui-input-inline">
+						<input name="endTime"  autocomplete="off" class="layui-input" type="text">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">地址</label>
+					<div class="layui-input-block">
+						<input name="address" autocomplete="off" class="layui-input" type="text">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">备注</label>
+					<div class="layui-input-block">
+						<input name="note" autocomplete="off" class="layui-input" type="text">
+					</div>
+				</div>
+			</form>	
+			<div class="layui-form-item">
+				<button class="layui-btn" id="marchantSubmit">修改提交</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(function(){
+	var marchant;
+	$.ajax({
+		async: false,
+		type:"POST",
+		url:"/OnlineMeal/MarchantInfo/get.mvc",
+		data:{
+			"id":window.sessionStorage.getItem("marchantId")
+		},
+		success:function(data){
+			console.log(data);
+			marchant = data;
+		}
+	});
+	$("[name='marchantId']").val(window.sessionStorage.getItem("marchantId"));
+	$("[name='name']").val(marchant.name);
+	$("[name='contact']").val(marchant.contact);
+	$("[name='startTime']").val(marchant.startTime);
+	$("[name='endTime']").val(marchant.endTime);
+	$("[name='note']").val(marchant.note);
+	$("[name='address']").val(marchant.address);
+	
+	$("#marchantSubmit").on("click",function(){
+		$.ajax({
+			async: false,
+			type:"POST",
+			url:"/OnlineMeal/MarchantInfo/modify.mvc",
+			data:{
+				"infoId":window.sessionStorage.getItem("marchantId"),
+				"name":$("[name='name']").val(),
+				"contact":$("[name='contact']").val(),
+				"startTime":"2018-01-01 "+$("[name='startTime']").val(),
+				"endTime":"2018-01-01 "+$("[name='endTime']").val(),
+				"note":$("[name='note']").val(),
+				"address":$("[name='address']").val()
+			},
+			success:function(data){
+				console.log(data);
+				layer.open({
+	                type: 1,
+	                content: '<div style="padding: 20px 100px;">信息更改成功<br/>请重新登陆</div>',
+	                btn: '确定',
+	                btnAlign: 'c', //按钮居中
+	                shade: 0,//不显示遮罩
+	                yes: function(){
+	                	window.sessionStorage.removeItem('marchantId');
+	                	window.sessionStorage.removeItem('managerId');
+	    	        	location.reload();
+	    	        	event.preventDefault();
+	                }
+	              });
+			}
+		});
+	});
+	
+});
+</script>

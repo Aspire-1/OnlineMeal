@@ -1,25 +1,33 @@
 <blockquote class="layui-elem-quote">
-	<div class="order-select">
- 		<input placeholder="请输入搜索信息" class="layui-input" type="text" id=""/>
-		<button class="layui-btn" id="">
-			<i class="layui-icon">&#xe615;</i>
-			搜索
-		</button>
-		
-		<select name="payState" class="layui-input">
-			<option value="" selected="">--筛选付款状态--</option>
-			<option value="01">已付款</option>
-			<option value="02">未付款</option>
-		</select>
-		
-		<select name="Time" class="layui-input">
-			<option value="" selected="">--筛选订单时间--</option>
-			<option value="01">今天</option>
-			<option value="02">近一个月</option>
-			<option value="02">近三个月</option>
-			<option value="02">近半年</option>
-			<option value="02">近一年</option>
-		</select>
+	<div class="order-select layui-form">
+	
+		<div class="layui-form-item" style="margin:0">
+	 		<input placeholder="请输入搜索信息" class="layui-input" type="text" id="inputPhone"/>
+			<button class="layui-btn" id="searchBtn">
+				<i class="layui-icon">&#xe615;</i>
+				搜索
+			</button>
+			
+			<div class="layui-input-inline" style="margin-right:10px">
+				<select name="payState" class="layui-input" lay-filter="payState">
+					<option value="" selected="">--筛选付款状态--</option>
+					<option value="01">已付款</option>
+					<option value="02">未付款</option>
+				</select>
+			</div>
+			<!-- 
+			<div class="layui-input-inline" style="margin-right:10px">
+				<select name="Time" class="layui-input">
+					<option value="" selected="">--筛选订单时间--</option>
+					<option value="01">今天</option>
+					<option value="02">近一个月</option>
+					<option value="03">近三个月</option>
+					<option value="04">近半年</option>
+					<option value="05">近一年</option>
+				</select>
+			</div>
+			 -->
+		</div>
 		
 	</div>
 </blockquote>
@@ -76,14 +84,48 @@
 		
 	</div>
 </table>
+<script type="text/html" id="payState">
+   {{ d.payState=='01'?"已付款":"未付款"}}
+</script>
 
+<script type="text/html" id="payType">
+   {{ d.payType=='01'?"到店支付":"网上支付"}}
+</script>
+
+<script type="text/html" id="orderState">
+  
+   {{#  if(d.state=="01"){ }}
+     {{"完成订单"}}
+   {{#  } else if(d.state=='02'){ }}
+     {{"待商家接单"}}
+   {{#  } else if(d.state == '03'){ }}
+ 	 {{"商家已接单"}}
+	{{#  } else if(d.state == '07'){ }}
+ 	 {{"取消订单"}}
+   {{#  } }}
+
+</script>
 
 <script>
-	layui.use(['table','layer'], function(){
-		
+
+	layui.use(['table','form','layer'], function(){
+		var form = layui.form;
 		var table = layui.table;
 		var $ = layui.jquery;
 		var layer = layui.layer;
+		form.render();
+		
+		form.on('select(payState)', function(data){
+		  console.log(data.value); //得到被选中的值
+		  table.reload('demo',{
+				url:"/OnlineMeal/UserOrderInfo/get/payState.mvc",
+				where:{
+					payState:data.value,
+					marchantId:marchantId
+				}
+			});
+		});
+		
 		//执行渲染
 		table.render({
 			elem: '#demo', //指定原始表格元素选择器（推荐id选择器）
@@ -96,7 +138,7 @@
 				limitName: 'rows' //每页数据量的参数名，默认：limit
 			},
 			where: {
-				marchantId:0
+				marchantId:marchantId
 			},
 			response: {
 				countName: 'count', //数据总数的字段名称，默认：count
@@ -108,9 +150,9 @@
 			      {field: 'userphone', title: '联系方式',width:120},
 			      {field: 'isToRestaurant', title: '到店就餐',width:88}, 
 			      {field: 'sendAddress', title: '送餐地址'},
-			      {field: 'state', title: '订单状态',width:88},
-			      {field: 'payType', title: '付款类型',width:88},
-			      {field: 'payState', title: '付款状态',width:88},
+			      {field: 'state', title: '订单状态',width:88,templet:'#orderState'},
+			      {field: 'payType', title: '付款类型',width:88,templet:'#payType'},
+			      {field: 'payState', title: '付款状态',width:88 ,templet: '#payState'},
 			      {field: 'createTime', title: '下单时间',sort: true,width:190},
 			      {field: '', title: '操作', width: 150,fixed:'right', align:'center', toolbar: '#btnGroup'}
 			    ]], //设置表头
@@ -127,38 +169,69 @@
 			var tr = obj.tr; //获得当前行 tr 的DOM对象
 			if(layEvent === 'detail'){ //查看
 				showDetail(data);
-			} else if(layEvent === 'del'){ //删除
-				layer.confirm('真的删除行么', function(index){
-					obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
-					layer.close(index);
-					//向服务端发送删除指令
-				});
+			} else if(layEvent === 'accept'){ //接单操作
+				$.ajax({
+					asyn: false,
+					url: "/OnlineMeal/UserOrderInfo/modify/state.mvc",
+			        type: "POST",
+			        data : {
+			        	"id":data.id,
+			        	"state":"03"
+			        },
+			        success: function(data){
+			        	console.log(data);
+			        	res = data.message;
+			        }
+			    });
+				table.reload('demo');
 			} else if(layEvent === 'edit'){ //编辑
-				//do something
-				  
-				//同步更新缓存对应的值
-				obj.update({
-				  username: '123',
-				  title: 'xxx'
-				});
+				
 			}
 		});
 		
+		$("#searchBtn").on("click",function(){
+			table.reload('demo',{
+				url:"/OnlineMeal/UserOrderInfo/get/phone.mvc",
+				where:{
+					phone:$("#inputPhone").val(),
+					marchantId:marchantId
+				}
+			});
+		});
+		
 		function showDetail(data){
-			layer.open({
+			var index = layer.open({
 				type: 1,
 				title: '订单编号: ' + data.code + '  下单时间：' + data.createTime , //不显示标题栏
 				closeBtn: false,
 				area: ['800px', '500px'],
 				id: 'LAY_layuipro', //设定一个id，防止重复弹出
-				btn: ['接单', '订单完成'],
+				btn: ['订单完成'],
 				btnAlign: 'c',
 				moveType: 1 ,//拖拽模式，0或者1
 				shade:0,
 				content: $('#formContain'),
 				scrollbar: true,
 				resize:false,
+				closeBtn: true,
 				success: function(layero){
+				},
+				yes:function(){
+					$.ajax({
+						asyn: false,
+						url: "/OnlineMeal/UserOrderInfo/modify/state.mvc",
+				        type: "POST",
+				        data : {
+				        	"id":data.id,
+				        	"state":"01"
+				        },
+				        success: function(data){
+				        	console.log(data);
+				        	res = data.message;
+				        }
+				    });
+					table.reload('demo');
+					layer.close(index);
 				}
 			});
 			$("[name='userid']").val(data.userid);
@@ -166,8 +239,8 @@
 			$("[name='userphone']").val(data.userphone);
 			$("[name='isToRestaurant']").val(data.isToRestaurant);
 			$("[name='sendAddress']").val(data.sendAddress);
-			$("[name='payType']").val(data.payType);
-			$("[name='payState']").val(data.payState);
+			$("[name='payType']").val(data.payType=='01'?"到店支付":"网上支付");
+			$("[name='payState']").val(data.payState=='01'?"已付款":"未付款");
 			for(var x=0;x<data.orderContents.length;x++){
 				$("#orderContains").append('<div class="layui-row"><div class="layui-col-md4">'+data.orderContents[x].dishedName+'</div><div class="layui-col-md4">'+data.orderContents[x].dishedCount+'</div><div class="layui-col-md4">￥'+data.orderContents[x].dishedPrice+'</div></div>');
 			}
@@ -180,5 +253,5 @@
 
 <script type="text/html" id="btnGroup">
 	  <a class="layui-btn layui-btn-xs" lay-event="detail" data-method="notice">查看</a>
-	  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+	  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="accept">接单</a>
 </script>
