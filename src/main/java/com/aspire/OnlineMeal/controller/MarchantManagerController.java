@@ -1,5 +1,12 @@
 package com.aspire.OnlineMeal.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -62,6 +69,34 @@ public class MarchantManagerController {
 			result.setMessage("密码修改失败");
 		}
 		return result;
+	}
+	
+	@RequestMapping(value="/login",method=RequestMethod.POST)
+	public ResultMessage login(String phone,String password,HttpServletRequest request,HttpServletResponse response)throws Exception{
+		ResultMessage result = new ResultMessage();
+		
+		MarchantManager manager = imms.getByPhone(phone);
+		//商家管理员登陆状态  01 在线  02 下线
+		manager.setManagerLoginStates("01");
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		manager.setManagerLastloginTime(sdf.format(date));
+		imms.modifyManager(manager);
+		result.setResult("Y");
+		result.setMessage("登陆成功");
+		result.setObject(manager);
+		return result;
+	}
+	
+	@RequestMapping(value="/logout",method=RequestMethod.POST)
+	public ResultMessage logout(MarchantManager manager) throws Exception{
+		ResultMessage result = new ResultMessage();
+		manager.setManagerLoginStates("02");
+		imms.modifyManager(manager);
+		result.setMessage("成功下线");
+		result.setResult("Y");
+		return result;
+		
 	}
 	
 }

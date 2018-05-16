@@ -55,6 +55,11 @@ public class MarchantManagerServiceImpl implements IMarchantManagerService {
 		return -1;
 	}
 	
+	@Override
+	public int modifyManager(MarchantManager manager) throws Exception{
+		return mmm.updateByPrimaryKeySelective(manager);
+	}
+	
 	
 	
 }

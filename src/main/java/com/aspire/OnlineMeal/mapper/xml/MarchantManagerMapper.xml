@@ -124,7 +124,7 @@
         MARCHANT_MANAGER_PASSWORD = #{password,jdbcType=VARCHAR},
       </if>
       <if test="managerLastloginTime != null" >
-        MANAGER_LASTLOGIN_TIME = #{managerLastloginTime,jdbcType=TIMESTAMP},
+        MANAGER_LASTLOGIN_TIME = to_date(#{managerLastloginTime,jdbcType=TIMESTAMP}, 'yyyy-MM-dd HH24:mi:ss'),
       </if>
       <if test="role != null" >
         MARCHANT_MANAGER_ROLE = #{role,jdbcType=VARCHAR},

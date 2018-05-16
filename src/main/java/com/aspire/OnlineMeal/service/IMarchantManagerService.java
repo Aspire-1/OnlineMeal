@@ -9,4 +9,5 @@ public interface IMarchantManagerService {
 	public boolean isExit(String phone) throws Exception;
 	public boolean validateLogin(String phone,String password) throws Exception;
 	public int modifyManagerPwd(String oldPwd,String newPwd,String phone) throws Exception;
+	public int modifyManager(MarchantManager manager) throws Exception;
 }
