@@ -20,7 +20,7 @@
 		<div class="orderContainer">
 		
 			<div class="layui-row titleRow">
-				<div class="layui-col-md6">
+				<div class="layui-col-md5">
 					<span>商家名称</span>
 				</div>
 				<div class="layui-col-md2">
@@ -30,66 +30,88 @@
 					<span>订单状态</span>
 				</div>
 				<div class="layui-col-md2">
-					<span>订单详情按钮</span>
+					<span>订单详情</span>
 				</div>
 			</div>
 			<hr>
 			<div id="orderRow">
-				<ul class="layui-timeline">
-					<li class="layui-timeline-item">
-						<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
-						<div class="layui-timeline-content layui-text">
-							<h3 class="layui-timeline-title">8月18日</h3>
-							<div class="layui-row">
-								<div class="layui-col-md6">
-									<div class="order_marchantName">商家名称</div>
-									<div>订单内容菜肴名称</div>
-									<div>订单编号</div>
-								</div>
-								<div class="layui-col-md2">
-									<div class="order_price">19.60</div>
-								</div>
-								<div class="layui-col-md2">
-									<div>订单状态</div>
-								</div>
-								<div class="layui-col-md2">
-									<div>
-										<button class="layui-btn layui-btn-primary">查看详情</button>
-									</div>
-								</div>
-							</div>
+				<div class="layui-form layui-form-pane" style="display:none;padding:30px;" id="formContain">
+					<div class="layui-form-item ">
+						<label class="layui-form-label">用户名称</label>
+						<div class="layui-input-inline">
+							<input name="username" lay-verify="title" autocomplete="off" class="layui-input" type="text" disabled="disabled">
 						</div>
-					</li>
-				</ul>
+						
+						<label class="layui-form-label">商家名称</label>
+						<div class="layui-input-inline">
+							<input name="marchantName" lay-verify="title" autocomplete="off" class="layui-input" type="text" disabled="disabled">
+						</div>
+					</div>
+					
+					<div class="layui-form-item ">
+						<label class="layui-form-label">联系方式</label>
+						<div class="layui-input-inline">
+							<input name="userphone" lay-verify="title" autocomplete="off" class="layui-input" type="text" disabled="disabled">
+						</div>
+						
+						<label class="layui-form-label">到店就餐</label>
+						<div class="layui-input-inline">
+							<input name="isToRestaurant" lay-verify="title" autocomplete="off" class="layui-input" type="text" disabled="disabled">
+						</div>
+					</div>
+					
+					<div class="layui-form-item">
+						<label class="layui-form-label">送餐地址</label>
+						<div class="layui-input-block">
+							<input name="sendAddress" lay-verify="title" autocomplete="off" class="layui-input" type="text" disabled="disabled">
+						</div>
+					</div>
+					
+					<fieldset class="layui-elem-field layui-field-title">
+						<legend>订单信息</legend>
+					</fieldset>
+					<div id="orderContains">
+					</div>
 			</div>
 		</div>
 	</div>
 </div>
-
+<!-- 
+	
+ -->
 <script type="text/tmpl" id="timeLineTemp">
 
 	<ul class="layui-timeline">
 		<li class="layui-timeline-item">
 			<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
 			<div class="layui-timeline-content layui-text">
-			<h3 class="layui-timeline-title">{{time}}</h3>
+			<h3 class="layui-timeline-title">${createTime}</h3>
 				<div class="layui-row">
-					<div class="layui-col-md6">
-						<div class="order_marchantName">{{marchantName}}</div>
-						<div>{{contain[0].dishedName}}等</div>
-						<div>{{code}}</div>
+					<div class="layui-col-md5">
+						<div class="order_marchantName">${marchantName}</div>
+    					<div>${orderContents[0].dishedName}等</div>
+						<div>${code}</div>
 					</div>
 					<div class="layui-col-md2">
-						<div class="order_price">{{price}}</div>
+						<div class="order_price" name="payPrice">${payPrice}</div>
 					</div>
-					<div class="layui-col-md2">
-						<div>{{state}}</div>
+					<div class="layui-col-md2" name="orderState">
+
+						<div>{{if state == '01'}}完成订单{{else}}{{if state == '02'}}待商家接单{{else}}{{if state == '07'}}取消订单{{else}}商家已接单{{/if}}{{/if}}{{/if}}</div>
 					</div>
 					<div class="layui-col-md2">
 						<div>
-							<button class="layui-btn layui-btn-primary">查看详情</button>
+							<button class="layui-btn layui-btn-primary" name="detail">
+							<input type="hidden" name="orderId" value="${id}">
+							查看详情</button>
 						</div>
 					</div>
+					<div class="layui-col-md1">
+						<span>
+							<a href="#" id="delete">×</a>
+						</span>
+					</div>
+
 				</div>
 			</div>
 		</li>
@@ -106,4 +128,4 @@
 </div>
 </div>
 </script>
-<script src="userInfo/js/userInfo.js"></script>
+<script src="userInfo/js/orderInfo.js"></script>
